@@ -1,4 +1,4 @@
-2019/2020 Compilers Coursework
+2020/2021 Compilers Coursework
 ==============================
 
 There is a single assessed code deliverable, which is due on Friday 26 March 2021 at 23:59. This deliverable contains two components:
