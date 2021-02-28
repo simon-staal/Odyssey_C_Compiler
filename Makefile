@@ -3,6 +3,8 @@ CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter
 CPPFLAGS += -I inc
 PARSE_LEX_FILES = src/parser.tab.o src/lexer.yy.o src/parser.tab.o
 
+all : bin/compiler
+
 src/parser.tab.cpp src/parser.tab.hpp : src/parser.y
 	bison -v -d src/parser.y -o src/parser.tab.cpp
 

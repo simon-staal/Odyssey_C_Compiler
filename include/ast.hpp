@@ -8,10 +8,11 @@
 #include <vector>
 #include <map>
 
-#include "ast_program.hpp"
+#include "ast/ast_program.hpp"
+
+#include "ast/ast_statement.hpp"
 #include "ast/ast_expression.hpp"
 #include "ast/ast_primitives.hpp"
-#include "ast/ast_functions.hpp"
 
 
 #endif

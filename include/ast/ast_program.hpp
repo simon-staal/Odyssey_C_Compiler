@@ -8,14 +8,22 @@ typedef const Program *ProgramPtr;
 class Program
 {
 public:
-  virtual ~Program()
-  {}
+    virtual ~Program();
+    friend std::ostream& operator<<(std::ostream &os, const Program& program);
 
-  virtual void
+protected:
+    virtual void PrettyPrint(std::ostream &os) const = 0;
+    std::vector<ProgramPtr> branches;
 }
 
 ProgramPtr Parse(
     std::istream &src
+);
+
+void PrettyPrint(
+    std::ostream &dst,
+    ProgramPtr node,
+    std::string indent=""
 );
 
 struct CompileContext
@@ -28,3 +36,5 @@ void Compile(
     ProgramPtr program,
     CompileContext &context
 );
+
+#endif

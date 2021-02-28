@@ -3,7 +3,7 @@
 
   #include <cassert>
 
-  extern const TreePtr *g_root; // A way of getting the AST out
+  extern const TreePtr g_root; // A way of getting the AST out
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -20,10 +20,10 @@
   std::string *string;
 }
 
-%token T_LBRACKET T_RBRACKET T_LBRACE T_RBRACE
-%token T_SEMICOLON
-%token T_INT T_RETURN
-%token T_INTLITERAL T_IDENTIFIER
+%token INT
+%token CONSTANT IDENTIFIER
+
+%token RETURN
 
 %type <tree> FUNCTION
 %type <number> T_INTLITERAL
@@ -37,4 +37,15 @@ ROOT : PROGRAM { g_root = $1; }
 
 PROGRAM : FUNCTION { $$ = $1; }
 
-FUNCTION : TYPE T_IDENTIFIER T_LBRACKET T_RBRACKET CONTENTS
+FUNCTION : T_INT T_IDENTIFIER '(' ')' '{' STATEMENT '}' { $$ = }
+
+%%
+
+const TreePtr g_root;
+
+const TreePtr parseAST()
+{
+  g_root = 0;
+  yyparse();
+  return g_root;
+}

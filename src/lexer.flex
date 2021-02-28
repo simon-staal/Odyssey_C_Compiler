@@ -8,14 +8,17 @@ extern "C" int fileno(FILE *stream);
 %}
 
 %%
-[(]     { return T_LBRACKET; }
-[)]     { return T_RBRACKET; }
-[{]     { return T_LBRACE; }
-[}]     { return T_RBRACE; }
-[;]     { return T_SEMICOLON; }
 
-int     { return T_INT; }
-return  { return T_RETURN; }
+int     { return INT; }
+return  { return RETURN; }
 
-[0-9]+  { yylval.number=stol(yytext); return T_INTLITERAL; }
-([A-Za-z]|_)+([A-Za-z]|_|[0-9])*  { yylval.string=new std::string(yytext); return T_IDENTIFIER}
+[0-9]+  { yylval.number=stol(yytext); return CONSTANT; }
+[A-Za-z_]+([A-Za-z_0-9])*  { yylval.string=new std::string(yytext); return IDENTIFIER}
+
+%%
+
+void yyerror (char const *s)
+{
+  fprintf(stderr, "Lexing error: %s\n", s);
+  exit(1);
+}
