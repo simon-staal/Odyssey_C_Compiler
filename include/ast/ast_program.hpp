@@ -9,13 +9,26 @@ class Program
 {
 public:
     virtual ~Program();
-    friend std::ostream& operator<<(std::ostream &os, const Program& program);
+    friend std::ostream& operator<<(std::ostream &os, const Program &program);
 
 protected:
     virtual void PrettyPrint(std::ostream &os) const = 0;
     std::vector<ProgramPtr> branches;
 }
 
+std::ostream &operator<<(std::ostream &os, const Program &program)
+{
+  program.PrettyPrint(os);
+  return os;
+}
+
+Program::~Program()
+{
+  for(unsigned i = 0; i < branches.size(); i++){
+    delete branches[i];
+  }
+}
+/*
 ProgramPtr Parse(
     std::istream &src
 );
@@ -36,5 +49,6 @@ void Compile(
     ProgramPtr program,
     CompileContext &context
 );
+*/
 
 #endif

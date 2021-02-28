@@ -9,10 +9,10 @@
 #include <map>
 
 #include "ast/ast_program.hpp"
-
 #include "ast/ast_statement.hpp"
 #include "ast/ast_expression.hpp"
 #include "ast/ast_primitives.hpp"
 
+extern const Program *parseAST();
 
 #endif

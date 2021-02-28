@@ -3,7 +3,7 @@
 
   #include <cassert>
 
-  extern const TreePtr g_root; // A way of getting the AST out
+  extern const ProgramPtr g_root; // A way of getting the AST out
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -15,7 +15,7 @@
 // Represents the value associated with any kind of
 // AST node.
 %union{
-  const TreePtr tree;
+  const ProgramPtr program;
   int32_t number;
   std::string *string;
 }
@@ -25,7 +25,7 @@
 
 %token RETURN
 
-%type <tree> FUNCTION
+%type <program> FUNCTION
 %type <number> T_INTLITERAL
 %type <string> T_IDENTIFIER
 
@@ -41,9 +41,9 @@ FUNCTION : T_INT T_IDENTIFIER '(' ')' '{' STATEMENT '}' { $$ = }
 
 %%
 
-const TreePtr g_root;
+const ProgramPtr g_root;
 
-const TreePtr parseAST()
+const ProgramPtr parseAST()
 {
   g_root = 0;
   yyparse();
