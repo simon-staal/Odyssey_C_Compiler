@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-		TreePtr tree=Parse(src);
+		ProgramPtr program=Parse(src);
+		std::cout << program << endl;
 
-		Compile(tree);
+		// Compile(program);
 }

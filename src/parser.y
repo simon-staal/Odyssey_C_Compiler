@@ -4,6 +4,7 @@
   #include <cassert>
 
   extern const ProgramPtr g_root; // A way of getting the AST out
+  extern FILE *yyin;
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -16,7 +17,7 @@
 // AST node.
 %union{
   const ProgramPtr program;
-  int32_t number;
+  double number;
   std::string *string;
 }
 
@@ -26,8 +27,8 @@
 %token RETURN
 
 %type <program> FUNCTION
-%type <number> T_INTLITERAL
-%type <string> T_IDENTIFIER
+%type <number> INT
+%type <string> IDENTIFIER
 
 %start ROOT
 
@@ -37,13 +38,15 @@ ROOT : PROGRAM { g_root = $1; }
 
 PROGRAM : FUNCTION { $$ = $1; }
 
-FUNCTION : T_INT T_IDENTIFIER '(' ')' '{' STATEMENT '}' { $$ = }
+FUNCTION : INT IDENTIFIER '(' ')' '{' STATEMENT '}' { $$ = }
+
+STATEMENT : RETURN CONSTANT { }
 
 %%
 
-const ProgramPtr g_root;
+ProgramPtr g_root;
 
-const ProgramPtr parseAST()
+ProgramPtr parseAST()
 {
   g_root = 0;
   yyparse();

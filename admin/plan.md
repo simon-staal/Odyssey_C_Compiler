@@ -11,3 +11,11 @@ Objectives (last updated 28/02/2021)
 
 Changelog
 ---------
+28/02/2021: Set up a lot of files for project, started planning AST, as well as parser + lexer. Current goal is to create a working compiler for the following code:
+```
+int main()
+{
+  return 2;
+}
+```
+Not planning on adding any further constructs until the suitable AST framework has been established for this.
