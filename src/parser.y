@@ -26,9 +26,9 @@
 
 %token RETURN
 
-%type <program> FUNCTION
-%type <number> INT
-%type <string> IDENTIFIER
+%type <program> FUNCTION STATEMENT
+%type <number> CONSTANT
+%type <string> IDENTIFIER INT RETURN
 
 %start ROOT
 
@@ -38,9 +38,9 @@ ROOT : PROGRAM { g_root = $1; }
 
 PROGRAM : FUNCTION { $$ = $1; }
 
-FUNCTION : INT IDENTIFIER '(' ')' '{' STATEMENT '}' { $$ = }
+FUNCTION : INT IDENTIFIER '(' ')' '{' STATEMENT '}' { $$ = new Function(*$1, *$2, $6); }
 
-STATEMENT : RETURN CONSTANT { }
+STATEMENT : RETURN CONSTANT { $$ = new Constant($2); }
 
 %%
 
