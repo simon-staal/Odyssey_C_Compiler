@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <map>
 
 class Node;
 
@@ -11,10 +13,11 @@ typedef const Node *NodePtr;
 class Node
 {
 public:
-    virtual ~Node();
-    friend std::ostream& operator<<(std::ostream &dst, const Node &Node);
-    virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
-}
+  virtual ~Node();
+
+  friend std::ostream& operator<<(std::ostream &dst, const Node &Node);
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
+};
 
 std::ostream &operator<<(std::ostream &dst, const Node &Node)
 {

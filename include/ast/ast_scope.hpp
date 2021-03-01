@@ -6,13 +6,28 @@
 class Scope
   : public Node
 {
-private:
+protected:
+  std::vector<NodePtr> expressions;
+
 public:
-  std::vector<NodePtr> expressions = {};
+  Scope(NodePtr in)
+  {
+    expressions.push_back(in);
+  }
+  Scope(ExprPtr expression)
+    : expression(expressions->branches);
+  {}
+
+  std::vector<NodePtr> getScope() { return expressions; }
+
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
-      dst
+      dst << indent << "Sequence [" << std::endl
+      for(int i = 0; i < seq.size(); i++){
+        PrettyPrint(seq[i], indent+"  ")
+      }
+      dst << indent << "]" << std::endl;
   }
-}
+};
 
 #endif

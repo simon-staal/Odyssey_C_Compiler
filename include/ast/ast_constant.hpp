@@ -16,7 +16,8 @@ public:
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
       dst << indent << "Constant = " << value << std::endl;
+      return dst;
   }
-}
+};
 
 #endif
