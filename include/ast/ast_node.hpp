@@ -1,6 +1,9 @@
 #ifndef ast_node_hpp
 #define ast_node_hpp
 
+#include <iostream>
+#include <fstream>
+
 class Node;
 
 typedef const Node *NodePtr;
@@ -19,12 +22,6 @@ std::ostream &operator<<(std::ostream &dst, const Node &Node)
   return dst;
 }
 
-Node::~Node()
-{
-  for(unsigned i = 0; i < branches.size(); i++){
-    delete branches[i];
-  }
-}
 
 struct CompileContext
 {

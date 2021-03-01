@@ -1,5 +1,5 @@
-#ifndef ast_primitives_hpp
-#define ast_primitives_hpp
+#ifndef ast_constant_hpp
+#define ast_constant_hpp
 
 #include "ast_node.hpp"
 
