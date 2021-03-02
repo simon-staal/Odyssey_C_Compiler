@@ -4,10 +4,10 @@ This file will be used to track the objectives and progress made in this coursew
 
 Objectives (last updated 02/03/2021)
 ------------------------------------
-- <del> Set up working environment </del> (Marked complete 02/02/2021)
-- <del> Build base structure for repo </del> (Marked complete 02/02/2021)
-- <del> Flesh out basic lexer / parser / AST for extremely minimal language: </del> (Reworked 02/02/2021)
-  + <del> i.e. ints, basic operators, variables </del>
+- <del> Set up working environment</del>  (Marked complete 02/02/2021)
+- <del> Build base structure for repo</del>   (Marked complete 02/02/2021)
+- <del> Flesh out basic lexer / parser / AST for extremely minimal language:</del>  (Reworked 02/02/2021)
+  + <del> i.e. ints, basic operators, variables</del>
 - Go through parser and add AST mapping using existing AST classes
 - Compile and run AST for basic test case (i.e. run compiler.cpp)
 
