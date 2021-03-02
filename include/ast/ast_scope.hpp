@@ -2,21 +2,29 @@
 #define ast_scope_hpp
 
 #include "ast_node.hpp"
+#include "ast_sequence.hpp"
 
 class Scope
   : public Node
 {
 protected:
-  std::vector<NodePtr> expressions;
+  std::vector<NodePtr> seq;
 
 public:
   Scope(NodePtr in)
   {
     expressions.push_back(in);
   }
-  Scope(ExprPtr expression)
-    : expression(expressions->branches);
+  Scope(SeqPtr _seq)
+    : seq(_seq->expressions);
   {}
+
+  ~Scope()
+  {
+    for(int i = 0; i < expressions.size(); i++){
+      delete expressions[i];
+    }
+  }
 
   std::vector<NodePtr> getScope() { return expressions; }
 

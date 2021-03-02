@@ -19,3 +19,5 @@ int main()
 }
 ```
 Not planning on adding any further constructs until the suitable AST framework has been established for this.
+
+02/01/2021: Started building skeleton of AST, planning on switching parser + lexer to the [ANSI C grammar specification](https://www.lysator.liu.se/c/ANSI-C-grammar-l.html), and building the syntax tree from the Yacc file similar to lab 2.
