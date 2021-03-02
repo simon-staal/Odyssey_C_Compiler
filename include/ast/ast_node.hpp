@@ -21,7 +21,7 @@ public:
 
 std::ostream &operator<<(std::ostream &dst, const Node &Node)
 {
-  Node.PrettyPrint(dst);
+  Node.PrettyPrint(dst, "");
   return dst;
 }
 
