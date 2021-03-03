@@ -68,9 +68,9 @@ unary_operator assignment_operator
 %%
 
 primary_expression
-  : IDENTIFIER { $$ = new Identifier(*$1); }
+    : IDENTIFIER { $$ = new Identifier(*$1); }
 	| CONSTANT { $$ = new Constant($1); }
-	| '(' expression ')' { $$ = $1; }
+	| '(' expression ')' { $$ = $2; }
 	;
 
 postfix_expression
@@ -447,7 +447,7 @@ jump_statement
 	| CONTINUE ';'
 	| BREAK ';'
 	| RETURN ';'
-	| RETURN expression ';'
+	| RETURN expression ';' { $$ = new Return($2); }
 	;
 
 translation_unit
