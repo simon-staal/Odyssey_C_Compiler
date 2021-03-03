@@ -76,6 +76,8 @@ Here is a (partial) list of features that will not be tested.
 * union types
 * variable-length arrays
 * the `const` keyword
+* function pointers
+* both implicit and explicit casting
 
 All test inputs will be valid; that is, you can assume the absence of programmer errors like syntax faults, type mismatches, and array out-of-bounds errors. The entire compilation and testing process (including compilation, assembly, linking, and MIPS simulation) is expected to complete within ten seconds per program (which should be plenty of time!), and is expected not to use an inordinate amount of memory or disk space. There is no requirement for the generated assembly to be optimised in any way -- the only requirement is that it produces the correct answer.
 
