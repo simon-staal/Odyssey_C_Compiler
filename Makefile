@@ -21,7 +21,7 @@ bin/compiler : src/compiler.cpp $(PARSE_LEX_FILES)
 	mkdir -p bin
 	g++ $(CPPFLAGS) -o bin/compiler $^
 
-bin/print_canonical : src/print_canonical.o src/parser.tab.o src/lexer.yy.o src/parser.tab.o
+bin/print_canonical : src/print_canonical.o $(PARSE_LEX_FILES)
 	mkdir -p bin
 	g++ $(CPPFLAGS) -o bin/print_canonical $^
 

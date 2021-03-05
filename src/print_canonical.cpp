@@ -1,11 +1,20 @@
 #include "ast.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
-    const Expression *ast=parseAST();
+  if(argc != 5){
+    std::cerr<<"Usage: bin/c_compiler -S [source-file.c] -o [dest-file.s]"<<std::endl;
+    return 1;
+  }
+  std::ifstream src(argv[2]);
 
-    ast->print(std::cout);
-    std::cout<<std::endl;
+  if(!src.is_open()){
+      fprintf(stderr, "Couldn't open '%s'\n", argv[1]);
+      exit(1);
+  }
 
-    return 0;
+  ProgramPtr program=Parse(src);
+	std::cout << program << endl;
+
+  return 0;
 }
