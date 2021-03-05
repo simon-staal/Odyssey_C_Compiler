@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 			std::cerr<<"Usage: bin/c_compiler -S [source-file.c] -o [dest-file.s]"<<std::endl;
 			return 1;
 		}
-		std::ifstream src(argv[1]);
+		std::ifstream src(argv[2]);
 
 		if(!src.is_open()){
         fprintf(stderr, "Couldn't open '%s'\n", argv[1]);
