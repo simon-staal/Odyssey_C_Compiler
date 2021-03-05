@@ -10,9 +10,9 @@ typedef Sequence *SeqPtr;
 class Sequence
   : public Node
 {
-protected:
-  std::vector<NodePtr> expressions;
 public:
+  std::vector<NodePtr> expressions;
+
   Sequence(NodePtr in)
   {
     expressions.push_back(in);
@@ -20,7 +20,7 @@ public:
 
   ~Sequence()
   {
-    for(int i = 0; i < expressions.size(); i++){
+    for(unsigned i = 0; i < expressions.size(); i++){
       delete expressions[i];
     }
   }
@@ -30,11 +30,11 @@ public:
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
     dst << indent << "Sequence [" << std::endl;
-    for(int i = 0; i < expressions.size(); i++){
-      PrettyPrint(expressions[i], indent+"  ");
+    for(unsigned i = 0; i < expressions.size(); i++){
+      expressions[i]->PrettyPrint(dst, indent+"  ");
     }
-    sdt << indent << "]" << std::endl;
+    dst << indent << "]" << std::endl;
   }
-}
+};
 
 #endif

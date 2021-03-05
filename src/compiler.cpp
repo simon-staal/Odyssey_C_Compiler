@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-		NodePtr program=Parse(src);
-		std::cout << program << endl;
+		NodePtr program = parseAST(src);
+		std::cout << program;
 
 		// Compile(program);
 }

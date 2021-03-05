@@ -13,26 +13,27 @@ protected:
 public:
   Scope(NodePtr in)
   {
-    expressions.push_back(in);
+    seq.push_back(in);
   }
+
   Scope(SeqPtr _seq)
-    : seq(_seq->expressions);
+    : seq(_seq->expressions)
   {}
 
   ~Scope()
   {
-    for(int i = 0; i < expressions.size(); i++){
-      delete expressions[i];
+    for(unsigned i = 0; i < seq.size(); i++){
+      delete seq[i];
     }
   }
 
-  std::vector<NodePtr> getScope() { return expressions; }
+  std::vector<NodePtr> getScope() { return seq; }
 
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
-      dst << indent << "Sequence [" << std::endl
-      for(int i = 0; i < seq.size(); i++){
-        PrettyPrint(seq[i], indent+"  ")
+      dst << indent << "Sequence [" << std::endl;
+      for(unsigned i = 0; i < seq.size(); i++){
+        seq[i]->PrettyPrint(dst, indent+"  ");
       }
       dst << indent << "]" << std::endl;
   }

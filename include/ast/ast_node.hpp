@@ -31,19 +31,17 @@ struct CompileContext
     std::map<std::string,int32_t> bindings;
 };
 
-/*
+/* RANDOM GARBAGE
 NodePtr Parse(
     std::istream &src
 );
-*/
+
 void PrettyPrint(
     std::ostream &dst,
     NodePtr node,
     std::string indent=""
 );
 
-
-/*
 void Compile(
     NodePtr Node,
     CompileContext &context

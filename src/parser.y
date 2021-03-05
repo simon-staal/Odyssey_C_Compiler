@@ -3,7 +3,7 @@
 
   #include <cassert>
 
-  extern const ProgramPtr g_root; // A way of getting the AST out
+  extern const NodePtr g_root; // A way of getting the AST out
   extern FILE *yyin;
 
   //! This is to fix problems when generating C++
@@ -429,9 +429,9 @@ function_definition
 
 %%
 
-ProgramPtr g_root;
+NodePtr g_root;
 
-ProgramPtr parseAST()
+NodePtr parseAST()
 {
   g_root = 0;
   yyparse();

@@ -17,6 +17,6 @@
 #include "ast/ast_scope.hpp"
 #include "ast/ast_sequence.hpp"
 
-extern const Program *parseAST();
+extern const NodePtr parseAST();
 
 #endif
