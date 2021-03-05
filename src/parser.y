@@ -34,7 +34,7 @@
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR CONTINUE BREAK RETURN
 
-%type <expr> primary_expression postfix_expression unary_expression cast_expression
+%type <expr> primary_expression postfix_expression unary_expression
 %type <expr> multiplicative_expression additive_expression shift_expression
 %type <expr> relational_expression equality_expression and_expression
 %type <expr> exclusive_or_expression inclusive_or_expression logical_and_expression
@@ -75,11 +75,11 @@ primary_expression
 
 postfix_expression
 	: primary_expression { $$ = $1; }
-	| postfix_expression '[' expression ']' { std::cerr << "Unsuported" << std::endl; }
-	| postfix_expression '(' ')' { std::cerr << "Unsuported" << std::endl; }
-	| postfix_expression '(' argument_expression_list ')' { std::cerr << "Unsuported" << std::endl; }
-	| postfix_expression '.' IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
-	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
+	| postfix_expression '[' expression ']' { std::cerr << "element access (array)" << std::endl; }
+	| postfix_expression '(' ')' { std::cerr << "Function call" << std::endl; }
+	| postfix_expression '(' argument_expression_list ')' { std::cerr << "Function call" << std::endl; }
+	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
+	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
 	| postfix_expression INC_OP { std::cerr << "Unsuported" << std::endl; }
 	| postfix_expression DEC_OP { std::cerr << "Unsuported" << std::endl; }
 	;
@@ -93,7 +93,7 @@ unary_expression
 	: postfix_expression { $$ = $1; }
 	| INC_OP unary_expression { std::cerr << "Unsuported" << std::endl; }
 	| DEC_OP unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| unary_operator cast_expression { std::cerr << "Unsuported" << std::endl; }
+	| unary_operator unary_expression { std::cerr << "Unsuported" << std::endl; }
 	| SIZEOF unary_expression { std::cerr << "Unsuported" << std::endl; }
 	| SIZEOF '(' type_name ')' { std::cerr << "Unsuported" << std::endl; }
 	;
@@ -107,16 +107,11 @@ unary_operator
 	| '!' { std::cerr << "Unsuported" << std::endl; }
 	;
 
-cast_expression
-	: unary_expression { $$ = $1; }
-	| '(' type_name ')' cast_expression { std::cerr << "Unsuported" << std::endl; }
-	;
-
 multiplicative_expression
-	: cast_expression { $$ = $1; }
-	| multiplicative_expression '*' cast_expression { std::cerr << "Unsuported" << std::endl; }
-	| multiplicative_expression '/' cast_expression { std::cerr << "Unsuported" << std::endl; }
-	| multiplicative_expression '%' cast_expression { std::cerr << "Unsuported" << std::endl; }
+	: unary_expression { $$ = $1; }
+	| multiplicative_expression '*' unary_expression { std::cerr << "Unsuported" << std::endl; }
+	| multiplicative_expression '/' unary_expression { std::cerr << "Unsuported" << std::endl; }
+	| multiplicative_expression '%' unary_expression { std::cerr << "Unsuported" << std::endl; }
 	;
 
 additive_expression
@@ -381,7 +376,8 @@ declaration_list
 	;
 
 statement_list
-	: statement { $$ = $1: }
+	: statement { //This will have to be changed, something with seq
+                $$ = $1; }
 	| statement_list statement
 	;
 
