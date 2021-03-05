@@ -68,7 +68,7 @@ unary_operator assignment_operator
 %%
 
 primary_expression
-    : IDENTIFIER { $$ = new Identifier(*$1); }
+  : IDENTIFIER { $$ = new Identifier(*$1); }
 	| CONSTANT { $$ = new Constant($1); }
 	| '(' expression ')' { $$ = $2; }
 	;
@@ -359,7 +359,7 @@ statement
 	| expression_statement
 	| selection_statement
 	| iteration_statement
-	| jump_statement
+	| jump_statement { $$ = $1; }
 	;
 
 labeled_statement
@@ -381,7 +381,7 @@ declaration_list
 	;
 
 statement_list
-	: statement
+	: statement { $$ = $1: }
 	| statement_list statement
 	;
 
