@@ -35,7 +35,7 @@ struct CompileContext
 NodePtr Parse(
     std::istream &src
 );
-
+*/
 void PrettyPrint(
     std::ostream &dst,
     NodePtr node,
@@ -43,7 +43,7 @@ void PrettyPrint(
 );
 
 
-
+/*
 void Compile(
     NodePtr Node,
     CompileContext &context

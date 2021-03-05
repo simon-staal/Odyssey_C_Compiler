@@ -13,7 +13,7 @@ public:
   };
 
   PrimitiveType(Specifier _type)
-    : type(_type);
+    : type(_type)
   {}
 
   ~PrimitiveType();
