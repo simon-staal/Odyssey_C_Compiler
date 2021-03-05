@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-		ProgramPtr program=Parse(src);
+		NodePtr program=Parse(src);
 		std::cout << program << endl;
 
 		// Compile(program);
