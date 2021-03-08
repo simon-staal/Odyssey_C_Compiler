@@ -12,11 +12,15 @@ typedef const Node *NodePtr;
 
 class Node
 {
+protected:
+  std::vector<NodePtr> branches;
+
 public:
   virtual ~Node();
 
-  friend std::ostream& operator<<(std::ostream &dst, const Node &Node);
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
+  friend std::ostream& operator<<(std::ostream &dst, const Node &Node);
+  friend std::ostream& operator<<(std::ostream &dst, const NodePtr Node);
 };
 
 std::ostream &operator<<(std::ostream &dst, const Node &Node)
@@ -25,6 +29,11 @@ std::ostream &operator<<(std::ostream &dst, const Node &Node)
   return dst;
 }
 
+std::ostream &operator<<(std::ostream &dst, const NodePtr Node)
+{
+  Node->PrettyPrint(dst, "");
+  return dst;
+}
 
 struct CompileContext
 {

@@ -13,8 +13,6 @@ class Expression
   : public Node
 {
 public:
-  std::vector<NodePtr> branches;
-
   virtual ~Expression()
   {
     for(unsigned i = 0; i < branches.size(); i++){
