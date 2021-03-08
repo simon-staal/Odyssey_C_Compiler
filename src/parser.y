@@ -306,11 +306,11 @@ declarator
 direct_declarator
 	: IDENTIFIER { $$ = new Identifier(*$1); }
 	| '(' declarator ')' { $$ = $1; }
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_list ')'
-	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'
+	| direct_declarator '[' constant_expression ']' { /* array */} 
+	| direct_declarator '[' ']' { /* array */}
+	| direct_declarator '(' parameter_list ')' { /*  new functionDecl() */}
+	| direct_declarator '(' identifier_list ')' { /* function call */}
+	| direct_declarator '(' ')' { /* function call */}
 	;
 
 pointer
