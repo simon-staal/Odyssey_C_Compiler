@@ -67,6 +67,38 @@ unary_operator assignment_operator
 
 %%
 
+// Top level entity
+translation_unit
+	: external_declaration { $$ = $1; }
+	| translation_unit external_declaration { std::cerr << "TODO, multiple funcitons" << std::endl; }
+	;
+
+// Global declaration
+external_declaration
+	: function_definition { $$ = $1; }
+	| declaration { $$ = $1; }
+	;
+
+// Function definition (duh)
+function_definition
+	: declaration_specifiers declarator declaration_list compound_statement
+	| declaration_specifiers declarator compound_statement
+	| declarator declaration_list compound_statement
+	| declarator compound_statement
+	;
+
+declaration
+	: declaration_specifiers ';' { $$ = new Declaration($1); }
+	| declaration_specifiers init_declarator_list ';'
+	;
+
+declaration_specifiers
+	: TYPEDEF { std::cerr << "Make ast for this" << std::endl; }
+	| TYPEDEF declaration_specifiers { std::cerr << "New type ?" << std::endl; }
+	| type_specifier { $$ = $1; }
+	| type_specifier declaration_specifiers
+	;
+
 primary_expression
   : IDENTIFIER { $$ = new Identifier(*$1); }
 	| CONSTANT { $$ = new Constant($1); }
@@ -198,18 +230,6 @@ constant_expression
 	: conditional_expression { $$ = $1; }
 	;
 
-declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
-	;
-
-declaration_specifiers
-	: TYPEDEF
-	| TYPEDEF declaration_specifiers
-	| type_specifier
-	| type_specifier declaration_specifiers
-	;
-
 init_declarator_list
 	: init_declarator
 	| init_declarator_list ',' init_declarator
@@ -223,7 +243,7 @@ init_declarator
 type_specifier
 	: VOID
 	| CHAR
-	| INT
+	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
 	| FLOAT
 	| DOUBLE
 	| UNSIGNED
@@ -280,12 +300,12 @@ enumerator
 
 declarator
 	: pointer direct_declarator
-	| direct_declarator
+	| direct_declarator { $$ = $1; }
 	;
 
 direct_declarator
-	: IDENTIFIER
-	| '(' declarator ')'
+	: IDENTIFIER { $$ = new Identifier(*$1); }
+	| '(' declarator ')' { $$ = $1; }
 	| direct_declarator '[' constant_expression ']'
 	| direct_declarator '[' ']'
 	| direct_declarator '(' parameter_list ')'
@@ -406,22 +426,7 @@ jump_statement
 	| RETURN expression ';' { $$ = new Return($2); }
 	;
 
-translation_unit
-	: external_declaration
-	| translation_unit external_declaration
-	;
 
-external_declaration
-	: function_definition
-	| declaration
-	;
-
-function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
-	;
 
 %%
 
