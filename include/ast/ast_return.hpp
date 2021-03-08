@@ -23,6 +23,8 @@ public:
     : expr(_expr)
     {}
 
+    Return()
+    {}
 
 };
 

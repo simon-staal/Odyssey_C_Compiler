@@ -81,8 +81,20 @@ external_declaration
 
 // Function definition (duh)
 function_definition
+<<<<<<< HEAD
 	: declaration_specifiers declarator compound_statement { $$ = new FunctionDefinition(new Declaration($1, $2), $3); }
 	| declarator compound_statement { std::cerr << "Function with no type?, probs for calling a void function?" << std::endl; }
+=======
+	: declaration_specifiers declarator declaration_list compound_statement
+	| declaration_specifiers declarator compound_statement {}
+	| declarator declaration_list compound_statement
+	| declarator compound_statement
+	;
+
+declaration
+	: declaration_specifiers ';' { $$ = new Declaration($1); }
+	| declaration_specifiers init_declarator_list ';'
+>>>>>>> 974afd5b24079a0c1dec43d6bbcacb47c3e1d122
 	;
 
 // Type of something (+ typedef)
@@ -318,8 +330,20 @@ enumerator
 	;
 
 
+<<<<<<< HEAD
 
 
+=======
+direct_declarator
+	: IDENTIFIER { $$ = new Identifier(*$1); }
+	| '(' declarator ')' { $$ = $1; }
+	| direct_declarator '[' constant_expression ']' { /* array */} 
+	| direct_declarator '[' ']' { /* array */}
+	| direct_declarator '(' parameter_list ')' { /*  new functionDecl() */}
+	| direct_declarator '(' identifier_list ')' { $$ = new FunctionDecl($1,$3); }
+	| direct_declarator '(' ')' { $$ = new FunctionDecl($1); }
+	;
+>>>>>>> 974afd5b24079a0c1dec43d6bbcacb47c3e1d122
 
 pointer
 	: '*'
@@ -377,11 +401,11 @@ initializer_list
 	;
 
 statement
-	: labeled_statement
-	| compound_statement
-	| expression_statement
-	| selection_statement
-	| iteration_statement
+	: labeled_statement { $$ = $1; }
+	| compound_statement { $$ = $1; }
+	| expression_statement { $$ = $1; }
+	| selection_statement	{ $$ = $1; }
+	| iteration_statement { $$ = $1; }
 	| jump_statement { $$ = $1; }
 	;
 
@@ -391,7 +415,16 @@ labeled_statement
 	| DEFAULT ':' statement
 	;
 
+<<<<<<< HEAD
 
+=======
+compound_statement
+	: '{' '}'
+	| '{' statement_list '}' { $$ = $2; }
+	| '{' declaration_list '}' { /* local variables */ }
+	| '{' declaration_list statement_list '}' { }
+	;
+>>>>>>> 974afd5b24079a0c1dec43d6bbcacb47c3e1d122
 
 declaration_list
 	: declaration
@@ -399,9 +432,8 @@ declaration_list
 	;
 
 statement_list
-	: statement { //This will have to be changed, something with seq
-                $$ = $1; }
-	| statement_list statement
+	: statement { $$ = $1; }
+	| statement_list statement { /* append to list */ }
 	;
 
 expression_statement
@@ -425,7 +457,7 @@ iteration_statement
 jump_statement
 	| CONTINUE ';'
 	| BREAK ';'
-	| RETURN ';'
+	| RETURN ';' { $$ = new Return(); }
 	| RETURN expression ';' { $$ = new Return($2); }
 	;
 
