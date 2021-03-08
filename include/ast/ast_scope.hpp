@@ -4,39 +4,35 @@
 #include "ast_node.hpp"
 #include "ast_sequence.hpp"
 
+// The meat and potatoes of a function, basically a sequence
+
+class Scope;
+typedef const Scope *ScopePtr;
+
 class Scope
-  : public Node
+  : public Sequence
 {
-protected:
-  std::vector<NodePtr> seq;
-
 public:
-  Scope(NodePtr in)
+  // I think this works? should do everything like Sequence
+  using Sequence::Sequence;
+
+  // Just in case we need it
+  std::vector<NodePtr> getScope()
   {
-    seq.push_back(in);
+    return branches;
   }
 
-  Scope(SeqPtr _seq)
-    : seq(_seq->expressions)
-  {}
-
-  ~Scope()
-  {
-    for(unsigned i = 0; i < seq.size(); i++){
-      delete seq[i];
-    }
-  }
-
-  std::vector<NodePtr> getScope() { return seq; }
-
+  // Visualising - already done by sequence
+  /*
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
-      dst << indent << "Sequence [" << std::endl;
-      for(unsigned i = 0; i < seq.size(); i++){
-        seq[i]->PrettyPrint(dst, indent+"  ");
-      }
-      dst << indent << "]" << std::endl;
+    dst << indent << "Scope [" << std::endl;
+    for(unsigned i = 0; i < expressions.size(); i++){
+      expressions[i]->PrettyPrint(dst, indent+"  ");
+    }
+    dst << indent << "]" << std::endl;
   }
+  */
 };
 
 #endif

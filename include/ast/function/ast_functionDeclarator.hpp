@@ -9,7 +9,8 @@ class FunctionDeclarator
 {
 public:
   // Constructors
-  FunctionDeclarator(NodePtr id, NodePtr params)
+  // Using a NodeListPtr for params to have scalability, currently will be empty for main()
+  FunctionDeclarator(NodePtr id, NodeListPtr params)
   {
     branches.push_back(id);
     branches.push_back(params);
@@ -19,6 +20,7 @@ public:
     : FunctionDeclarator(id, new NodeList(params))
   {}
 
+  // Should work for `main()`
   FunctionDeclarator(NodePtr id)
     : FunctionDeclarator(id, new NodeList())
   {}
@@ -26,8 +28,8 @@ public:
   // Destructor, not 100% sure if correct
   virtual ~FunctionDeclarator()
   {
+    delete branches[0];
     delete branches[1];
-    delete branches[2];
   }
 
   //This is where things should be

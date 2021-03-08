@@ -17,9 +17,10 @@
 // AST node.
 %union{
   NodePtr expr;
-  SeqPtr exprSeq;
+  NodeListPtr exprList;
   long number;
   std::string *string;
+  yytokentype token;
 }
 
 %token IDENTIFIER CONSTANT SIZEOF
@@ -52,16 +53,15 @@
 %type <expr> expression_statement selection_statement iteration_statement
 %type <expr> jump_statement translation_unit external_declaration function_definition
 
-%type <exprSeq> argument_expression_list init_declarator_list struct_declaration_list
-%type <exprSeq> specifier_qualifier_list struct_declarator_list
-%type <exprSeq> enumerator_list parameter_list
-%type <exprSeq> identifier_list initializer_list declaration_list statement_list
+%type <exprList> argument_expression_list init_declarator_list struct_declaration_list
+%type <exprList> specifier_qualifier_list struct_declarator_list
+%type <exprList> enumerator_list parameter_list
+%type <exprList> identifier_list initializer_list declaration_list statement_list
 
 %type <number> CONSTANT
 %type <string> IDENTIFIER
 
-TODO: Unsure (probably expr):
-unary_operator assignment_operator
+%type <token> unary_operator assignment_operator
 
 %start translation_unit
 
@@ -81,22 +81,41 @@ external_declaration
 
 // Function definition (duh)
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
+	: declaration_specifiers declarator compound_statement { $$ = new FunctionDefinition(new Declaration($1, $2), $3); }
+	| declarator compound_statement { std::cerr << "Function with no type?, probs for calling a void function?" << std::endl; }
 	;
 
-declaration
-	: declaration_specifiers ';' { $$ = new Declaration($1); }
-	| declaration_specifiers init_declarator_list ';'
-	;
-
+// Type of something (+ typedef)
 declaration_specifiers
-	: TYPEDEF { std::cerr << "Make ast for this" << std::endl; }
-	| TYPEDEF declaration_specifiers { std::cerr << "New type ?" << std::endl; }
+	: TYPEDEF { std::cerr << "deal with this shit later" << std::endl; }
+	| TYPEDEF declaration_specifiers { std::cerr << "Not needed afaik since we only support TYPEDEF" << std::endl; }
 	| type_specifier { $$ = $1; }
-	| type_specifier declaration_specifiers
+	| type_specifier declaration_specifiers { std::cerr << "I don't think we need this either" << std::endl; }
+	;
+
+// Name of something (variable, function, array)
+declarator
+	: pointer direct_declarator { std::cerr << "deal with pointers later" << std::endl; }
+	| direct_declarator { $$ = $1; }
+	;
+
+// Bunch of different types of names, see declarator
+direct_declarator
+	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; };
+	| '(' declarator ')' { $$ = $2; }
+	| direct_declarator '[' constant_expression ']' { std::cerr << "Array declarator" << std::endl; }
+	| direct_declarator '[' ']' { std::cerr << "Array declarator" << std::endl; }
+	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
+	| direct_declarator '(' identifier_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
+	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
+	;
+
+// Shit a function contains, (scope)
+compound_statement
+	: '{' '}' { $$ = new Scope(); }
+	| '{' statement_list '}' { $$ = new Scope(*$2); delete $2; }
+	| '{' declaration_list '}'
+	| '{' declaration_list statement_list '}'
 	;
 
 primary_expression
@@ -298,20 +317,9 @@ enumerator
 	| IDENTIFIER '=' constant_expression
 	;
 
-declarator
-	: pointer direct_declarator
-	| direct_declarator { $$ = $1; }
-	;
 
-direct_declarator
-	: IDENTIFIER { $$ = new Identifier(*$1); }
-	| '(' declarator ')' { $$ = $1; }
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_list ')'
-	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'
-	;
+
+
 
 pointer
 	: '*'
@@ -383,12 +391,7 @@ labeled_statement
 	| DEFAULT ':' statement
 	;
 
-compound_statement
-	: '{' '}'
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
-	;
+
 
 declaration_list
 	: declaration
@@ -426,7 +429,10 @@ jump_statement
 	| RETURN expression ';' { $$ = new Return($2); }
 	;
 
-
+declaration
+	: declaration_specifiers ';' { $$ = new Declaration($1); }
+	| declaration_specifiers init_declarator_list ';'
+	;
 
 %%
 

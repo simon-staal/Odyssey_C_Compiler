@@ -1,8 +1,9 @@
 #ifndef ast_return_hpp
 #define ast_return_hpp
 
+// Haven't looked at this, idk if it's still relevant
+
 #include "ast_node.hpp"
-#include "ast_expression.hpp"
 
 class Return;
 
@@ -17,7 +18,7 @@ protected:
     ExprPtr expr;
 
 public:
-    
+
     Return(ExprPtr _expr)
     : expr(_expr)
     {}

@@ -1,12 +1,12 @@
 #ifndef ast_expression_hpp
 #define ast_expression_hpp
 
-#include <vector>
+// This shit is probs useless now that node contains branches
+// Leaving here for now just in case
 
 #include "ast_node.hpp"
 
 class Expression;
-
 typedef const Expression *ExprPtr;
 
 class Expression

@@ -6,16 +6,24 @@
 class Identifier
   : public Node
 {
-private:
+protected:
   std::string id;
 public:
+  // Constructor
   Identifier(std::string _id)
     : id(_id)
   {}
 
+  // Getting identifier
+  std::string getId() const
+  {
+    return id;
+  }
+
+  // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
-    dst << indent << "Identifier = " << id << std::endl;
+    dst << indent << "Identifier: " << id << std::endl;
   }
 };
 

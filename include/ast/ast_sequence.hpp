@@ -2,7 +2,9 @@
 #define ast_sequence_hpp
 
 #include "ast_node.hpp"
-#include "ast_expression.hpp"
+
+// Represents a generic sequence of c++ code, basically going to be used for scope, keeping sequence generic
+// cause it might be reusable for other shit later (globals?)
 
 class Sequence;
 typedef Sequence *SeqPtr;
@@ -11,13 +13,22 @@ class Sequence
   : public Node
 {
 public:
-  std::vector<NodePtr> expressions;
+  // Constructors
+  Sequence()
+  {
+    // Empty, do nothing
+  }
 
   Sequence(NodePtr in)
   {
-    expressions.push_back(in);
+    branches.push_back(in);
   }
 
+  Sequence(std::vector<NodePtr> _branches)
+    : branches(_branches)
+  {}
+
+  // Destructor
   ~Sequence()
   {
     for(unsigned i = 0; i < expressions.size(); i++){
@@ -25,8 +36,7 @@ public:
     }
   }
 
-  std::vector<NodePtr> getSequence() { return expressions; }
-
+  // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
   {
     dst << indent << "Sequence [" << std::endl;
