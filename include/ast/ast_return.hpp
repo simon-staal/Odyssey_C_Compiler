@@ -2,7 +2,6 @@
 #define ast_return_hpp
 
 #include "ast_node.hpp"
-#include "ast_expression.hpp"
 
 class Return;
 
@@ -22,6 +21,8 @@ public:
     : expr(_expr)
     {}
 
+    Return()
+    {}
 
 };
 
