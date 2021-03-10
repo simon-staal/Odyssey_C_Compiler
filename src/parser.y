@@ -45,7 +45,7 @@
 %type <expr> declaration init_declarator
 %type <expr> declaration_specifiers type_specifier
 %type <expr> struct_specifier struct_declaration
-%type <expr> specifier_qualifier_list struct_declarator declarator
+%type <expr> struct_declarator declarator
 %type <expr> enum_specifier enumerator direct_declarator pointer
 
 %type <expr> parameter_declaration type_name abstract_declarator direct_abstract_declarator
@@ -67,31 +67,31 @@
 
 %%
 
-// Top level entity
+  /* Top level entity */
 translation_unit
 	: external_declaration { $$ = $1; }
 	| translation_unit external_declaration { std::cerr << "TODO, multiple funcitons" << std::endl; }
 	;
 
-// Global declaration
+  /* Global declaration */
 external_declaration
 	: function_definition { $$ = $1; }
 	| declaration { $$ = $1; }
 	;
 
-// Function definition (duh)
+  /* Function definition (duh) */
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new FunctionDefinition(new Declaration($1, $2), $3); }
-	| declarator compound_statement { std::cerr << "Function with no type?, probs for calling a void function?" << std::endl; }
+	| declarator compound_statement { std::cerr << "Function with no type?, not sure what this is" << std::endl; }
 	;
 
-// Name of something (variable, function, array)
+  /* Name of something (variable, function, array) */
 declarator
 	: pointer direct_declarator { std::cerr << "deal with pointers later" << std::endl; }
 	| direct_declarator { $$ = $1; }
 	;
 
-// Bunch of different types of names, see declarator
+  /* Bunch of different types of names, see declarator */
 direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; };
 	| '(' declarator ')' { $$ = $2; }
@@ -102,7 +102,7 @@ direct_declarator
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
 	;
 
-// Function input parameters
+  /* Function input parameters */
 parameter_list
 	: parameter_declaration
 	| parameter_list ',' parameter_declaration
@@ -119,7 +119,7 @@ declaration
 	| declaration_specifiers init_declarator_list ';'
 	;
 
-// Type of something (+ typedef)
+  /* Type of something (+ typedef) */
 declaration_specifiers
 	: TYPEDEF { std::cerr << "deal with this shit later" << std::endl; }
 	| TYPEDEF declaration_specifiers { std::cerr << "Not needed afaik since we only support TYPEDEF" << std::endl; }
@@ -138,10 +138,15 @@ type_specifier
 	| enum_specifier
 	;
 
-// Pretty sure this isn't needed since comma seperated expressions aren't in the spec
+  /* Pretty sure this isn't needed since comma seperated expressions aren't in the spec */
 init_declarator_list
 	: init_declarator
 	| init_declarator_list ',' init_declarator
+	;
+
+init_declarator
+	: declarator
+	| declarator '=' initializer
 	;
 
 abstract_declarator
@@ -167,7 +172,7 @@ declaration_list
 	| declaration_list declaration { $$ = concatList($1, $2); }
 	;
 
-// Shit a function contains, (scope)
+  /* Shit a function contains, (scope) */
 compound_statement
 	: '{' '}' { $$ = new Scope(); }
 	| '{' statement_list '}' { $$ = new Scope(*$2); delete $2; }
@@ -181,49 +186,49 @@ statement_list
 	;
 
 statement
-	: labeled_statement { $$ = $1; } // Case
-	| compound_statement { $$ = $1; } // New scope
-	| expression_statement { $$ = $1; } // Simple shit
-	| selection_statement	{ $$ = $1; } // if else switch
-	| iteration_statement { $$ = $1; } // loops
-	| jump_statement { $$ = $1; } // Continue / break / return
+	: labeled_statement { $$ = $1; }
+	| compound_statement { $$ = $1; }
+	| expression_statement { $$ = $1; }
+	| selection_statement	{ $$ = $1; }
+	| iteration_statement { $$ = $1; }
+	| jump_statement { $$ = $1; }
 	;
 
-// Case statements
+  /* Case statements */
 labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
+	: IDENTIFIER ':' statement { std::cerr << "Add to AST" << std::endl ; }
+	| CASE constant_expression ':' statement { ; }
+	| DEFAULT ':' statement { ; }
 	;
 
+  /* Standard stuff */
 expression_statement
-	: ';'
-	| expression ';'
+	: ';' { ; }
+	| expression ';' { ; }
 	;
 
+  /* if else switch */
 selection_statement
-	: IF '(' expression ')' statement
-	| IF '(' expression ')' statement ELSE statement
-	| SWITCH '(' expression ')' statement
+	: IF '(' expression ')' statement { ; }
+	| IF '(' expression ')' statement ELSE statement { ; }
+	| SWITCH '(' expression ')' statement { ; }
 	;
 
+  /* loops */
 iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
+	: WHILE '(' expression ')' statement { ; }
+	| DO statement WHILE '(' expression ')' ';' { ; }
+	| FOR '(' expression_statement expression_statement ')' statement { ; }
+	| FOR '(' expression_statement expression_statement expression ')' statement { ; }
 	;
 
+  /* Continue / break / return */
 jump_statement
 	| CONTINUE ';' { std::cerr << "Extend AST" << std::endl; }
 	| BREAK ';' { std::cerr << "Extend AST" << std::endl; }
 	| RETURN ';' { $$ = new Return(); }
 	| RETURN expression ';' { $$ = new Return($2); }
 	;
-
-
-
-
 
 primary_expression
   : IDENTIFIER { $$ = new Identifier(*$1); }
@@ -238,22 +243,23 @@ postfix_expression
 	| postfix_expression '(' argument_expression_list ')' { std::cerr << "Function call" << std::endl; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
 	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
-	| postfix_expression INC_OP { std::cerr << "Unsuported" << std::endl; }
-	| postfix_expression DEC_OP { std::cerr << "Unsuported" << std::endl; }
+	| postfix_expression INC_OP { std::cerr << "++" << std::endl; }
+	| postfix_expression DEC_OP { std::cerr << "--" << std::endl; }
 	;
 
+  /* Don't think this is needed since we won't be chaining expressions */
 argument_expression_list
-	: assignment_expression { std::cerr << "Unsuported" << std::endl; }
-	| argument_expression_list ',' assignment_expression { std::cerr << "Unsuported" << std::endl; }
+	: assignment_expression { $$ = initList($1); }
+	| argument_expression_list ',' assignment_expression { $$ = concatList($1, $2); }
 	;
 
 unary_expression
 	: postfix_expression { $$ = $1; }
-	| INC_OP unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| DEC_OP unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| unary_operator unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| SIZEOF unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| SIZEOF '(' type_name ')' { std::cerr << "Unsuported" << std::endl; }
+	| INC_OP unary_expression { std::cerr << "pre increment" << std::endl; }
+	| DEC_OP unary_expression { std::cerr << "pre decrement" << std::endl; }
+	| unary_operator unary_expression { std::cerr << "chaining stuff, add later ig?" << std::endl; }
+	| SIZEOF unary_expression { std::cerr << "sizeof (duh)" << std::endl; }
+	| SIZEOF '(' type_name ')' { std::cerr << "sizeof a primitive" << std::endl; }
 	;
 
 unary_operator
@@ -356,15 +362,6 @@ constant_expression
 	: conditional_expression { $$ = $1; }
 	;
 
-
-
-init_declarator
-	: declarator
-	| declarator '=' initializer
-	;
-
-
-
 struct_specifier
 	: STRUCT IDENTIFIER '{' struct_declaration_list '}'
 	| STRUCT '{' struct_declaration_list '}'
@@ -412,18 +409,10 @@ enumerator
 	| IDENTIFIER '=' constant_expression
 	;
 
-
-
-
-
 pointer
 	: '*'
 	| '*' pointer
 	;
-
-
-
-
 
 identifier_list
 	: IDENTIFIER
@@ -434,8 +423,6 @@ type_name
 	: specifier_qualifier_list
 	| specifier_qualifier_list abstract_declarator
 	;
-
-
 
 initializer
 	: assignment_expression

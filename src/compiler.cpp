@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 		// Parsing / building AST
 		yyin = fopen(argv[2], "r");
 		if(yyin == NULL){
-			std::cerr << "Couldn't open file " << argv[2] << std::endl;
+			std::cerr << "Couldn't open file: " << argv[2] << std::endl;
 			exit(1);
 		}
 
