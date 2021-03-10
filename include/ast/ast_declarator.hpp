@@ -2,6 +2,7 @@
 #define ast_declarator_hpp
 
 #include "ast_node.hpp"
+#include "ast_identifier.hpp"
 
 // Used for base declarators from parser, functionDeclarator uses this as its id
 

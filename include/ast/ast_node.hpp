@@ -18,7 +18,21 @@ protected:
   std::vector<NodePtr> branches;
 
 public:
-  virtual ~Node();
+  // Used in derived classes
+  Node(std::vector<NodePtr> _branches)
+    : branches(_branches)
+  {}
+  
+  Node()
+    : Node(std::vector<NodePtr>{})
+  {}
+
+  virtual ~Node()
+  {
+    for(unsigned i = 0; i < branches.size(); i++){
+      delete branches[i];
+    }
+  }
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;

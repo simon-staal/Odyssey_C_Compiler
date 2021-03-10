@@ -1,9 +1,10 @@
 %code requires{
   #include "ast.hpp"
+  #include "parser_list.hpp"
 
   #include <cassert>
 
-  extern const NodePtr g_root; // A way of getting the AST out
+  extern const Node *g_root; // A way of getting the AST out
   extern FILE *yyin;
 
   //! This is to fix problems when generating C++
@@ -17,7 +18,7 @@
 // AST node.
 %union{
   NodePtr expr;
-  NodeListPtr exprList;
+  ListPtr exprList;
   long number;
   std::string *string;
   yytokentype token;
@@ -51,9 +52,9 @@
 %type <expr> parameter_declaration type_name abstract_declarator direct_abstract_declarator
 %type <expr> initializer statement labeled_statement compound_statement
 %type <expr> expression_statement selection_statement iteration_statement
-%type <expr> flow_statement translation_unit external_declaration function_definition
+%type <expr> jump_statement translation_unit external_declaration function_definition
 
-%type <exprList> argument_expression_list init_declarator_list struct_declaration_list
+%type <exprList> init_declarator_list struct_declaration_list
 %type <exprList> specifier_qualifier_list struct_declarator_list
 %type <exprList> enumerator_list parameter_list
 %type <exprList> identifier_list initializer_list declaration_list statement_list
@@ -63,9 +64,11 @@
 
 %type <token> unary_operator assignment_operator
 
-%start translation_unit
+%start root
 
 %%
+/* Extracts AST */
+root : translation_unit { g_root = $1; }
 
 /* Top level entity */
 translation_unit
@@ -104,14 +107,14 @@ direct_declarator
 
 /* Function input parameters */
 parameter_list
-	: parameter_declaration
-	| parameter_list ',' parameter_declaration
+	: parameter_declaration { $$ = initList($1); }
+	| parameter_list ',' parameter_declaration { $$ = concatList($1, $3); }
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
-	| declaration_specifiers
+	: declaration_specifiers declarator { new Declaration($1, $2); }
+	| declaration_specifiers abstract_declarator { new Declaration($1, $2); }
+	| declaration_specifiers { std::cerr << "?" << std::endl; }
 	;
 
 declaration
@@ -128,20 +131,20 @@ declaration_specifiers
 	;
 
 type_specifier
-	: VOID
-	| CHAR
+	: VOID { std::cerr << "Unsuported" << std::endl; }
+	| CHAR { std::cerr << "Unsuported" << std::endl; }
 	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
-	| FLOAT
-	| DOUBLE
-	| UNSIGNED
-	| struct_specifier
-	| enum_specifier
+	| FLOAT { std::cerr << "Unsuported" << std::endl; }
+	| DOUBLE { std::cerr << "Unsuported" << std::endl; }
+	| UNSIGNED { std::cerr << "Unsuported" << std::endl; }
+	| struct_specifier { std::cerr << "Unsuported" << std::endl; }
+	| enum_specifier { std::cerr << "Unsuported" << std::endl; }
 	;
 
 /* Pretty sure this isn't needed since comma seperated expressions aren't in the spec */
 init_declarator_list
-	: init_declarator
-	| init_declarator_list ',' init_declarator
+	: init_declarator { $$ = initList($1); }
+	| init_declarator_list ',' init_declarator { $$ = concatList($1, $3); }
 	;
 
 init_declarator
@@ -156,15 +159,15 @@ abstract_declarator
 	;
 
 direct_abstract_declarator
-	: '(' abstract_declarator ')'
-	| '[' ']'
-	| '[' constant_expression ']'
-	| direct_abstract_declarator '[' ']'
-	| direct_abstract_declarator '[' constant_expression ']'
-	| '(' ')'
-	| '(' parameter_list ')'
-	| direct_abstract_declarator '(' ')'
-	| direct_abstract_declarator '(' parameter_list ')'
+	: '(' abstract_declarator ')' { $$ = $2; }
+	| '[' ']' { std::cerr << "Unsuported" << std::endl; }
+	| '[' constant_expression ']' { std::cerr << "Unsuported" << std::endl; }
+	| direct_abstract_declarator '[' ']' { std::cerr << "Unsuported" << std::endl; }
+	| direct_abstract_declarator '[' constant_expression ']' { std::cerr << "Unsuported" << std::endl; }
+	| '(' ')' { std::cerr << "Unsuported" << std::endl; }
+	| '(' parameter_list ')' { std::cerr << "Unsuported" << std::endl; }
+	| direct_abstract_declarator '(' ')' { std::cerr << "Unsuported" << std::endl; }
+	| direct_abstract_declarator '(' parameter_list ')' { std::cerr << "Unsuported" << std::endl; }
 	;
 
 declaration_list
@@ -191,7 +194,7 @@ statement
 	| expression_statement { $$ = $1; }
 	| selection_statement	{ $$ = $1; }
 	| iteration_statement { $$ = $1; }
-	| flow_statement { $$ = $1; }
+	| jump_statement { $$ = $1; }
 	;
 
 /* Case statements */
@@ -223,8 +226,8 @@ iteration_statement
 	;
 
 /* Continue / break / return */
-flow_statement
-	| CONTINUE ';' { std::cerr << "Extend AST" << std::endl; }
+jump_statement
+	: CONTINUE ';' { std::cerr << "Extend AST" << std::endl; }
 	| BREAK ';' { std::cerr << "Extend AST" << std::endl; }
 	| RETURN ';' { $$ = new Return(); }
 	| RETURN expression ';' { $$ = new Return($2); }
@@ -240,17 +243,11 @@ postfix_expression
 	: primary_expression { $$ = $1; }
 	| postfix_expression '[' expression ']' { std::cerr << "element access (array)" << std::endl; }
 	| postfix_expression '(' ')' { std::cerr << "Function call" << std::endl; }
-	| postfix_expression '(' argument_expression_list ')' { std::cerr << "Function call" << std::endl; }
+	| postfix_expression '(' assignment_expression ')' { std::cerr << "Function call" << std::endl; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
 	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
 	| postfix_expression INC_OP { std::cerr << "++" << std::endl; }
 	| postfix_expression DEC_OP { std::cerr << "--" << std::endl; }
-	;
-
-/* Don't think this is needed since we won't be chaining expressions */
-argument_expression_list
-	: assignment_expression { $$ = initList($1); }
-	| argument_expression_list ',' assignment_expression { $$ = concatList($1, $2); }
 	;
 
 unary_expression
@@ -363,83 +360,83 @@ constant_expression
 	;
 
 struct_specifier
-	: STRUCT IDENTIFIER '{' struct_declaration_list '}'
-	| STRUCT '{' struct_declaration_list '}'
-	| STRUCT IDENTIFIER
+	: STRUCT IDENTIFIER '{' struct_declaration_list '}' { std::cerr << "Unsuported" << std::endl; }
+	| STRUCT '{' struct_declaration_list '}' { std::cerr << "Unsuported" << std::endl; }
+	| STRUCT IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
 	;
 
 struct_declaration_list
-	: struct_declaration
-	| struct_declaration_list struct_declaration
+	: struct_declaration { $$ = initList($1); }
+	| struct_declaration_list struct_declaration { $$ = concatList($1, $2); }
 	;
 
 struct_declaration
-	: specifier_qualifier_list struct_declarator_list ';'
+	: specifier_qualifier_list struct_declarator_list ';' { std::cerr << "Unsuported" << std::endl; }
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list
-	| type_specifier
+	: type_specifier specifier_qualifier_list { std::cerr << "Unsuported" << std::endl; }
+	| type_specifier { std::cerr << "Unsuported" << std::endl; }
 	;
 
 struct_declarator_list
-	: struct_declarator
-	| struct_declarator_list ',' struct_declarator
+	: struct_declarator { $$ = initList($1); }
+	| struct_declarator_list ',' struct_declarator { $$ = concatList($1, $3); }
 	;
 
 struct_declarator
-	: declarator
-	| ':' constant_expression
-	| declarator ':' constant_expression
+	: declarator { $$ = $1; }
+	| ':' constant_expression { std::cerr << "Unsuported" << std::endl; }
+	| declarator ':' constant_expression { std::cerr << "Unsuported" << std::endl; }
 	;
 
 enum_specifier
-	: ENUM '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
-	| ENUM IDENTIFIER
+	: ENUM '{' enumerator_list '}' { std::cerr << "Unsuported" << std::endl; }
+	| ENUM IDENTIFIER '{' enumerator_list '}' { std::cerr << "Unsuported" << std::endl; }
+	| ENUM IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
 	;
 
 enumerator_list
-	: enumerator
-	| enumerator_list ',' enumerator
+	: enumerator { $$ = initList($1); }
+	| enumerator_list ',' enumerator { $$ = concatList($1, $3); }
 	;
 
 enumerator
-	: IDENTIFIER
-	| IDENTIFIER '=' constant_expression
+	: IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
+	| IDENTIFIER '=' constant_expression { std::cerr << "Unsuported" << std::endl; }
 	;
 
 pointer
-	: '*'
-	| '*' pointer
+	: '*' { std::cerr << "Unsuported" << std::endl; }
+	| '*' pointer { std::cerr << "Unsuported" << std::endl; }
 	;
 
 identifier_list
-	: IDENTIFIER
-	| identifier_list ',' IDENTIFIER
+	: IDENTIFIER { $$ = initList($1); }
+	| identifier_list ',' IDENTIFIER { $$ = concatList($1, $3); }
 	;
 
 type_name
-	: specifier_qualifier_list
-	| specifier_qualifier_list abstract_declarator
+	: specifier_qualifier_list { std::cerr << "Unsuported" << std::endl; }
+	| specifier_qualifier_list abstract_declarator { std::cerr << "Unsuported" << std::endl; }
 	;
 
 initializer
-	: assignment_expression
-	| '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
+	: assignment_expression { $$ = $1; }
+	| '{' initializer_list '}' { std::cerr << "Unsuported" << std::endl; }
+	| '{' initializer_list ',' '}' { std::cerr << "Unsuported" << std::endl; }
 	;
 
 initializer_list
-	: initializer
-	| initializer_list ',' initializer
+	: initializer { $$ = initList($1); }
+	| initializer_list ',' initializer { $$ = concatList($1, $3); }
 	;
 
 %%
 
-NodePtr g_root;
+const Node *g_root;
 
-NodePtr parseAST()
+const Node *parseAST()
 {
   g_root = 0;
   yyparse();

@@ -21,9 +21,9 @@
 
 #include "ast/types/ast_primitive.hpp"
 
-#include "ast/function/ast_functionDeclarator.hpp"
-#include "ast/function/ast_functionDefinition.hpp"
+#include "ast/functions/ast_functionDeclarator.hpp"
+#include "ast/functions/ast_functionDefinition.hpp"
 
-extern const NodePtr parseAST();
+extern const Node parseAST();
 
 #endif

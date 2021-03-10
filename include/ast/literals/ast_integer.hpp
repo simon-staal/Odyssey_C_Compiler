@@ -1,7 +1,7 @@
 #ifndef ast_integer_hpp
 #define ast_integer_hpp
 
-#include "ast_node.hpp"
+#include "ast/ast_node.hpp"
 
 class Integer
   : public Node

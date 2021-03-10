@@ -46,7 +46,7 @@ public:
     return branches[0];
   }
 
-  NodeListPtr getDeclarations() const
+  NodePtr getDeclarations() const // Actually returns a NodeListPtr (but it's stored as a NodePtr)
   {
     return branches[1];
   }

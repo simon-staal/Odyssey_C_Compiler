@@ -1,7 +1,7 @@
 #ifndef ast_primitive_hpp
 #define ast_primitive_hpp
 
-#include "ast_node.hpp"
+#include "ast/ast_node.hpp"
 
 class PrimitiveType
   : public Node

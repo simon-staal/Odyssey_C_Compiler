@@ -1,7 +1,7 @@
 #ifndef ast_functionDefinition_hpp
 #define ast_functionDefinition_hpp
 
-#include "ast_node.hpp"
+#include "ast/ast_node.hpp"
 
 // Represents a function as a declaration + {shit in here}, where the scope node contains the shit
 
