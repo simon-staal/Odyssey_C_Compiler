@@ -49,7 +49,7 @@ public:
     dst << indent << "Function Declarator [" << std::endl;
     dst << "Identifier: ";
     branches[0]->PrettyPrint(dst, indent+"  ");
-    dst << "Parameters: "
+    dst << "Parameters: ";
     branches[1]->PrettyPrint(dst, indent+"  ");
     dst << indent << "]" << std::endl;
   }

@@ -119,7 +119,7 @@ parameter_declaration
 
 declaration
 	: declaration_specifiers ';' { $$ = new Declaration($1); }
-	| declaration_specifiers init_declarator_list ';'
+	| declaration_specifiers init_declarator_list ';' { std::cerr << "Think about this" << std::endl; }
 	;
 
 /* Type of something (+ typedef) */
@@ -179,7 +179,7 @@ declaration_list
 compound_statement
 	: '{' '}' { $$ = new Scope(); }
 	| '{' statement_list '}' { $$ = new Scope(*$2); delete $2; }
-	| '{' declaration_list '}' { $$ = new Scope(*2); delete $2; }
+	| '{' declaration_list '}' { $$ = new Scope(*$2); delete $2; }
 	| '{' declaration_list statement_list '}' { std::cerr << "Think about this more" << std::endl; }
 	;
 

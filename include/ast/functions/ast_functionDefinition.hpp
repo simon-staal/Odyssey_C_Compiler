@@ -8,6 +8,7 @@
 class FunctionDefinition
   : public Node
 {
+public:
   // Constructors
   FunctionDefinition(NodePtr declaration, NodePtr scope) //<- tempted to change type of scope to ScopePtr but then i'd have to include the hpp
   {

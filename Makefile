@@ -1,31 +1,43 @@
+LINK_TARGET = bin/c_compiler
+CC = g++
 
-CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter
-CPPFLAGS += -I include
-PARSE_LEX_FILES = src/parser.tab.o src/lexer.yy.o src/parser.tab.o
+CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function
+CPPFLAGS += -I include -I src
 
-all : bin/compiler bin/print_canonical
+HPPFILES = $(wildcard include/ast/*.hpp) include/ast.hpp include/parser_list.hpp $(wildcard include/ast/*/*.hpp)
+CPPFILES = $(wildcard src/*.cpp)
+OBJS = $(patsubst %.cpp,%.o,$(CPPFILES))
 
-src/parser.tab.cpp src/parser.tab.hpp : src/parser.y
-	bison -v -d src/parser.y -o src/parser.tab.cpp
+all : $(LINK_TARGET)
+
+$(LINK_TARGET) : src/lexer.yy.o src/parser.tab.o $(OBJS)
+	$(CC) $(CPPFLAGS) $^ -o $@
+
+src/%.o: src/%.cpp $(HPPFILES)
+	$(CC) $(CPPFLAGS) -c -o $@ $<
+
+src/parser.tab.cpp src/parser.tab.hpp: src/parser.y
+	yacc -v -d src/parser.y -o src/parser.tab.cpp
+	mkdir -p bin;
 
 src/lexer.yy.cpp : src/lexer.flex src/parser.tab.hpp
-	flex -o src/lexer.yy.cpp  src/lexer.flex
+	flex -o src/lexer.yy.cpp src/lexer.flex
 
-bin/c_compiler : bin/compiler src/wrapper.sh
-	cp src/wrapper.sh bin/c_compiler
-	chmod u+x bin/c_compiler
+makeobj:
+	$(CC) $(CPPFLAGS) src/$(CPPALLTEST) -o bin/testout
 
-bin/compiler : src/compiler.cpp $(PARSE_LEX_FILES)
-	mkdir -p bin
-	g++ $(CPPFLAGS) -o bin/compiler $^
+lexer: src/lexer.yy.cpp
 
-bin/print_canonical : src/print_canonical.o $(PARSE_LEX_FILES)
-	mkdir -p bin
-	g++ $(CPPFLAGS) -o bin/print_canonical $^
+parser: src/parser.tab.cpp src/parser.tab.hpp
 
+bin/compiler: src/c_compiler.output
+
+
+.PHONY: clean
 clean :
+	rm -rf bin/*
+	rm -f src/*.tab.hpp
+	rm -f src/*.tab.cpp
+	rm -f src/*.yy.cpp
+	rm -f src/*.output
 	rm -f src/*.o
-	rm -f bin/*
-	rm src/*.tab.cpp
-	rm src/*.tab.hpp
-	rm src/*.yy.cpp
