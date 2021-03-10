@@ -23,7 +23,7 @@ public:
     dst << indent;
     switch(type){
       case _int:
-        dst << "int ";
+        dst << "int: ";
         break;
       default:
         dst << "unknown type ";

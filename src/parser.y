@@ -23,7 +23,7 @@
   yytokentype token;
 }
 
-%token IDENTIFIER CONSTANT SIZEOF
+%token IDENTIFIER INT_LITERAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
@@ -58,7 +58,7 @@
 %type <exprList> enumerator_list parameter_list
 %type <exprList> identifier_list initializer_list declaration_list statement_list
 
-%type <number> CONSTANT
+%type <number> INT_LITERAL
 %type <string> IDENTIFIER
 
 %type <token> unary_operator assignment_operator
@@ -81,28 +81,8 @@ external_declaration
 
 // Function definition (duh)
 function_definition
-<<<<<<< HEAD
 	: declaration_specifiers declarator compound_statement { $$ = new FunctionDefinition(new Declaration($1, $2), $3); }
 	| declarator compound_statement { std::cerr << "Function with no type?, probs for calling a void function?" << std::endl; }
-=======
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement {}
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
-	;
-
-declaration
-	: declaration_specifiers ';' { $$ = new Declaration($1); }
-	| declaration_specifiers init_declarator_list ';'
->>>>>>> 974afd5b24079a0c1dec43d6bbcacb47c3e1d122
-	;
-
-// Type of something (+ typedef)
-declaration_specifiers
-	: TYPEDEF { std::cerr << "deal with this shit later" << std::endl; }
-	| TYPEDEF declaration_specifiers { std::cerr << "Not needed afaik since we only support TYPEDEF" << std::endl; }
-	| type_specifier { $$ = $1; }
-	| type_specifier declaration_specifiers { std::cerr << "I don't think we need this either" << std::endl; }
 	;
 
 // Name of something (variable, function, array)
@@ -122,17 +102,132 @@ direct_declarator
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
 	;
 
+// Function input parameters
+parameter_list
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
+
+parameter_declaration
+	: declaration_specifiers declarator
+	| declaration_specifiers abstract_declarator
+	| declaration_specifiers
+	;
+
+declaration
+	: declaration_specifiers ';' { $$ = new Declaration($1); }
+	| declaration_specifiers init_declarator_list ';'
+	;
+
+// Type of something (+ typedef)
+declaration_specifiers
+	: TYPEDEF { std::cerr << "deal with this shit later" << std::endl; }
+	| TYPEDEF declaration_specifiers { std::cerr << "Not needed afaik since we only support TYPEDEF" << std::endl; }
+	| type_specifier { $$ = $1; }
+	| type_specifier declaration_specifiers { std::cerr << "I don't think we need this either" << std::endl; }
+	;
+
+type_specifier
+	: VOID
+	| CHAR
+	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
+	| FLOAT
+	| DOUBLE
+	| UNSIGNED
+	| struct_specifier
+	| enum_specifier
+	;
+
+// Pretty sure this isn't needed since comma seperated expressions aren't in the spec
+init_declarator_list
+	: init_declarator
+	| init_declarator_list ',' init_declarator
+	;
+
+abstract_declarator
+	: pointer
+	| direct_abstract_declarator
+	| pointer direct_abstract_declarator
+	;
+
+direct_abstract_declarator
+	: '(' abstract_declarator ')'
+	| '[' ']'
+	| '[' constant_expression ']'
+	| direct_abstract_declarator '[' ']'
+	| direct_abstract_declarator '[' constant_expression ']'
+	| '(' ')'
+	| '(' parameter_list ')'
+	| direct_abstract_declarator '(' ')'
+	| direct_abstract_declarator '(' parameter_list ')'
+	;
+
+declaration_list
+	: declaration { /* initialze list */ }
+	| declaration_list declaration { /* append to list */ }
+	;
+
 // Shit a function contains, (scope)
 compound_statement
 	: '{' '}' { $$ = new Scope(); }
 	| '{' statement_list '}' { $$ = new Scope(*$2); delete $2; }
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
+	| '{' declaration_list '}' { $$ = new Scope(*2); delete $2; }
+	| '{' declaration_list statement_list '}' { std::cerr << "Think about this more" << std::endl; }
 	;
+
+statement_list
+  : statement { /* initialze list */ }
+	| statement_list statement { /* append to list */ }
+	;
+
+statement
+	: labeled_statement { $$ = $1; } // Case
+	| compound_statement { $$ = $1; } // New scope
+	| expression_statement { $$ = $1; } // Simple shit
+	| selection_statement	{ $$ = $1; } // if else switch
+	| iteration_statement { $$ = $1; } // loops
+	| jump_statement { $$ = $1; } // Continue / break / return
+	;
+
+// Case statements
+labeled_statement
+	: IDENTIFIER ':' statement
+	| CASE constant_expression ':' statement
+	| DEFAULT ':' statement
+	;
+
+expression_statement
+	: ';'
+	| expression ';'
+	;
+
+selection_statement
+	: IF '(' expression ')' statement
+	| IF '(' expression ')' statement ELSE statement
+	| SWITCH '(' expression ')' statement
+	;
+
+iteration_statement
+	: WHILE '(' expression ')' statement
+	| DO statement WHILE '(' expression ')' ';'
+	| FOR '(' expression_statement expression_statement ')' statement
+	| FOR '(' expression_statement expression_statement expression ')' statement
+	;
+
+jump_statement
+	| CONTINUE ';' { std::cerr << "Extend AST" << std::endl; }
+	| BREAK ';' { std::cerr << "Extend AST" << std::endl; }
+	| RETURN ';' { $$ = new Return(); }
+	| RETURN expression ';' { $$ = new Return($2); }
+	;
+
+
+
+
 
 primary_expression
   : IDENTIFIER { $$ = new Identifier(*$1); }
-	| CONSTANT { $$ = new Constant($1); }
+	| INT_LITERAL { $$ = new Integer($1); }
 	| '(' expression ')' { $$ = $2; }
 	;
 
@@ -261,26 +356,14 @@ constant_expression
 	: conditional_expression { $$ = $1; }
 	;
 
-init_declarator_list
-	: init_declarator
-	| init_declarator_list ',' init_declarator
-	;
+
 
 init_declarator
 	: declarator
 	| declarator '=' initializer
 	;
 
-type_specifier
-	: VOID
-	| CHAR
-	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
-	| FLOAT
-	| DOUBLE
-	| UNSIGNED
-	| struct_specifier
-	| enum_specifier
-	;
+
 
 struct_specifier
 	: STRUCT IDENTIFIER '{' struct_declaration_list '}'
@@ -330,36 +413,17 @@ enumerator
 	;
 
 
-<<<<<<< HEAD
 
 
-=======
-direct_declarator
-	: IDENTIFIER { $$ = new Identifier(*$1); }
-	| '(' declarator ')' { $$ = $1; }
-	| direct_declarator '[' constant_expression ']' { /* array */} 
-	| direct_declarator '[' ']' { /* array */}
-	| direct_declarator '(' parameter_list ')' { /*  new functionDecl() */}
-	| direct_declarator '(' identifier_list ')' { $$ = new FunctionDecl($1,$3); }
-	| direct_declarator '(' ')' { $$ = new FunctionDecl($1); }
-	;
->>>>>>> 974afd5b24079a0c1dec43d6bbcacb47c3e1d122
 
 pointer
 	: '*'
 	| '*' pointer
 	;
 
-parameter_list
-	: parameter_declaration
-	| parameter_list ',' parameter_declaration
-	;
 
-parameter_declaration
-	: declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
-	| declaration_specifiers
-	;
+
+
 
 identifier_list
 	: IDENTIFIER
@@ -371,23 +435,7 @@ type_name
 	| specifier_qualifier_list abstract_declarator
 	;
 
-abstract_declarator
-	: pointer
-	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
-	;
 
-direct_abstract_declarator
-	: '(' abstract_declarator ')'
-	| '[' ']'
-	| '[' constant_expression ']'
-	| direct_abstract_declarator '[' ']'
-	| direct_abstract_declarator '[' constant_expression ']'
-	| '(' ')'
-	| '(' parameter_list ')'
-	| direct_abstract_declarator '(' ')'
-	| direct_abstract_declarator '(' parameter_list ')'
-	;
 
 initializer
 	: assignment_expression
@@ -398,72 +446,6 @@ initializer
 initializer_list
 	: initializer
 	| initializer_list ',' initializer
-	;
-
-statement
-	: labeled_statement { $$ = $1; }
-	| compound_statement { $$ = $1; }
-	| expression_statement { $$ = $1; }
-	| selection_statement	{ $$ = $1; }
-	| iteration_statement { $$ = $1; }
-	| jump_statement { $$ = $1; }
-	;
-
-labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
-	;
-
-<<<<<<< HEAD
-
-=======
-compound_statement
-	: '{' '}'
-	| '{' statement_list '}' { $$ = $2; }
-	| '{' declaration_list '}' { /* local variables */ }
-	| '{' declaration_list statement_list '}' { }
-	;
->>>>>>> 974afd5b24079a0c1dec43d6bbcacb47c3e1d122
-
-declaration_list
-	: declaration
-	| declaration_list declaration
-	;
-
-statement_list
-	: statement { $$ = $1; }
-	| statement_list statement { /* append to list */ }
-	;
-
-expression_statement
-	: ';'
-	| expression ';'
-	;
-
-selection_statement
-	: IF '(' expression ')' statement
-	| IF '(' expression ')' statement ELSE statement
-	| SWITCH '(' expression ')' statement
-	;
-
-iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
-	;
-
-jump_statement
-	| CONTINUE ';'
-	| BREAK ';'
-	| RETURN ';' { $$ = new Return(); }
-	| RETURN expression ';' { $$ = new Return($2); }
-	;
-
-declaration
-	: declaration_specifiers ';' { $$ = new Declaration($1); }
-	| declaration_specifiers init_declarator_list ';'
 	;
 
 %%

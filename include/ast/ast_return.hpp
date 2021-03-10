@@ -1,31 +1,35 @@
 #ifndef ast_return_hpp
 #define ast_return_hpp
 
-// Haven't looked at this, idk if it's still relevant
-
 #include "ast_node.hpp"
-
-class Return;
-
-typedef const Return* ReturnPtr;
+#include "literals/ast_integer.hpp" // Needed for void
 
 class Return
   : public Node
 {
-
-protected:
-
-    ExprPtr expr;
-
 public:
+    // Constructors
+    Return(NodePtr val)
+    {
+      branches.push_back(val);
+    }
 
-    Return(ExprPtr _expr)
-    : expr(_expr)
+    Return() // For void funcitons (hopefully this works), returns 0 (i.e. success)
+      : Return(new Integer())
     {}
 
-    Return()
-    {}
+    // Destructor
+    ~Return()
+    {
+      delete branches[0];
+    }
 
+    // Visualising
+    virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
+    {
+      dst << indent << "Return: [" << std::endl;
+      branches[0]->PrettyPrint(dst, indent+"  ");
+      dst << indent << "]" << std::endl;
 };
 
 #endif
