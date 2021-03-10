@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 
-		NodePtr program = parseAST(src);
+		const Node *program = parseAST();
 		std::cout << program;
 
 		// Compile(program);

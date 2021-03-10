@@ -64,11 +64,11 @@
 
 %type <token> unary_operator assignment_operator
 
-%start root
+%start ROOT
 
 %%
 /* Extracts AST */
-root : translation_unit { g_root = $1; }
+ROOT : translation_unit { g_root = $1; }
 
 /* Top level entity */
 translation_unit
@@ -436,9 +436,9 @@ initializer_list
 
 const Node *g_root;
 
-const Node *parseAST()
+Node *parseAST()
 {
-  g_root = 0;
+  g_root = NULL;
   yyparse();
   return g_root;
 }

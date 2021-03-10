@@ -28,10 +28,10 @@ Not planning on adding any further constructs until the suitable AST framework h
 **02/03/2021:**
 Started building skeleton of AST, planning on switching parser + lexer to the [ANSI C grammar specification](https://www.lysator.liu.se/c/ANSI-C-grammar-l.html), and building the syntax tree from the Yacc file similar to lab 2. Aim is to finish the parser / AST classes so that the previous test program gets parsed into an AST successfully.
 
-**05/03/2021**
+**05/03/2021:**
 Pruned a lot of the unassessed functionality from the lexer and parser, as well as fixed a lot of compilation issues within the AST header files. Currently unsure how to ensure the lexer reads from the ifstream src specified by the top-level cpp file, instead of stdin, causing issues with the global `parseAST()` function. More work needs to be done on the parser to turn the test program into an AST.
 
-**10/03/2021**
+**10/03/2021:**
 Completed all the necessary ast nodes for minimal code example, and added the implementation in the parser. Additionally fixed the issue to ensure the lexer / parser read from the fstream specified in compiler.cpp. Currently unable to test functionality as I'm obtaining a compilation error when trying to make the parser:
 ```
 src/parser.y:226.1-14: error: syntax error, unexpected identifier
@@ -39,3 +39,16 @@ src/parser.y:226.1-14: error: syntax error, unexpected identifier
  ^^^^^^^^^^^^^^
 ```
 No clue what is causing this error, will update when this is solved.
+
+*Update:*
+Resolved the parser error, was something dumb. Now experiencing a lot of compiler errors, fixed most of the issues in the ast, top error is now:
+```
+include/ast.hpp:27:29: error: storage class specified for ‘parseAST’
+ extern const Node *parseAST();
+```
+Unsure how to solve this, referred back to lab 2 and tried to copy how it was done but still experiencing errors. Also really weirdly second error is from the stdlib:
+```
+/usr/include/assert.h:66:1: error: expected unqualified-id before string constant
+ __BEGIN_DECLS
+ ^
+```
