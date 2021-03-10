@@ -11,6 +11,7 @@ Objectives (last updated 05/03/2021)
 - Go through parser and add AST mapping using existing AST classes
 - Compile and run AST for basic test case (i.e. run compiler.cpp)
 - <del> Solve `parseAST()` issue, how to make the lexer / parser use a specified istream</del> (Marked complete 10/03/2021)
+- Find root of shift-reduce conflict in parser (good luck)
 
 Changelog
 ---------

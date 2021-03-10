@@ -1,0 +1,4 @@
+bin
+src/*.tab.cpp
+src/*.tab.hpp
+src/*.yy.cpp

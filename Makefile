@@ -27,4 +27,5 @@ clean :
 	rm -f src/*.o
 	rm -f bin/*
 	rm src/*.tab.cpp
+	rm src/*.tab.hpp
 	rm src/*.yy.cpp
