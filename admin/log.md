@@ -4,13 +4,13 @@ This file will be used to track the objectives and progress made in this coursew
 
 Objectives (last updated 05/03/2021)
 ------------------------------------
-- <del> Set up working environment</del>  (Marked complete 02/02/2021)
-- <del> Build base structure for repo</del>   (Marked complete 02/02/2021)
-- <del> Flesh out basic lexer / parser / AST for extremely minimal language:</del>  (Reworked 02/02/2021)
+- <del> Set up working environment</del>  (Marked complete 02/03/2021)
+- <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
+- <del> Flesh out basic lexer / parser / AST for extremely minimal language:</del>  (Reworked 02/03/2021)
   + <del> i.e. ints, basic operators, variables</del>
 - Go through parser and add AST mapping using existing AST classes
 - Compile and run AST for basic test case (i.e. run compiler.cpp)
-- Solve `parseAST()` issue, how to make the lexer / parser use a specified istream
+- <del> Solve `parseAST()` issue, how to make the lexer / parser use a specified istream</del> (Marked complete 10/03/2021)
 
 Changelog
 ---------
@@ -30,3 +30,6 @@ Started building skeleton of AST, planning on switching parser + lexer to the [A
 
 **05/03/2021**
 Pruned a lot of the unassessed functionality from the lexer and parser, as well as fixed a lot of compilation issues within the AST header files. Currently unsure how to ensure the lexer reads from the ifstream src specified by the top-level cpp file, instead of stdin, causing issues with the global `parseAST()` function. More work needs to be done on the parser to turn the test program into an AST.
+
+**10/03/2021**
+Completed all the necessary ast nodes for minimal code example, and added the implementation in the parser.

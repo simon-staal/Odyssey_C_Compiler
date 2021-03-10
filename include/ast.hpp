@@ -13,13 +13,16 @@
 #include "ast/ast_declarator.hpp"
 #include "ast/ast_declaration.hpp"
 #include "ast/ast_identifier.hpp"
-#include "ast/ast_scope.hpp"
 #include "ast/ast_sequence.hpp"
+#include "ast/ast_scope.hpp"
+#include "ast/ast_return.hpp"
+
+#include "ast/literals/ast_integer.hpp"
 
 #include "ast/types/ast_primitive.hpp"
 
 #include "ast/function/ast_functionDeclarator.hpp"
-#include "ast_functionDefinition.hpp"
+#include "ast/function/ast_functionDefinition.hpp"
 
 extern const NodePtr parseAST();
 
