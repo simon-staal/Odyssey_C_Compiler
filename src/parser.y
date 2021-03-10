@@ -51,7 +51,7 @@
 %type <expr> parameter_declaration type_name abstract_declarator direct_abstract_declarator
 %type <expr> initializer statement labeled_statement compound_statement
 %type <expr> expression_statement selection_statement iteration_statement
-%type <expr> jump_statement translation_unit external_declaration function_definition
+%type <expr> flow_statement translation_unit external_declaration function_definition
 
 %type <exprList> argument_expression_list init_declarator_list struct_declaration_list
 %type <exprList> specifier_qualifier_list struct_declarator_list
@@ -67,31 +67,31 @@
 
 %%
 
-  /* Top level entity */
+/* Top level entity */
 translation_unit
 	: external_declaration { $$ = $1; }
 	| translation_unit external_declaration { std::cerr << "TODO, multiple funcitons" << std::endl; }
 	;
 
-  /* Global declaration */
+/* Global declaration */
 external_declaration
 	: function_definition { $$ = $1; }
 	| declaration { $$ = $1; }
 	;
 
-  /* Function definition (duh) */
+/* Function definition (duh) */
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new FunctionDefinition(new Declaration($1, $2), $3); }
 	| declarator compound_statement { std::cerr << "Function with no type?, not sure what this is" << std::endl; }
 	;
 
-  /* Name of something (variable, function, array) */
+/* Name of something (variable, function, array) */
 declarator
 	: pointer direct_declarator { std::cerr << "deal with pointers later" << std::endl; }
 	| direct_declarator { $$ = $1; }
 	;
 
-  /* Bunch of different types of names, see declarator */
+/* Bunch of different types of names, see declarator */
 direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; };
 	| '(' declarator ')' { $$ = $2; }
@@ -102,7 +102,7 @@ direct_declarator
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
 	;
 
-  /* Function input parameters */
+/* Function input parameters */
 parameter_list
 	: parameter_declaration
 	| parameter_list ',' parameter_declaration
@@ -119,7 +119,7 @@ declaration
 	| declaration_specifiers init_declarator_list ';'
 	;
 
-  /* Type of something (+ typedef) */
+/* Type of something (+ typedef) */
 declaration_specifiers
 	: TYPEDEF { std::cerr << "deal with this shit later" << std::endl; }
 	| TYPEDEF declaration_specifiers { std::cerr << "Not needed afaik since we only support TYPEDEF" << std::endl; }
@@ -138,7 +138,7 @@ type_specifier
 	| enum_specifier
 	;
 
-  /* Pretty sure this isn't needed since comma seperated expressions aren't in the spec */
+/* Pretty sure this isn't needed since comma seperated expressions aren't in the spec */
 init_declarator_list
 	: init_declarator
 	| init_declarator_list ',' init_declarator
@@ -172,7 +172,7 @@ declaration_list
 	| declaration_list declaration { $$ = concatList($1, $2); }
 	;
 
-  /* Shit a function contains, (scope) */
+/* Shit a function contains, (scope) */
 compound_statement
 	: '{' '}' { $$ = new Scope(); }
 	| '{' statement_list '}' { $$ = new Scope(*$2); delete $2; }
@@ -191,30 +191,30 @@ statement
 	| expression_statement { $$ = $1; }
 	| selection_statement	{ $$ = $1; }
 	| iteration_statement { $$ = $1; }
-	| jump_statement { $$ = $1; }
+	| flow_statement { $$ = $1; }
 	;
 
-  /* Case statements */
+/* Case statements */
 labeled_statement
 	: IDENTIFIER ':' statement { std::cerr << "Add to AST" << std::endl ; }
 	| CASE constant_expression ':' statement { ; }
 	| DEFAULT ':' statement { ; }
 	;
 
-  /* Standard stuff */
+/* Standard stuff */
 expression_statement
 	: ';' { ; }
 	| expression ';' { ; }
 	;
 
-  /* if else switch */
+/* if else switch */
 selection_statement
 	: IF '(' expression ')' statement { ; }
 	| IF '(' expression ')' statement ELSE statement { ; }
 	| SWITCH '(' expression ')' statement { ; }
 	;
 
-  /* loops */
+/* loops */
 iteration_statement
 	: WHILE '(' expression ')' statement { ; }
 	| DO statement WHILE '(' expression ')' ';' { ; }
@@ -222,8 +222,8 @@ iteration_statement
 	| FOR '(' expression_statement expression_statement expression ')' statement { ; }
 	;
 
-  /* Continue / break / return */
-jump_statement
+/* Continue / break / return */
+flow_statement
 	| CONTINUE ';' { std::cerr << "Extend AST" << std::endl; }
 	| BREAK ';' { std::cerr << "Extend AST" << std::endl; }
 	| RETURN ';' { $$ = new Return(); }
@@ -247,7 +247,7 @@ postfix_expression
 	| postfix_expression DEC_OP { std::cerr << "--" << std::endl; }
 	;
 
-  /* Don't think this is needed since we won't be chaining expressions */
+/* Don't think this is needed since we won't be chaining expressions */
 argument_expression_list
 	: assignment_expression { $$ = initList($1); }
 	| argument_expression_list ',' assignment_expression { $$ = concatList($1, $2); }

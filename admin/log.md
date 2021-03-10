@@ -32,4 +32,10 @@ Started building skeleton of AST, planning on switching parser + lexer to the [A
 Pruned a lot of the unassessed functionality from the lexer and parser, as well as fixed a lot of compilation issues within the AST header files. Currently unsure how to ensure the lexer reads from the ifstream src specified by the top-level cpp file, instead of stdin, causing issues with the global `parseAST()` function. More work needs to be done on the parser to turn the test program into an AST.
 
 **10/03/2021**
-Completed all the necessary ast nodes for minimal code example, and added the implementation in the parser.
+Completed all the necessary ast nodes for minimal code example, and added the implementation in the parser. Additionally fixed the issue to ensure the lexer / parser read from the fstream specified in compiler.cpp. Currently unable to test functionality as I'm obtaining a compilation error when trying to make the parser:
+```
+src/parser.y:226.1-14: error: syntax error, unexpected identifier
+ jump_statement
+ ^^^^^^^^^^^^^^
+```
+No clue what is causing this error, will update when this is solved.
