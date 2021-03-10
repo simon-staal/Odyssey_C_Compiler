@@ -1,6 +1,6 @@
 #include "ast.hpp"
 
-extern FILE *yyin // Used to pass input file to lexer / parser
+// extern FILE *yyin // Used to pass input file to lexer / parser
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 
-		const Node *program = parseAST();
+		Node *program = parseAST(std::string filename);
 		std::cout << program;
 
 		// Compile(program);

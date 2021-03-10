@@ -4,7 +4,7 @@
 
   #include <cassert>
 
-  extern const Node *g_root; // A way of getting the AST out
+  extern Node *g_root; // A way of getting the AST out
   extern FILE *yyin;
 
   //! This is to fix problems when generating C++
@@ -434,10 +434,15 @@ initializer_list
 
 %%
 
-const Node *g_root;
+Node *g_root;
 
-Node *parseAST()
+Node *parseAST(std::string filename)
 {
+  yyin = fopen(filename.c_str(), "r");
+  if(yyin == NULL){
+    std::cerr << "Couldn't open file: " << filename << std::endl;
+    exit(1);
+  }
   g_root = NULL;
   yyparse();
   return g_root;

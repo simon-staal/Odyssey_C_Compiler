@@ -10,7 +10,7 @@
 // Base building block for everything, the Argos
 
 class Node;
-typedef const Node *NodePtr;
+typedef Node *NodePtr;
 
 class Node
 {
@@ -22,7 +22,7 @@ public:
   Node(std::vector<NodePtr> _branches)
     : branches(_branches)
   {}
-  
+
   Node()
     : Node(std::vector<NodePtr>{})
   {}

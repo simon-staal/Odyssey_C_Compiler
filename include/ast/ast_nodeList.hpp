@@ -4,7 +4,7 @@
 #include "ast_node.hpp"
 
 class NodeList;
-typedef const NodeList *NodeListPtr;
+typedef NodeList *NodeListPtr;
 
 class NodeList
   : public Node
