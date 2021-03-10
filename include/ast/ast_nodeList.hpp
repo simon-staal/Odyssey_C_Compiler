@@ -4,7 +4,6 @@
 #include "ast_node.hpp"
 
 class NodeList;
-
 typedef const NodeList *NodeListPtr;
 
 class NodeList
@@ -20,6 +19,13 @@ public:
   NodeList()
     : NodeList(std::vector<NodePtr>{})
   {}
+
+  // Not sure if this works ?
+  NodeList(NodePtr node)
+    : NodeList()
+  {
+    branches.push_back(node);
+  }
 
   // Destructor (not sure)
   virtual ~NodeList()
@@ -45,3 +51,17 @@ public:
     dst << indent << "]" << std::endl;
   }
 };
+
+// Functions to be used in parser for instantiation / concatenation
+inline NodeListPtr initList(NodePtr expr)
+{
+  NodeListPtr exprList = new NodeList(); // Potentially replace with Nodelist(NodePtr) constructor
+  exprList->push_back(expr);
+  return exprList;
+}
+
+inline NodeListPtr concatList(NodeListPtr exprList, NodePtr expr)
+{
+  exprList->push_back(expr);
+  return exprList;
+}

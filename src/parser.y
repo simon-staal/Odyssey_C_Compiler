@@ -163,8 +163,8 @@ direct_abstract_declarator
 	;
 
 declaration_list
-	: declaration { /* initialze list */ }
-	| declaration_list declaration { /* append to list */ }
+	: declaration { $$ = initList($1); }
+	| declaration_list declaration { $$ = concatList($1, $2); }
 	;
 
 // Shit a function contains, (scope)
@@ -176,8 +176,8 @@ compound_statement
 	;
 
 statement_list
-  : statement { /* initialze list */ }
-	| statement_list statement { /* append to list */ }
+  : statement { $$ = initList($1); }
+	| statement_list statement { $$ = concatList($1, $2); }
 	;
 
 statement
