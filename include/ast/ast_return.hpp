@@ -30,6 +30,7 @@ public:
       dst << indent << "Return: [" << std::endl;
       branches[0]->PrettyPrint(dst, indent+"  ");
       dst << indent << "]" << std::endl;
+    }
 };
 
 #endif

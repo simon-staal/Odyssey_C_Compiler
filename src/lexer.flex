@@ -39,9 +39,9 @@ IS			(u|U|l|L)*
 "volatile"		{ return(VOLATILE); }
 "while"			{ return(WHILE); }
 
-{L}({L}|{D})*  { yylval.string=new std::string(yytext); return IDENTIFIER }
+{L}({L}|{D})*  { yylval.string=new std::string(yytext); return IDENTIFIER; }
 
-{D}+{IS}?  { yylval.number=stoi(yytext); return INT_LITERAL; }
+{D}+{IS}?  { yylval.number=atoi(yytext); return INT_LITERAL; }
 
 ">>="			{ return(RIGHT_ASSIGN); }
 "<<="			{ return(LEFT_ASSIGN); }

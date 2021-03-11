@@ -410,8 +410,8 @@ pointer
 	;
 
 identifier_list
-	: IDENTIFIER { $$ = initList($1); }
-	| identifier_list ',' IDENTIFIER { $$ = concatList($1, $3); }
+	: IDENTIFIER { $$ = initList(new Identifier(*$1)); delete $1; }
+	| identifier_list ',' IDENTIFIER { $$ = concatList($1, new Identifier(*$3)); delete $3; }
 	;
 
 type_name
