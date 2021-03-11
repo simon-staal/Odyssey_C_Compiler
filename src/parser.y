@@ -214,6 +214,8 @@ selection_statement
 	| IF '(' expression ')' statement ELSE statement { ; }
 	| SWITCH '(' expression ')' statement { ; }
 	;
+/* we can solve the shift/reduce conflict by writing '%right "then" "else"' to give right asssociasivity to else
+ (shift) tho it already does this and may cause further ambiguities */
 
 /* loops */
 iteration_statement
