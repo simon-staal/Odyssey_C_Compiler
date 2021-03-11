@@ -4,9 +4,7 @@ PrimitiveType::PrimitiveType(Specifier _type)
   : type(_type)
 {}
 
-PrimitiveType::~PrimitiveType();
-
-virtual void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const override
+void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent;
   switch(type){

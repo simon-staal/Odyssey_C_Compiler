@@ -18,7 +18,7 @@ FunctionDeclarator::FunctionDeclarator(NodePtr id)
 {}
 
 // Destructor, not 100% sure if correct
-virtual FunctionDeclarator::~FunctionDeclarator()
+FunctionDeclarator::~FunctionDeclarator()
 {
   delete branches[0];
   delete branches[1];
@@ -36,7 +36,7 @@ NodePtr FunctionDeclarator::getParams() const
 }
 
 // Visualising
-virtual void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const override
+void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const 
 {
   dst << indent << "Function Declarator [" << std::endl;
   dst << "Identifier: ";

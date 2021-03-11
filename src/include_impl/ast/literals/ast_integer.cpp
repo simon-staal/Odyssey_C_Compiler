@@ -16,7 +16,7 @@ int Integer::getValue() const
 }
 
 // Visualising
-virtual void Integer::PrettyPrint(std::ostream &dst, std::string indent) const override
+void Integer::PrettyPrint(std::ostream &dst, std::string indent) const 
 {
     dst << indent << "Integer = " << value << std::endl;
 }

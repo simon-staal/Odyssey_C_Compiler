@@ -11,7 +11,7 @@ Declarator::Declarator(std::string id)
 {}
 
 // Destructor
-virtual Declarator::~Declarator()
+Declarator::~Declarator()
 {
   delete branches[0];
 }
@@ -23,7 +23,7 @@ NodePtr Declarator::getId() const
 }
 
 // Visualising
-virtual void Declarator::PrettyPrint(std::ostream &dst, std::string indent) const override
+void Declarator::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Declarator: [" << std::endl;
   branches[0]->PrettyPrint(dst, indent+"  ");

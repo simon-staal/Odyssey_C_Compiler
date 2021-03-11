@@ -11,7 +11,7 @@ NodeList::NodeList()
 {}
 
 // Destructor (not sure)
-virtual NodeList::~NodeList()
+NodeList::~NodeList()
 {
   for(unsigned i = 0; i < branches.size(); i++){
     delete branches[i];
@@ -25,7 +25,7 @@ NodePtr NodeList::getNode(unsigned index) const
 }
 
 // Visualising
-virtual void NodeList::PrettyPrint(std::ostream &dst, std::string indent) const override
+void NodeList::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "NodeList [" << std::endl;
   for(unsigned i = 0; i < branches.size(); i++){

@@ -9,7 +9,7 @@ Node::Node()
   : Node(std::vector<NodePtr>{})
 {}
 
-virtual Node::~Node()
+Node::~Node()
 {
   for(unsigned i = 0; i < branches.size(); i++){
     delete branches[i];

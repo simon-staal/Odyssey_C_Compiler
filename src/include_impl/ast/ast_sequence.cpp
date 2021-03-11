@@ -24,7 +24,7 @@ Sequence::~Sequence()
 }
 
 // Visualising
-virtual void Sequence::PrettyPrint(std::ostream &dst, std::string indent) const override
+void Sequence::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Sequence [" << std::endl;
   for(unsigned i = 0; i < branches.size(); i++){

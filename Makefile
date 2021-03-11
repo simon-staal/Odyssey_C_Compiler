@@ -40,4 +40,4 @@ clean :
 	rm -f src/*.tab.cpp
 	rm -f src/*.yy.cpp
 	rm -f src/*.output
-	rm -f src/*.o
+	find src/ -type f -name '*.o' -delete

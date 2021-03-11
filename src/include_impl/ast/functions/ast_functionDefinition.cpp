@@ -8,7 +8,7 @@ FunctionDefinition::FunctionDefinition(NodePtr declaration, NodePtr scope) //<- 
 }
 
 // Destructor
-virtual FunctionDefinition::~FunctionDefinition()
+FunctionDefinition::~FunctionDefinition()
 {
   delete branches[0];
   delete branches[1];
@@ -26,7 +26,7 @@ NodePtr FunctionDefinition::getScope() const
 }
 
 // Visualising
-virtual void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) const override
+void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) const 
 {
   dst << indent << "Function Definition[" << std::endl;
   branches[0]->PrettyPrint(dst, indent+"  ");

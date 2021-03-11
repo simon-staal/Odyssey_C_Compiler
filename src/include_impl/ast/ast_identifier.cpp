@@ -12,7 +12,7 @@ std::string Identifier::getId() const
 }
 
 // Visualising
-virtual void Identifier::PrettyPrint(std::ostream &dst, std::string indent) const override
+void Identifier::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Identifier: " << id << std::endl;
 }

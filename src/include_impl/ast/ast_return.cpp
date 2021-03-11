@@ -17,7 +17,7 @@ Return::~Return()
 }
 
 // Visualising
-virtual void Return::PrettyPrint(std::ostream &dst, std::string indent) const override
+void Return::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Return: [" << std::endl;
   branches[0]->PrettyPrint(dst, indent+"  ");

@@ -24,7 +24,7 @@ Declaration::Declaration(NodePtr type)
 {}
 
 // Destructor
-virtual Declaration::~Declaration()
+Declaration::~Declaration()
 {
   delete branches[0];
   delete branches[1];
@@ -42,7 +42,7 @@ NodePtr Declaration::getDeclarations() const // Actually returns a NodeListPtr (
 }
 
 // Visualising
-virtual void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const override
+void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const 
 {
   dst << indent << "Declaration [" << std::endl;
   dst << "Type: ";
