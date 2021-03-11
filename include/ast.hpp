@@ -24,6 +24,6 @@
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"
 
-extern Node *parseAST(std::string filename);
+Node *parseAST(std::string filename);
 
 #endif
