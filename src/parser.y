@@ -2,8 +2,6 @@
   #include "ast.hpp"
   #include "parser_list.hpp"
 
-  #include <cassert>
-
   extern Node *g_root; // A way of getting the AST out
   extern FILE *yyin;
 
