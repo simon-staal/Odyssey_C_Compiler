@@ -1,30 +1,18 @@
-#ifndef ast_identifier_hpp
-#define ast_identifier_hpp
+#include "ast/ast_identifier.hpp"
 
-#include "ast_node.hpp"
+// Constructor
+Identifier::Identifier(std::string _id)
+  : id(_id)
+{}
 
-class Identifier
-  : public Node
+// Getting identifier
+std::string Identifier::getId() const
 {
-protected:
-  std::string id;
-public:
-  // Constructor
-  Identifier(std::string _id)
-    : id(_id)
-  {}
+  return id;
+}
 
-  // Getting identifier
-  std::string getId() const
-  {
-    return id;
-  }
-
-  // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent << "Identifier: " << id << std::endl;
-  }
-};
-
-#endif
+// Visualising
+virtual void Identifier::PrettyPrint(std::ostream &dst, std::string indent) const override
+{
+  dst << indent << "Identifier: " << id << std::endl;
+}

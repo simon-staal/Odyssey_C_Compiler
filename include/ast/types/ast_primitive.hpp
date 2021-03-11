@@ -12,23 +12,11 @@ public:
     _int
   };
 
-  PrimitiveType(Specifier _type)
-    : type(_type)
-  {}
+  PrimitiveType(Specifier _type);
 
   ~PrimitiveType();
 
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent;
-    switch(type){
-      case _int:
-        dst << "int: ";
-        break;
-      default:
-        dst << "unknown type ";
-    }
-  }
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
 protected:
   Specifier type;

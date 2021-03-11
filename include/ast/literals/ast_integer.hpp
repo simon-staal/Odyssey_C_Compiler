@@ -11,25 +11,15 @@ private:
 
 public:
   // Constructor
-  Integer(int _value)
-    : value(_value)
-  {}
+  Integer(int _value);
 
-  Integer() // Default initializer
-    : Integer(0)
-  {}
+  Integer(); // Default initializer
 
   // Useful shit (probs)
-  int getValue() const
-  {
-    return value;
-  }
+  int getValue() const;
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-      dst << indent << "Integer = " << value << std::endl;
-  }
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 };
 
 #endif

@@ -10,38 +10,17 @@ class FunctionDefinition
 {
 public:
   // Constructors
-  FunctionDefinition(NodePtr declaration, NodePtr scope) //<- tempted to change type of scope to ScopePtr but then i'd have to include the hpp
-  {
-    branches.push_back(declaration);
-    branches.push_back(scope);
-  }
+  FunctionDefinition(NodePtr declaration, NodePtr scope);
 
   // Destructor
-  virtual ~FunctionDefinition()
-  {
-    delete branches[0];
-    delete branches[1];
-  }
+  virtual ~FunctionDefinition();
 
   // Where stuff is
-  NodePtr getDeclaration() const
-  {
-    return branches[0];
-  }
-
-  NodePtr getScope() const
-  {
-    return branches[1];
-  }
+  NodePtr getDeclaration() const;
+  NodePtr getScope() const;
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent << "Function Definition[" << std::endl;
-    branches[0]->PrettyPrint(dst, indent+"  ");
-    branches[1]->PrettyPrint(dst, indent+"  ");
-    dst << indent << "]" << std::endl;
-  }
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 };
 
 #endif

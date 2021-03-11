@@ -9,28 +9,14 @@ class Return
 {
 public:
     // Constructors
-    Return(NodePtr val)
-    {
-      branches.push_back(val);
-    }
-
-    Return() // For void funcitons (hopefully this works), returns 0 (i.e. success)
-      : Return(new Integer())
-    {}
+    Return(NodePtr val);
+    Return(); // For void funcitons (hopefully this works), returns 0 (i.e. success)
 
     // Destructor
-    ~Return()
-    {
-      delete branches[0];
-    }
+    ~Return();
 
     // Visualising
-    virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-    {
-      dst << indent << "Return: [" << std::endl;
-      branches[0]->PrettyPrint(dst, indent+"  ");
-      dst << indent << "]" << std::endl;
-    }
+    virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 };
 
 #endif

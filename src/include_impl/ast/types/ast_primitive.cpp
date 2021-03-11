@@ -1,37 +1,19 @@
-#ifndef ast_primitive_hpp
-#define ast_primitive_hpp
+#include "ast/types/ast_primitive.hpp"
 
-#include "ast/ast_node.hpp"
+PrimitiveType::PrimitiveType(Specifier _type)
+  : type(_type)
+{}
 
-class PrimitiveType
-  : public Node
+PrimitiveType::~PrimitiveType();
+
+virtual void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const override
 {
-public:
-  enum Specifier {
-    // Supported types
-    _int
-  };
-
-  PrimitiveType(Specifier _type)
-    : type(_type)
-  {}
-
-  ~PrimitiveType();
-
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent;
-    switch(type){
-      case _int:
-        dst << "int: ";
-        break;
-      default:
-        dst << "unknown type ";
-    }
+  dst << indent;
+  switch(type){
+    case _int:
+      dst << "int: ";
+      break;
+    default:
+      dst << "unknown type ";
   }
-
-protected:
-  Specifier type;
-};
-
-#endif
+}

@@ -9,17 +9,8 @@
 typedef std::vector<NodePtr> List;
 typedef List *ListPtr;
 
-inline ListPtr initList(NodePtr expr)
-{
-  ListPtr exprList = new List(); // Potentially replace with Nodelist(NodePtr) constructor
-  exprList->push_back(expr);
-  return exprList;
-}
+inline ListPtr initList(NodePtr expr);
 
-inline ListPtr concatList(ListPtr exprList, NodePtr expr)
-{
-  exprList->push_back(expr);
-  return exprList;
-}
+inline ListPtr concatList(ListPtr exprList, NodePtr expr);
 
 #endif

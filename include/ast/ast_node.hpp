@@ -19,20 +19,10 @@ protected:
 
 public:
   // Used in derived classes
-  Node(std::vector<NodePtr> _branches)
-    : branches(_branches)
-  {}
+  Node(std::vector<NodePtr> _branches);
+  Node();
 
-  Node()
-    : Node(std::vector<NodePtr>{})
-  {}
-
-  virtual ~Node()
-  {
-    for(unsigned i = 0; i < branches.size(); i++){
-      delete branches[i];
-    }
-  }
+  virtual ~Node();
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
@@ -41,20 +31,6 @@ public:
   friend std::ostream& operator<<(std::ostream &dst, const Node &Node);
   friend std::ostream& operator<<(std::ostream &dst, const NodePtr Node);
 };
-
-// Overloading << for nodes, just to make things look nice
-std::ostream &operator<<(std::ostream &dst, const Node &Node)
-{
-  Node.PrettyPrint(dst, "");
-  return dst;
-}
-
-std::ostream &operator<<(std::ostream &dst, const NodePtr Node)
-{
-  Node->PrettyPrint(dst, "");
-  return dst;
-}
-
 
 // idk wtf this is lmao
 /*

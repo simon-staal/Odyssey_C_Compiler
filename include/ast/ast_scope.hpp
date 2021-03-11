@@ -17,10 +17,7 @@ public:
   using Sequence::Sequence;
 
   // Just in case we need it
-  std::vector<NodePtr> getScope()
-  {
-    return branches;
-  }
+  std::vector<NodePtr> getScope();
 
   // Visualising - already done by sequence
   /*

@@ -10,49 +10,21 @@ class FunctionDeclarator
 public:
   // Constructors
   // Using a NodeListPtr for params to have scalability, currently will be empty for main()
-  FunctionDeclarator(NodePtr id, NodeListPtr params)
-  {
-    branches.push_back(id);
-    branches.push_back(params);
-  }
-
-  FunctionDeclarator(NodePtr id, std::vector<NodePtr> params)
-    : FunctionDeclarator(id, new NodeList(params))
-  {}
-
+  FunctionDeclarator(NodePtr id, NodeListPtr params);
+  FunctionDeclarator(NodePtr id, std::vector<NodePtr> params);
   // Should work for `main()`
-  FunctionDeclarator(NodePtr id)
-    : FunctionDeclarator(id, new NodeList())
-  {}
+  FunctionDeclarator(NodePtr id);
 
   // Destructor, not 100% sure if correct
-  virtual ~FunctionDeclarator()
-  {
-    delete branches[0];
-    delete branches[1];
-  }
+  virtual ~FunctionDeclarator();
 
   //This is where things should be
-  NodePtr getIdentifier() const
-  {
-    return branches[0];
-  }
+  NodePtr getIdentifier() const;
 
-  NodePtr getParams() const
-  {
-    return branches[1];
-  }
+  NodePtr getParams() const;
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent << "Function Declarator [" << std::endl;
-    dst << "Identifier: ";
-    branches[0]->PrettyPrint(dst, indent+"  ");
-    dst << "Parameters: ";
-    branches[1]->PrettyPrint(dst, indent+"  ");
-    dst << indent << "]" << std::endl;
-  }
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
 };
 

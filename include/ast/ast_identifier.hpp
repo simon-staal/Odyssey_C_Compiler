@@ -10,21 +10,13 @@ protected:
   std::string id;
 public:
   // Constructor
-  Identifier(std::string _id)
-    : id(_id)
-  {}
+  Identifier(std::string _id);
 
   // Getting identifier
-  std::string getId() const
-  {
-    return id;
-  }
+  std::string getId() const;
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent << "Identifier: " << id << std::endl;
-  }
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 };
 
 #endif
