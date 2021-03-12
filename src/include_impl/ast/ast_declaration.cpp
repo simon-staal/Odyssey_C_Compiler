@@ -42,12 +42,11 @@ NodePtr Declaration::getDeclarations() const // Actually returns a NodeListPtr (
 }
 
 // Visualising
-void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const 
+void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Declaration [" << std::endl;
-  dst << "Type: ";
+  dst << indent+"  " << "Type: ";
   branches[0]->PrettyPrint(dst, indent+"  ");
-  dst << "Declarations: ";
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
 }

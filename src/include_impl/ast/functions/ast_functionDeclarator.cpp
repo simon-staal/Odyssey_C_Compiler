@@ -36,12 +36,12 @@ NodePtr FunctionDeclarator::getParams() const
 }
 
 // Visualising
-void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const 
+void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Function Declarator [" << std::endl;
-  dst << "Identifier: ";
+  dst << indent << "Identifier: " << std::endl;
   branches[0]->PrettyPrint(dst, indent+"  ");
-  dst << "Parameters: ";
+  dst << indent << "Parameters: " << std::endl;
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
 }

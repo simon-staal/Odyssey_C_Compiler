@@ -26,9 +26,9 @@ NodePtr FunctionDefinition::getScope() const
 }
 
 // Visualising
-void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) const 
+void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) const
 {
-  dst << indent << "Function Definition[" << std::endl;
+  dst << indent << "Function Definition [" << std::endl;
   branches[0]->PrettyPrint(dst, indent+"  ");
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;

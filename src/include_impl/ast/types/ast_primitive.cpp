@@ -9,12 +9,12 @@ PrimitiveType::~PrimitiveType()
 
 void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const
 {
-  dst << indent;
   switch(type){
     case _int:
-      dst << "int: ";
+      dst << "int";
       break;
     default:
       dst << "unknown type ";
   }
+  dst << std::endl;
 }
