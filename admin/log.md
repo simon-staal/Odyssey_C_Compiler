@@ -8,11 +8,13 @@ Objectives (last updated 05/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
 - <del> Flesh out basic lexer / parser / AST for extremely minimal language:</del>  (Reworked 02/03/2021)
   + <del> i.e. ints, basic operators, variables</del>
-- Go through parser and add AST mapping using existing AST classes
-- Compile and run AST for basic test case (i.e. run compiler.cpp)
+- <del> Go through parser and add AST mapping using existing AST classes</del>  (Reworked 12/03/2021)
+- <del> Compile and run AST for basic test case (i.e. run compiler.cpp)</del> (Marked complete 12/03/2021)
 - <del> Solve `parseAST()` issue, how to make the lexer / parser use a specified istream</del> (Marked complete 10/03/2021)
-- Find root of shift-reduce conflict in parser (good luck)
-- Refactor header files to have implementation in seperate cpp files. Also group classes together in the same headers (i.e. put return, )
+- Find root of shift-reduce conflict in parser (good luck - **Note: Discussed with TA, told it wasn't really a problem, try %nonassociative or smth**)
+- <del> Refactor header files to have implementation in seperate cpp files. Also group classes together in the same headers (i.e. put return, )</del> (Marked complete 12/03/2021)
+- Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)
+- Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case
 
 Changelog
 ---------
@@ -54,3 +56,6 @@ Unsure how to solve this, referred back to lab 2 and tried to copy how it was do
  __BEGIN_DECLS
  ^
 ```
+
+**12/03/2021**
+Solved all issues with parser / ast (turned out there was a missing `}` somewhere lol), `compiler.cpp` now fully compiles with new makefile, and produces the expected AST for the base test case we've been working towards from the start! From here the next steps are to start implementing code generation for the current AST constructs, as well as further extending the AST to extend the functionality of the compiler.
