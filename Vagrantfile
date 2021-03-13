@@ -46,7 +46,7 @@ Vagrant.configure(2) do |config|
       # Compiler build tools
       sudo apt-get -y install bison flex
 
-      # MIPS cross-compiler stuff
+      # MIPS cross-compiler stu
       sudo apt-get -y install g++-mips-linux-gnu gdb-multiarch
 
       # QEMU run-time emulator
