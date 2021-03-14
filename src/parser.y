@@ -52,7 +52,7 @@
 %type <expr> expression_statement selection_statement iteration_statement
 %type <expr> jump_statement translation_unit external_declaration function_definition
 
-%type <exprList> init_declarator_list struct_declaration_list
+%type <exprList> struct_declaration_list
 %type <exprList> specifier_qualifier_list struct_declarator_list
 %type <exprList> enumerator_list parameter_list
 %type <exprList> identifier_list initializer_list declaration_list statement_list
@@ -110,14 +110,14 @@ parameter_list
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator { new Declaration($1, $2); }
-	| declaration_specifiers abstract_declarator { new Declaration($1, $2); }
+	: declaration_specifiers declarator { $$ = new Declaration($1, $2); }
+	| declaration_specifiers abstract_declarator { $$ = new Declaration($1, $2); }
 	| declaration_specifiers { std::cerr << "?" << std::endl; }
 	;
 
 declaration
-	: declaration_specifiers ';' { $$ = new Declaration($1); }
-	| declaration_specifiers init_declarator_list ';' { std::cerr << "Think about this" << std::endl; }
+	: declaration_specifiers ';' { $$ = new Declaration($1); std::cerr << "Idk what to do with this (int;)" << std::endl; }
+	| declaration_specifiers init_declarator ';' { $$ = new Declaration($1, $2); std::cerr << "Normal declaration" << std::endl; }
 	;
 
 /* Type of something (+ typedef) */
@@ -137,12 +137,6 @@ type_specifier
 	| UNSIGNED { std::cerr << "Unsuported" << std::endl; }
 	| struct_specifier { std::cerr << "Unsuported" << std::endl; }
 	| enum_specifier { std::cerr << "Unsuported" << std::endl; }
-	;
-
-/* Pretty sure this isn't needed since comma seperated expressions aren't in the spec */
-init_declarator_list
-	: init_declarator { $$ = initList($1); }
-	| init_declarator_list ',' init_declarator { $$ = concatList($1, $3); }
 	;
 
 init_declarator
