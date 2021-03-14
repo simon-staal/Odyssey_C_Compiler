@@ -24,6 +24,9 @@
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"
 
+#include "ast/operators/ast_binaryAdd.hpp"
+#include "ast/operators/ast_binaryOperation.hpp"
+
 extern Node *parseAST(std::string filename);
 
 #endif

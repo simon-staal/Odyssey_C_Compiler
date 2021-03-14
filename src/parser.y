@@ -277,7 +277,7 @@ multiplicative_expression
 
 additive_expression
 	: multiplicative_expression { $$ = $1; }
-	| additive_expression '+' multiplicative_expression { std::cerr << "Unsuported" << std::endl; }
+	| additive_expression '+' multiplicative_expression { $$ = new BinaryAdd($1, $3); }
 	| additive_expression '-' multiplicative_expression { std::cerr << "Unsuported" << std::endl; }
 	;
 
