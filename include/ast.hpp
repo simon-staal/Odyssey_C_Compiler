@@ -14,7 +14,6 @@
 #include "ast/ast_declaration.hpp"
 #include "ast/ast_identifier.hpp"
 #include "ast/ast_sequence.hpp"
-#include "ast/ast_scope.hpp"
 #include "ast/ast_return.hpp"
 
 #include "ast/literals/ast_integer.hpp"
@@ -26,6 +25,8 @@
 
 #include "ast/operators/ast_binaryAdd.hpp"
 #include "ast/operators/ast_binaryOperation.hpp"
+
+#include "ast/blocks/ast_scope.hpp"
 
 extern Node *parseAST(std::string filename);
 

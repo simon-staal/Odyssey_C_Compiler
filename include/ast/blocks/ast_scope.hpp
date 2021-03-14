@@ -1,8 +1,8 @@
 #ifndef ast_scope_hpp
 #define ast_scope_hpp
 
-#include "ast_node.hpp"
-#include "ast_sequence.hpp"
+#include "ast/ast_node.hpp"
+#include "ast/ast_sequence.hpp"
 
 // The meat and potatoes of a function, basically a sequence
 
