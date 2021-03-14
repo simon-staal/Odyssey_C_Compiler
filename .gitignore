@@ -3,3 +3,4 @@ src/*.tab.cpp
 src/*.tab.hpp
 src/*.yy.cpp
 Vagrantfile
+src/**/*.o
