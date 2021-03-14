@@ -19,17 +19,8 @@ public:
   // Just in case we need it
   std::vector<NodePtr> getScope();
 
-  // Visualising - already done by sequence
-  /*
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override
-  {
-    dst << indent << "Scope [" << std::endl;
-    for(unsigned i = 0; i < expressions.size(); i++){
-      expressions[i]->PrettyPrint(dst, indent+"  ");
-    }
-    dst << indent << "]" << std::endl;
-  }
-  */
+  // Visualising
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 };
 
 #endif
