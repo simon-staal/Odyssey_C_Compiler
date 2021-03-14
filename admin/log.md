@@ -23,6 +23,10 @@ This list will keep track of the [pre-included test cases](../compiler_tests) ou
 - [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
 - [**integer/add.c:**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
+- [**if_else_false.c**](../compiler_tests/control_flow/if_else_false.c) Function with a literal 0 in the condition of an if/else statement with return statements.
+- [**if_else_true.c**](../compiler_tests/control_flow/if_else_true.c) Same as above but with literal 1.
+- [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
+- [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
 
 
 Changelog
@@ -72,5 +76,8 @@ Solved all issues with parser / ast (turned out there was a missing `}` somewher
 **14/03/2021:**
 Kai had a small git commit problem, the refactor branch is now fucked, but I've moved all his new work (starting on ast for binary operations) into main, and have it working. There was a bug in the way function parameters were being parse / generated into an AST, which has also been fixed. I've updated the way declarations work in the AST, as all the List stuff for scalability isn't required right now and I'm not sure when it will be, so for now this will make our AST simpler until we reach the point where we need the list extension (all old code commented out as legacy stuff). Also added a new section in log to track which pre-included test cases have the correct AST generated, as this is relevant in meeting our targets. Current plan is to continue working on developing the AST / parser.
 
-*Update:*
+*Update_1:*
 Added new script `add_ast.sh` in base directory because creating new ast files for different constructs is getting quite tedious in terms of filepaths and shit. This script takes the name of the hpp/cpp file (without the ast prefix) as the first parameter and an optional second parameter for a deeper directory to store into (sub-directories within the ast/ directory), creates the necessary files in the correct directories and adds them to git. For more info the script usage just run `./add_ast.sh` in the base directory.
+
+*Update_2:*
+Added `IfElse` class in AST for representing if-then-else statements, and updated the parser to use this new class. Added working tests to the list. Important to note that 'boolean' literals are currently being evaluated as integer literals, but this is probably how we are going to have literals be interpreted anyways since the spec doesn't mention `bool` data types. Also worth looking for tests with more complicated expressions in the condition field.
