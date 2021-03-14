@@ -1,4 +1,4 @@
-#include "ast/blocks/ast__ifElse.hpp"
+#include "ast/blocks/ast_ifElse.hpp"
 
 // Constructors
 IfElse::IfElse(NodePtr condition, NodePtr ifScope, NodePtr elseScope)

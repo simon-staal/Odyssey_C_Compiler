@@ -204,8 +204,8 @@ expression_statement
 
 /* if else switch */
 selection_statement
-	: IF '(' expression ')' statement { ; }
-	| IF '(' expression ')' statement ELSE statement { ; }
+	: IF '(' expression ')' statement { $$ = new IfElse($3, $5); }
+	| IF '(' expression ')' statement ELSE statement { $$ = new IfElse($3, $5, $7); }
 	| SWITCH '(' expression ')' statement { ; }
 	;
 /* we can solve the shift/reduce conflict by writing '%right "then" "else"' to give right asssociasivity to else

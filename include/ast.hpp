@@ -27,6 +27,7 @@
 #include "ast/operators/ast_binaryOperation.hpp"
 
 #include "ast/blocks/ast_scope.hpp"
+#include "ast/blocks/ast_ifElse.hpp"
 
 extern Node *parseAST(std::string filename);
 
