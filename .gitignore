@@ -4,5 +4,6 @@ src/*.tab.hpp
 src/*.yy.cpp
 Vagrantfile
 src/**/*.o
+src/*.output
 .vagrant
 *.log
