@@ -18,7 +18,7 @@ Objectives (last updated 12/03/2021)
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
-This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for:
+This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for. The way this testing is done (currently) is by manually inspecting the graphically rendered AST (done using the `PrettyPrint()` method) and ensuring it matches what we expect.
 - [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c) Function returning integer constant.
 - [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
