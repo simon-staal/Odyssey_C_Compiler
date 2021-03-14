@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 05/03/2021)
+Objectives (last updated 12/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -15,6 +15,15 @@ Objectives (last updated 05/03/2021)
 - <del> Refactor header files to have implementation in seperate cpp files. Also group classes together in the same headers (i.e. put return, )</del> (Marked complete 12/03/2021)
 - Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)
 - Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case
+
+Building AST Correctly (last updated 14/03/2021)
+------------------------------------------------
+This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for:
+- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c) Function returning integer constant.
+- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
+- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
+- [**integer/add.c**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
+
 
 Changelog
 ---------
@@ -59,3 +68,6 @@ Unsure how to solve this, referred back to lab 2 and tried to copy how it was do
 
 **12/03/2021**
 Solved all issues with parser / ast (turned out there was a missing `}` somewhere lol), `compiler.cpp` now fully compiles with new makefile, and produces the expected AST for the base test case we've been working towards from the start! From here the next steps are to start implementing code generation for the current AST constructs, as well as further extending the AST to extend the functionality of the compiler.
+
+**14/03/2021**
+Kai had a small git commit problem, the refactor branch is now fucked, but I've moved all his new work (starting on ast for binary operations) into main, and have it working. There was a bug in the way function parameters were being parse / generated into an AST, which has also been fixed. I've updated the way declarations work in the AST, as all the List stuff for scalability isn't required right now and I'm not sure when it will be, so for now this will make our AST simpler until we reach the point where we need the list extension (all old code commented out as legacy stuff). Also added a new section in log to track which pre-included test cases have the correct AST generated, as this is relevant in meeting our targets. Current plan is to continue working on developing the AST / parser.

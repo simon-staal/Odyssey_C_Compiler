@@ -1,6 +1,7 @@
 #include "ast/ast_declaration.hpp"
 
 // Constructors
+/* Legacy code, refer back if needed
 // For scaling, not necessary atm (probably lmao)
 // Basically, we're gonna always have a declaration as a type at branches[0] and then a list of declarations at branches[1]
 Declaration::Declaration(NodePtr type, NodeListPtr declarations)
@@ -21,6 +22,16 @@ Declaration::Declaration(NodePtr type, NodePtr declaration)
 // idk if we ever have a declaration with just a type, this is here just in case ig
 Declaration::Declaration(NodePtr type)
   : Declaration(type, std::vector<NodePtr>{})
+{}
+*/
+Declaration::Declaration(NodePtr type, NodePtr id)
+{
+  branches.push_back(type);
+  branches.push_back(id);
+}
+
+Declaration::Declaration(NodePtr type)
+  : Declaration(type, new Identifier("<NULL>"))
 {}
 
 // Destructor
