@@ -85,3 +85,5 @@ Added `IfElse` class in AST for representing if-then-else statements, and update
 **15/03/2021:**
 Making the rest of the ast files for operators proved to be kinda tedious so I made a script 'add_and_make_file_ast.sh' which is pretty easy to understand from looking at it. It builds off Simon's last 'add_ast.sh' script and can be used for files which are very similar but differ by a word or so. Can change the file template later as well.
 In terms of ast files I will finish adding and verifying that they function in the simple test case 'return x(op)y;'.
+Feel like we might need to use the script in the future as well when we add codegen or other global functionality.
+Might want to do something about 'ast.hpp' adding stuff is tedious.

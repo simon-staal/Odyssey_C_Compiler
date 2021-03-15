@@ -1,16 +1,16 @@
 #include "ast/operators/ast_unaryOperation.hpp"
 
-BinaryOperation::BinaryOperation(NodePtr op)
+UnaryOperation::UnaryOperation(NodePtr op)
 {
     branches.push_back(op);
 }
 
-BinaryOperation::~BinaryOperation()
+UnaryOperation::~UnaryOperation()
 {
     delete branches[0];
 }
 
-NodePtr BinaryOperation::getOp() const
+NodePtr UnaryOperation::GetOp() const
 {
     return branches[0];
 }

@@ -9,7 +9,7 @@ class UnaryOperation
 {
 protected:
 
-    NodePtr getOp() const;
+    NodePtr GetOp() const;
 
 public:
 

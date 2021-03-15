@@ -42,8 +42,7 @@ void Binary$SHORTNAME::PrettyPrint(std::ostream &dst, std::string indent) const
 }
 " > ${SRC_DIR}${DIR}ast_${NAME}.cpp
 
-echo "
-#ifndef ast_binary${SHORTNAME}_hpp
+echo "#ifndef ast_binary${SHORTNAME}_hpp
 #define ast_binary${SHORTNAME}_hpp
 
 #include \"ast/operators/ast_binaryOperation.hpp\"
@@ -62,6 +61,8 @@ public:
 
 #endif
 " > ${INCLUDE_DIR}${DIR}ast_${NAME}.hpp
+
+echo "#include \"ast/operators/binaryOps/ast_binary${SHORTNAME}.hpp\"" >> include/ast.hpp
 
 
 >&2 echo "Created files"

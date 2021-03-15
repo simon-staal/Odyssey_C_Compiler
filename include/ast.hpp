@@ -43,7 +43,27 @@
 #include "ast/operators/binaryOps/ast_binaryRShift.hpp"
 #include "ast/operators/binaryOps/ast_binaryLShift.hpp"
 
+#include "ast/operators/binaryOps/ast_binaryDivAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryMulAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryModAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryAddAss.hpp"
+#include "ast/operators/binaryOps/ast_binarySubAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryLeftAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryRightAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryANDAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryXORAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryORAss.hpp"
+#include "ast/operators/binaryOps/ast_binaryNormalAss.hpp"
 
+
+#include "ast/operators/unaryOps/ast_unaryAdd.hpp"
+#include "ast/operators/unaryOps/ast_unaryNOT.hpp"
+#include "ast/operators/unaryOps/ast_unaryBWNOT.hpp"
+#include "ast/operators/unaryOps/ast_unaryPtr.hpp"
+#include "ast/operators/unaryOps/ast_unaryAdr.hpp"
+#include "ast/operators/unaryOps/ast_unarySub.hpp"
+#include "ast/operators/unaryOps/ast_unaryPreDec.hpp"
+#include "ast/operators/unaryOps/ast_unaryPreInc.hpp"
 
 #include "ast/blocks/ast_scope.hpp"
 #include "ast/blocks/ast_ifElse.hpp"
@@ -51,3 +71,4 @@
 extern Node *parseAST(std::string filename);
 
 #endif
+
