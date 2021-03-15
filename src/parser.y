@@ -277,47 +277,47 @@ additive_expression
 
 shift_expression
 	: additive_expression {$$ = $1; }
-	| shift_expression LEFT_OP additive_expression { std::cerr << "Unsuported" << std::endl; }
-	| shift_expression RIGHT_OP additive_expression { std::cerr << "Unsuported" << std::endl; }
+	| shift_expression LEFT_OP additive_expression { $$ = new BinaryLShift($1, $3); }
+	| shift_expression RIGHT_OP additive_expression { $$ = new BinaryRShift($1, $3); }
 	;
 
 relational_expression
 	: shift_expression { $$ = $1; }
-	| relational_expression '<' shift_expression {  $$ = new BinaryLT($1, $3);  }
-	| relational_expression '>' shift_expression {  $$ = new BinaryGT($1, $3);  }
-	| relational_expression LE_OP shift_expression { std::cerr << "Unsuported" << std::endl; }
-	| relational_expression GE_OP shift_expression { std::cerr << "Unsuported" << std::endl; }
+	| relational_expression '<' shift_expression { $$ = new BinaryLT($1, $3); }
+	| relational_expression '>' shift_expression { $$ = new BinaryGT($1, $3); }
+	| relational_expression LE_OP shift_expression { $$ = new BinaryLTEQ($1, $3); }
+	| relational_expression GE_OP shift_expression { $$ = new BinaryGTEQ($1, $3); }
 	;
 
 equality_expression
 	: relational_expression { $$ = $1; }
-	| equality_expression EQ_OP relational_expression { std::cerr << "Unsuported" << std::endl; }
-	| equality_expression NE_OP relational_expression { std::cerr << "Unsuported" << std::endl; }
+	| equality_expression EQ_OP relational_expression { $$ = new BinaryEQ($1, $3); }
+	| equality_expression NE_OP relational_expression { $$ = new BinaryNEQ($1, $3); }
 	;
 
 and_expression
 	: equality_expression { $$ = $1; }
-	| and_expression '&' equality_expression { std::cerr << "Unsuported" << std::endl; }
+	| and_expression '&' equality_expression { $$ = new BinaryAND($1, $3); }
 	;
 
 exclusive_or_expression
 	: and_expression { $$ = $1; }
-	| exclusive_or_expression '^' and_expression { std::cerr << "Unsuported" << std::endl; }
+	| exclusive_or_expression '^' and_expression { $$ = new BinaryXOR($1, $3); }
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression { $$ = $1; }
-	| inclusive_or_expression '|' exclusive_or_expression { std::cerr << "Unsuported" << std::endl; }
+	| inclusive_or_expression '|' exclusive_or_expression { $$ = new BinaryOR($1, $3); }
 	;
 
 logical_and_expression
 	: inclusive_or_expression { $$ = $1; }
-	| logical_and_expression AND_OP inclusive_or_expression { std::cerr << "Unsuported" << std::endl; }
+	| logical_and_expression AND_OP inclusive_or_expression { $$ = new BinaryLogAND($1, $3); }
 	;
 
 logical_or_expression
 	: logical_and_expression { $$ = $1; }
-	| logical_or_expression OR_OP logical_and_expression { std::cerr << "Unsuported" << std::endl; }
+	| logical_or_expression OR_OP logical_and_expression { $$ = new BinaryLogOR($1, $3); }
 	;
 
 conditional_expression

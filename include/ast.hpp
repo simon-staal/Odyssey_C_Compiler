@@ -31,6 +31,18 @@
 #include "ast/operators/binaryOps/ast_binaryMod.hpp"
 #include "ast/operators/binaryOps/ast_binaryGT.hpp"
 #include "ast/operators/binaryOps/ast_binaryLT.hpp"
+#include "ast/operators/binaryOps/ast_binaryGTEQ.hpp"
+#include "ast/operators/binaryOps/ast_binaryLTEQ.hpp"
+#include "ast/operators/binaryOps/ast_binaryNEQ.hpp"
+#include "ast/operators/binaryOps/ast_binaryEQ.hpp"
+#include "ast/operators/binaryOps/ast_binaryAND.hpp"
+#include "ast/operators/binaryOps/ast_binaryLogAND.hpp"
+#include "ast/operators/binaryOps/ast_binaryLogOR.hpp"
+#include "ast/operators/binaryOps/ast_binaryOR.hpp"
+#include "ast/operators/binaryOps/ast_binaryXOR.hpp"
+#include "ast/operators/binaryOps/ast_binaryRShift.hpp"
+#include "ast/operators/binaryOps/ast_binaryLShift.hpp"
+
 
 
 #include "ast/blocks/ast_scope.hpp"
