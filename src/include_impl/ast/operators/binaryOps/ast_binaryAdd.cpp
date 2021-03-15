@@ -1,4 +1,4 @@
-#include "ast/operators/ast_binaryAdd.hpp"
+#include "ast/operators/binaryOps/ast_binaryAdd.hpp"
 
 void BinaryAdd::PrettyPrint(std::ostream &dst, std::string indent) const
 {

@@ -23,8 +23,15 @@
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"
 
-#include "ast/operators/ast_binaryAdd.hpp"
 #include "ast/operators/ast_binaryOperation.hpp"
+#include "ast/operators/binaryOps/ast_binaryAdd.hpp"
+#include "ast/operators/binaryOps/ast_binarySub.hpp"
+#include "ast/operators/binaryOps/ast_binaryMul.hpp"
+#include "ast/operators/binaryOps/ast_binaryDiv.hpp"
+#include "ast/operators/binaryOps/ast_binaryMod.hpp"
+#include "ast/operators/binaryOps/ast_binaryGT.hpp"
+#include "ast/operators/binaryOps/ast_binaryLT.hpp"
+
 
 #include "ast/blocks/ast_scope.hpp"
 #include "ast/blocks/ast_ifElse.hpp"

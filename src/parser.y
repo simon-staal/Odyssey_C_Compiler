@@ -264,15 +264,15 @@ unary_operator
 
 multiplicative_expression
 	: unary_expression { $$ = $1; }
-	| multiplicative_expression '*' unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| multiplicative_expression '/' unary_expression { std::cerr << "Unsuported" << std::endl; }
-	| multiplicative_expression '%' unary_expression { std::cerr << "Unsuported" << std::endl; }
+	| multiplicative_expression '*' unary_expression {  $$ = new BinaryMul($1, $3);  }
+	| multiplicative_expression '/' unary_expression {  $$ = new BinaryDiv($1, $3);  }
+	| multiplicative_expression '%' unary_expression {  $$ = new BinaryMod($1, $3);  }
 	;
 
 additive_expression
 	: multiplicative_expression { $$ = $1; }
 	| additive_expression '+' multiplicative_expression { $$ = new BinaryAdd($1, $3); }
-	| additive_expression '-' multiplicative_expression { std::cerr << "Unsuported" << std::endl; }
+	| additive_expression '-' multiplicative_expression { $$ = new BinarySub($1, $3); }
 	;
 
 shift_expression
@@ -283,8 +283,8 @@ shift_expression
 
 relational_expression
 	: shift_expression { $$ = $1; }
-	| relational_expression '<' shift_expression { std::cerr << "Unsuported" << std::endl; }
-	| relational_expression '>' shift_expression { std::cerr << "Unsuported" << std::endl; }
+	| relational_expression '<' shift_expression {  $$ = new BinaryLT($1, $3);  }
+	| relational_expression '>' shift_expression {  $$ = new BinaryGT($1, $3);  }
 	| relational_expression LE_OP shift_expression { std::cerr << "Unsuported" << std::endl; }
 	| relational_expression GE_OP shift_expression { std::cerr << "Unsuported" << std::endl; }
 	;
