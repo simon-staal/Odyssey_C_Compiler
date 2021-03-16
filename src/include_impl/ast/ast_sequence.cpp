@@ -15,6 +15,10 @@ Sequence::Sequence(std::vector<NodePtr> _branches)
   : Node(_branches)
 {}
 
+Sequence::Sequence(std::vector<NodePtr> decList, std::vector<NodePtr> statList)
+  : Node(decList, statList)
+{}
+
 // Destructor
 Sequence::~Sequence()
 {

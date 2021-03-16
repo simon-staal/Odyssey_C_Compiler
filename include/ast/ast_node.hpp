@@ -21,6 +21,8 @@ public:
   // Used in derived classes
   Node(std::vector<NodePtr> _branches);
   Node();
+  // Specifically used for sequence
+  Node(std::vector<NodePtr> branches1, std::vector<NodePtr> branches2);
 
   virtual ~Node();
 

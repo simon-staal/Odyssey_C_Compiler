@@ -171,7 +171,7 @@ compound_statement
 	: '{' '}' { $$ = new Scope(); }
 	| '{' statement_list '}' { $$ = new Scope(*$2); delete $2; }
 	| '{' declaration_list '}' { $$ = new Scope(*$2); delete $2; }
-	| '{' declaration_list statement_list '}' { std::cerr << "Think about this more" << std::endl; }
+	| '{' declaration_list statement_list '}' { $$ = new Scope(*$2, *$3); delete $2; delete $3; }
 	;
 
 statement_list
@@ -198,7 +198,7 @@ labeled_statement
 /* Standard stuff */
 expression_statement
 	: ';' { ; }
-	| expression ';' { ; }
+	| expression ';' { $$ = $1; }
 	;
 
 /* if else switch */
@@ -348,7 +348,7 @@ assignment_expression
 	| unary_expression RIGHT_ASSIGN assignment_expression { $$ = new BinaryRightAss($1, $3); }
 	| unary_expression AND_ASSIGN assignment_expression { $$ = new BinaryANDAss($1, $3); }
 	| unary_expression XOR_ASSIGN assignment_expression { $$ = new BinaryXORAss($1, $3); }
-	| unary_expression OR_ASSIGN assignment_expression { $$ = new BinaryORAss($1, $3); }	
+	| unary_expression OR_ASSIGN assignment_expression { $$ = new BinaryORAss($1, $3); }
 	;
 
 /*

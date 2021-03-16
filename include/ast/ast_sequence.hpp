@@ -17,6 +17,7 @@ public:
   Sequence();
   Sequence(NodePtr in);
   Sequence(std::vector<NodePtr> _branches);
+  Sequence(std::vector<NodePtr> decList, std::vector<NodePtr> statList);
 
   // Destructor
   ~Sequence();

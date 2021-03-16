@@ -9,6 +9,12 @@ Node::Node()
   : Node(std::vector<NodePtr>{})
 {}
 
+Node::Node(std::vector<NodePtr> branches1, std::vector<NodePtr> branches2)
+{
+  branches = branches1;
+  branches.insert(branches.end(), branches2.begin(), branches2.end());
+}
+
 Node::~Node()
 {
   for(unsigned i = 0; i < branches.size(); i++){
