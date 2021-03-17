@@ -61,3 +61,16 @@ void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
 }
+
+void Declaration::generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  // Check the type of branches1 to see if it's a variable / function declaration
+  int size = branches[0]->getSize();
+  if(branches[1]->isFunction()){
+    branches[1]->generateMIPS(dst, context, destReg);
+  }
+  else{
+    std::string id = branches[1]->getId();
+    context.stack.back().varBindings[id] = {size, -1};
+  }
+}

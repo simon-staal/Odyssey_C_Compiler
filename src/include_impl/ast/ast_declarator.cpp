@@ -22,6 +22,11 @@ NodePtr Declarator::getId() const
   return branches[0];
 }
 
+bool Declarator::isFunction() const
+{
+  return false;
+}
+
 // Visualising
 void Declarator::PrettyPrint(std::ostream &dst, std::string indent) const
 {

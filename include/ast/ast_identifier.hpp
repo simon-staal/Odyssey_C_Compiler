@@ -13,10 +13,12 @@ public:
   Identifier(std::string _id);
 
   // Getting identifier
-  std::string getId() const;
+  std::string getId() const override;
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+
+  virtual void generateMIPS(std::ostream &dst, Context context, int destReg) const override;
 };
 
 #endif

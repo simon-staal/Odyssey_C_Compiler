@@ -23,6 +23,8 @@ public:
 
   NodePtr getParams() const;
 
+  bool isFunction() const override;
+
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 

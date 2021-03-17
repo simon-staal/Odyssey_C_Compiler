@@ -35,6 +35,11 @@ NodePtr FunctionDeclarator::getParams() const
   return branches[1];
 }
 
+bool FunctionDeclarator::isFunction() const
+{
+  return true;
+}
+
 // Visualising
 void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
 {

@@ -18,8 +18,7 @@ struct Context
   // Stack stuff
   std::vector<stackFrame> stack;
 
-  // Globals / functions
-  std::map<std::string, function> funcBindings;
+  // Globals
   std::map<std::string, variable> globals;
 
   // MIPS Register file
@@ -52,7 +51,7 @@ struct Context
 struct variable
 {
   unsigned int size;
-  unsigned int offset;
+  int offset;
 };
 
 struct function

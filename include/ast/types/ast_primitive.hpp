@@ -14,6 +14,8 @@ public:
 
   PrimitiveType(Specifier _type);
 
+  int getSize() const override;
+
   ~PrimitiveType();
 
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
