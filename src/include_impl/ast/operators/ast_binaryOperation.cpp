@@ -21,3 +21,8 @@ NodePtr BinaryOperation::RightOp() const
 {
     return branches[1];
 }
+
+void BinaryOperation::generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  std::cerr << "Binary shit doesn't yet Kai you lazy fuck" << std::endl;
+}
