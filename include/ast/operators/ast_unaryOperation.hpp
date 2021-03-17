@@ -20,6 +20,8 @@ public:
     //implement in its derived functions
     virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
 
+    virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
+
 };
 
 #endif

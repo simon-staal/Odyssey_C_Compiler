@@ -22,12 +22,12 @@ NodePtr BinaryOperation::RightOp() const
     return branches[1];
 }
 
-void BinaryOperation::generateMIPS(std::ostream &dst, Context context, int destReg) const
+void BinaryOperation::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::cerr << "Binary shit doesn't yet Kai you lazy fuck" << std::endl;
 }
 
-virtual void EZPrint(std::ostream &dst, std::string instr, int destReg, int regLeft, int regRight) const
+void BinaryOperation::EZPrint(std::ostream &dst, std::string instr, int destReg, int regLeft, int regRight) const
 {
     dst << instr << " $" << destReg << ", $" << regLeft << ", $" << regRight << std::endl;
 }

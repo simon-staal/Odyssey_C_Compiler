@@ -15,3 +15,7 @@ NodePtr UnaryOperation::GetOp() const
     return branches[0];
 }
 
+void UnaryOperation::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+{
+    
+}

@@ -7,3 +7,10 @@ void UnaryAdd::PrettyPrint(std::ostream &dst, std::string indent) const
   GetOp()->PrettyPrint(dst, indent+"  ");
   std::cout << indent << "]" <<std::endl;
 }
+
+void UnaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+{
+
+  GetOp()->generateMIPS(dst, context, destReg);
+
+}
