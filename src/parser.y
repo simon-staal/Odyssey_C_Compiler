@@ -459,7 +459,7 @@ Node *parseAST(std::string filename)
 {
   yyin = fopen(filename.c_str(), "r");
   if(yyin == NULL){
-    std::cerr << "Couldn't open file: " << filename << std::endl;
+    std::cerr << "Couldn't open input file: " << filename << std::endl;
     exit(1);
   }
   g_root = NULL;
