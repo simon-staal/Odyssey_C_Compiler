@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 12/03/2021)
+Objectives (last updated 17/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -14,7 +14,9 @@ Objectives (last updated 12/03/2021)
 - Find root of shift-reduce conflict in parser (good luck - **Note: Discussed with TA, told it wasn't really a problem, try %nonassociative or smth**)
 - <del> Refactor header files to have implementation in seperate cpp files. Also group classes together in the same headers (i.e. put return, )</del> (Marked complete 12/03/2021)
 - Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)
-- Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case
+- <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
+- Go through QEMU stuff to get a test script working
+- Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
@@ -87,3 +89,6 @@ Making the rest of the ast files for operators proved to be kinda tedious so I m
 In terms of ast files I will finish adding and verifying that they function in the simple test case 'return x(op)y;'.
 Feel like we might need to use the script in the future as well when we add codegen or other global functionality.
 Might want to do something about 'ast.hpp' adding stuff is tedious.
+
+**17/03/2021**
+BIG NEWS!!! After thinking for a long ass time, we've come up with the context required for codegen. It's still a work in progress and we'll probably add / remove shit as we go but it's a big step forward. Additionally, I have codegen producing what *looks like* correct assembly for the base test case we came up with so long ago... From here we have a working framework, we just need to build from here. The word vomit in [**notes**](notes.md) kinda outlines the logic for the stack and frame pointers (it's not formatted well at all, refer to the bottom for most recent thoughts). Added some new goals to work on.

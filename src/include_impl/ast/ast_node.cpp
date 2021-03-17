@@ -40,7 +40,7 @@ bool Node::isFunction() const
   return 1;
 }
 
-void Node::generateMIPS(std::ostream &dst, Context context, int destReg) const
+void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
   exit(1);

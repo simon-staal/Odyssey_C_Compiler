@@ -15,3 +15,10 @@ void Scope::PrettyPrint(std::ostream &dst, std::string indent) const
   }
   dst << indent << "]" << std::endl;
 }
+
+void Scope::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+{
+  for(int i = 0; i < branches.size(); i++){
+    branches[i]->generateMIPS(dst, context, destReg);
+  }
+}

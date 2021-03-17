@@ -38,7 +38,7 @@ public:
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
 
-  virtual void generateMIPS(std::ostream &dst, Context context, int destReg) const;
+  virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
 
   // We friends with ostream now :D
   friend std::ostream& operator<<(std::ostream &dst, const Node &Node);

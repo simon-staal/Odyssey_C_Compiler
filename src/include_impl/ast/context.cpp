@@ -6,6 +6,19 @@ bool stackFrame::inFrame(std::string varName)
   return (it != varBindings.end());
 }
 
+std::ostream &operator<<(std::ostream &dst, stackFrame frame)
+{
+  dst << "Beginning of frame" << std::endl;
+  dst << "offset = " << frame.offset << std::endl;
+  dst << "argSize = " << frame.argSize << std::endl;
+  dst << "varBindings:" << std::endl;
+  for(auto it = frame.varBindings.begin(); it != frame.varBindings.end(); it++){
+    dst << "  " << it->first << ": size = " << it->second.size << ", offset = " << it->second.offset << std::endl;
+  }
+  dst << "End of frame" << std::endl;
+  return dst;
+}
+
 void registers::useReg(int i) { usedRegs[i] = 1; }
 void registers::freeReg(int i) { usedRegs[i] = 0; }
 

@@ -60,3 +60,5 @@ Current mental model for our stack allocation is as follows:
 - At the start of a function, the frame pointer will update to the stack pointer, which has decremented by 8 to store $ra and $fp. This means that when local variables are stored and the stack is decremented, the offset stored in the variable map will be relative to the frame pointer (i.e. 1st variable stored will have an offset of 4 provided it's size is 1 word).
 
 When we do a function call, we increment the frame pointer by the size of the previous stack (+ 8? check values) so that we can increment the stack pointer as we copy the parameters, and then move our frame pointer once this is completed to the top of the copied parameters.
+
+More on the copying process. We copy the arguments into the next stack frame at the function call, but DO NOT INCREMENT THE STACK POINTER (this will be done later in the function def) when copying, store things at offset of (stackFrame.offset+param.size). The stackFrame.argSize will tell us by how much to increment the stack pointer by later.

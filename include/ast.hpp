@@ -15,6 +15,7 @@
 #include "ast/ast_identifier.hpp"
 #include "ast/ast_sequence.hpp"
 #include "ast/ast_return.hpp"
+#include "ast/context.hpp"
 
 #include "ast/literals/ast_integer.hpp"
 
