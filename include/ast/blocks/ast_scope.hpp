@@ -13,7 +13,7 @@ class Scope
   : public Sequence
 {
 public:
-  // I think this works? should do everything like Sequence
+  // I think this works? (<-it does) should do everything like Sequence
   using Sequence::Sequence;
 
   // Just in case we need it
@@ -21,6 +21,8 @@ public:
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+  virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+
 };
 
 #endif

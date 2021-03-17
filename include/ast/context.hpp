@@ -79,6 +79,6 @@ struct stackFrame
   bool inFrame(std::string varName);
 };
 
-
+std::ostream &operator<<(std::ostream &dst, stackFrame frame);
 
 #endif

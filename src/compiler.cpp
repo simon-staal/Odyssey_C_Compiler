@@ -19,7 +19,12 @@ int main(int argc, char *argv[])
 		*/
 
 		Node *program = parseAST(argv[2]);
-		std::cout << program;
+		std::cout << "=============AST Representation=============" << std::endl;
+		std::cout << program << std::endl;
 
-		// Compile(program);
+		std::cout << "===============Assembly Code===============" << std::endl;
+		Context context;
+		program->generateMIPS(std::cout, context, 2);
+
+
 }

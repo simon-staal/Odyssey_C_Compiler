@@ -67,7 +67,7 @@ void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
-void Declaration::generateMIPS(std::ostream &dst, Context context, int destReg) const
+void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   // Check the type of branches1 to see if it's a variable / function declaration
   int size = branches[0]->getSize();

@@ -56,7 +56,7 @@ void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) cons
   dst << indent << "]" << std::endl;
 }
 
-void FunctionDeclarator::generateMIPS(std::ostream &dst, Context context, int destReg) const
+void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::string id = branches[0]->getId();
   // Macro, check this

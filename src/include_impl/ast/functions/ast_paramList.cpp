@@ -1,4 +1,5 @@
 #include "ast/functions/ast_paramList.hpp"
+#include "ast/context.hpp" // This is for the << overload for stackFrame
 
 void ParamList::PrettyPrint(std::ostream &dst, std::string indent) const
 {
@@ -9,7 +10,7 @@ void ParamList::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
-void ParamList::generateMIPS(std::ostream &dst, Context context, int destReg) const
+void ParamList::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   stackFrame newFrame;
   int paramSize = 0;
@@ -23,4 +24,5 @@ void ParamList::generateMIPS(std::ostream &dst, Context context, int destReg) co
     newFrame.argSize = paramSize;
   }
   context.stack.push_back(newFrame);
+  // std::cerr << newFrame << std::endl; // <-debugging
 }
