@@ -23,3 +23,8 @@ void Return::PrettyPrint(std::ostream &dst, std::string indent) const
   branches[0]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
 }
+
+void generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  branches[0]->generateMIPS(std::ostream &dst, Context context, 2);
+}
