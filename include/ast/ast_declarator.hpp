@@ -18,10 +18,9 @@ public:
   // Destructor
   virtual ~Declarator();
 
-  // Where stuff is
-  NodePtr getId() const override;
+  virtual std::string getId() const override;
 
-  bool isFunction() const override;
+  virtual bool isFunction() const override;
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;

@@ -16,10 +16,9 @@ Declarator::~Declarator()
   delete branches[0];
 }
 
-// Where stuff is
-NodePtr Declarator::getId() const
+std::string Declarator::getId() const
 {
-  return branches[0];
+  return branches[0]->getId();
 }
 
 bool Declarator::isFunction() const

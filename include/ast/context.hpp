@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 // Contains information related to memory
 struct variable;
@@ -11,7 +13,13 @@ struct function;
 // Duh
 struct stackFrame;
 // Regfile
-struct registers;
+struct registers
+{
+  int usedRegs[32] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1};
+  void useReg(int i);
+  void freeReg(int i);
+  int allocate();
+};
 
 struct Context
 {
@@ -36,8 +44,10 @@ struct Context
 
   // Read / wrtie variables between memory (stack) and register
   // from a specified index (requires stack to be already allocated)
+  /*
   void storeInStack(std::ostream &dst, int reg, int offset);
   void restoreFromStack(std::ostream &dst, int reg, int offset);
+  */
 
   // sp, fp and ra management for a function return - requires more work for leaf functions
   void functionReturn(std::ostream &dst);
@@ -69,12 +79,6 @@ struct stackFrame
   bool inFrame(std::string varName);
 };
 
-struct registers
-{
-  bool usedRegs[32] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1};
-  void useReg(int i) { usedRegs[i] = 1; }
-  void freeReg(int i) { usedRegs[i] = 0; }
-  int allocate();
-}
+
 
 #endif

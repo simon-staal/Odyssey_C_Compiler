@@ -55,5 +55,8 @@ Stack implementation
 Current mental model for our stack allocation is as follows:
 - At the start of a function call, stack decrements by 8, storing $ra and $fp (this is the bottom of the stack frame)
 - When needed, local variables can be stored in the stack and the stack pointer get incremented as needed.
-- When a sub-function call is encountered, all data registers are stored in the stack, and the required space for arguments of the called sub-function is created at the top of the stack.
+- Whenever we encounter a variable as we traverse our AST (within a function), that variable is immediately stored in the stack / assigned space, it's stored in varBindings for the current frame, and the stack pointer is incremented appropriately.
+- When a sub-function call is encountered, <del>all data registers are stored in the stack</del> (should already be done), the required space is allocated at the top of the stack as we go through the parameter list and the required space for arguments of the called sub-function is created at the top of the stack.
 - At the start of a function, the frame pointer will update to the stack pointer, which has decremented by 8 to store $ra and $fp. This means that when local variables are stored and the stack is decremented, the offset stored in the variable map will be relative to the frame pointer (i.e. 1st variable stored will have an offset of 4 provided it's size is 1 word).
+
+When we do a function call, we increment the frame pointer by the size of the previous stack (+ 8? check values) so that we can increment the stack pointer as we copy the parameters, and then move our frame pointer once this is completed to the top of the copied parameters.

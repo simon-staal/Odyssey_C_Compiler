@@ -6,7 +6,11 @@ bool stackFrame::inFrame(std::string varName)
   return (it != varBindings.end());
 }
 
-register::allocate()
+void registers::useReg(int i) { usedRegs[i] = 1; }
+void registers::freeReg(int i) { usedRegs[i] = 0; }
+
+
+int registers::allocate()
 {
   for(int i = 2; i < 26; i++){
     if(!usedRegs[i]){
@@ -42,6 +46,7 @@ void Context::restoreReg(std::ostream &dst, int reg)
   dst << "addiu $29,$29,4" << std::endl;
 }
 
+/* Legacy code
 void Context::storeInStack(std::ostream &dst, int reg, int offset)
 {
   dst << "sw $" << reg << "," << stackSize - offset << "($29)" << std::endl;
@@ -51,6 +56,7 @@ void Context::restoreFromStack(std::ostream &dst, int reg, int offset)
 {
   dst << "lw $" << reg << "," << stackSize - offset << "($29)" << std::endl;
 }
+*/
 
 void Context::functionReturn(std::ostream &dst)
 {

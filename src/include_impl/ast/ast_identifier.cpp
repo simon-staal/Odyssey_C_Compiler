@@ -8,7 +8,8 @@ Identifier::Identifier(std::string _id)
 // Getting identifier
 std::string Identifier::getId() const
 {
-  return id;
+  if(branches.empty()) { return id; }
+  else{ return branches[0]->getId(); }
 }
 
 // Visualising

@@ -33,3 +33,8 @@ void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) cons
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
 }
+
+void FunctionDefinition::generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  branches[0]->generateMIPS(dst, context, destReg);
+}

@@ -22,6 +22,30 @@ Node::~Node()
   }
 }
 
+int Node::getSize() const
+{
+  std::cerr << "Tried to getSize of something not implemented" << std::endl;
+  return 0;
+}
+
+std::string Node::getId() const
+{
+  std::cerr << "Tried to getId of something not implemented" << std::endl;
+  return "";
+}
+
+bool Node::isFunction() const
+{
+  std::cerr << "Tried to check isFunction of something not implemented" << std::endl;
+  return 1;
+}
+
+void Node::generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
+  exit(1);
+}
+
 // Overloading << for nodes, just to make things look nice
 std::ostream &operator<<(std::ostream &dst, const Node &Node)
 {

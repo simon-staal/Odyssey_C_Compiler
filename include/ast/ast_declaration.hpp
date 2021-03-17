@@ -34,6 +34,8 @@ public:
 
   NodePtr getDeclarations() const; // Actually returns a NodeListPtr (but it's stored as a NodePtr)
 
+  virtual std::string getId() const override;
+
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 

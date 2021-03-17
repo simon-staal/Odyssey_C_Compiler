@@ -52,6 +52,11 @@ NodePtr Declaration::getDeclarations() const // Actually returns a NodeListPtr (
   return branches[1];
 }
 
+std::string Declaration::getId() const
+{
+  return branches[1]->getId();
+}
+
 // Visualising
 void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const
 {
