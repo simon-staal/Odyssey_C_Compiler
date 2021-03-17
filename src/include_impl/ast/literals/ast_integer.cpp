@@ -20,3 +20,8 @@ void Integer::PrettyPrint(std::ostream &dst, std::string indent) const
 {
     dst << indent << "Integer = " << value << std::endl;
 }
+
+void generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  dst << "li $" << destReg << ", " << getValue() << std::endl;
+}
