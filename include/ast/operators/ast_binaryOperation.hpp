@@ -22,6 +22,11 @@ public:
     virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
 
     virtual void generateMIPS(std::ostream &dst, Context context, int destReg) const;
+    
+    virtual void EZPrint(std::ostream &dst, std::string instr, int destReg, int regLeft, int regRight) const;
+
 };
+
+
 
 #endif

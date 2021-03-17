@@ -9,3 +9,19 @@ void BinaryAdd::PrettyPrint(std::ostream &dst, std::string indent) const
   RightOp()->PrettyPrint(dst, indent+"  ");
   std::cout << indent << "]" <<std::endl;
 }
+
+void BinaryAdd::generateMIPS(std::ostream &dst, Context context, int destReg) const
+{
+  int regLeft, regRight;
+  if( (regLeft = context.regFile.allocate()) == -1 | (regRight = context.regFile.allocate();) == -1 ){
+    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
+  }
+
+  getLeft->genererateMIPS(&dst, context, regLeft);
+  getRight->generateMIPS(&dst, context, regRight);
+
+  EZPrint(&dst, "add", destReg, regLeft, regRight);
+
+  context.regFile.freeReg(regLeft);
+  context.regFile.freeReg(regRight);
+}
