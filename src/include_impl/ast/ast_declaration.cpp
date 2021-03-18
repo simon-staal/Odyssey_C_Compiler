@@ -52,6 +52,11 @@ NodePtr Declaration::getDeclarations() const // Actually returns a NodeListPtr (
   return branches[1];
 }
 
+int Declaration::getSize() const
+{
+  return branches[0]->getSize();
+}
+
 std::string Declaration::getId() const
 {
   return branches[1]->getId();
