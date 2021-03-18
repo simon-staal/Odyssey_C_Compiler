@@ -15,7 +15,7 @@ Objectives (last updated 17/03/2021)
 - <del> Refactor header files to have implementation in seperate cpp files. Also group classes together in the same headers (i.e. put return, )</del> (Marked complete 12/03/2021)
 - Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)
 - <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
-- Go through QEMU stuff to get a test script working
+- <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
 - Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built
 
 Building AST Correctly (last updated 14/03/2021)
@@ -30,6 +30,12 @@ This list will keep track of the [pre-included test cases](../compiler_tests) ou
 - [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
 - [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
 
+Passing Testbench (last updated 18/03/2021)
+-------------------------------------------
+This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
+- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
+- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c)
+- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
 
 Changelog
 ---------
@@ -92,3 +98,6 @@ Might want to do something about 'ast.hpp' adding stuff is tedious.
 
 **17/03/2021**
 BIG NEWS!!! After thinking for a long ass time, we've come up with the context required for codegen. It's still a work in progress and we'll probably add / remove shit as we go but it's a big step forward. Additionally, I have codegen producing what *looks like* correct assembly for the base test case we came up with so long ago... From here we have a working framework, we just need to build from here. The word vomit in [**notes**](notes.md) kinda outlines the logic for the stack and frame pointers (it's not formatted well at all, refer to the bottom for most recent thoughts). Added some new goals to work on.
+
+**18/03/2021**
+Finished the test script, and tested it on a case which passes! Also intentionally changed the assembly to be wrong and it correctly identifies the failure to ensure it wasn't a false positive. Added a new section in the log to track which testcases pass.

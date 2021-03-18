@@ -36,6 +36,7 @@ bin/compiler: src/c_compiler.output
 .PHONY: clean
 clean :
 	rm -rf bin/*
+	rm -rf out/*
 	rm -f src/*.tab.hpp
 	rm -f src/*.tab.cpp
 	rm -f src/*.yy.cpp
