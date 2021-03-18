@@ -63,6 +63,11 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   dst << ".globl " << id << std::endl;
   // Function label
   dst << id << ":" << std::endl;
+  // Storing ra and fp, updating frame pointer
+  dst << "addiu $29,$29,-8" << std::endl;
+  dst << "sw $30,0($29)" << std::endl;
+  dst << "sw $31,4($29)" << std::endl;
+  dst << "move $30,$29" << std::endl;
   // Process params
   branches[1]->generateMIPS(dst, context, destReg);
 }

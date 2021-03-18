@@ -76,6 +76,8 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   }
   else{
     std::string id = branches[1]->getId();
-    context.stack.back().varBindings[id] = {size, -1};
+    context.stack.back().offset += size; // Increments stack offset to have space for variable, will actually store it when its value is assigned
+    context.stack.back().varBindings[id] = {size, context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
+    dst << "addiu $29,$29,-" << size << std::endl; // Actually increments stack pointer
   }
 }
