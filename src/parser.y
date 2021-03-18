@@ -116,7 +116,7 @@ parameter_declaration
 
 declaration
 	: declaration_specifiers ';' { $$ = new Declaration($1); std::cerr << "Idk what to do with this (int;)" << std::endl; }
-	| declaration_specifiers init_declarator ';' { $$ = new Declaration($1, $2); std::cerr << "Normal declaration" << std::endl; }
+	| declaration_specifiers init_declarator ';' { $$ = new Declaration($1, $2); }
 	;
 
 /* Type of something (+ typedef) */
@@ -139,8 +139,8 @@ type_specifier
 	;
 
 init_declarator
-	: declarator
-	| declarator '=' initializer
+	: declarator { $$ = $1; }
+	| declarator '=' initializer { $$ = new InitDeclarator($1, $3); }
 	;
 
 abstract_declarator

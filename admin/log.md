@@ -42,6 +42,7 @@ This list will keep track of the [pre-included test cases](../compiler_tests) th
 - [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
 - [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c)
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
+- [**integer/add.c**](../compiler_tests/integer/add.c)
 
 Changelog
 ---------

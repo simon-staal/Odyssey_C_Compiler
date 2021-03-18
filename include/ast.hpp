@@ -11,6 +11,7 @@
 #include "ast/ast_node.hpp"
 #include "ast/ast_nodeList.hpp"
 #include "ast/ast_declarator.hpp"
+#include "ast/ast_initDeclarator.hpp"
 #include "ast/ast_declaration.hpp"
 #include "ast/ast_identifier.hpp"
 #include "ast/ast_sequence.hpp"
