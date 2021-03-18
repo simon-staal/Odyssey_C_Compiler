@@ -13,10 +13,11 @@ Objectives (last updated 17/03/2021)
 - <del> Solve `parseAST()` issue, how to make the lexer / parser use a specified istream</del> (Marked complete 10/03/2021)
 - Find root of shift-reduce conflict in parser (good luck - **Note: Discussed with TA, told it wasn't really a problem, try %nonassociative or smth**)
 - <del> Refactor header files to have implementation in seperate cpp files. Also group classes together in the same headers (i.e. put return, )</del> (Marked complete 12/03/2021)
-- Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)
+- <del> Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)</del> (Marked complete 18/03/2021)
 - <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
-- Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built
+- Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
+- Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
@@ -25,10 +26,15 @@ This list will keep track of the [pre-included test cases](../compiler_tests) ou
 - [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
 - [**integer/add.c:**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
+- [**control_flow/sequence.c**](../compiler_tests/control_flow/sequence.c) A simple function, declaring an integer variable x, then assigning its value to 1, then adding it to itself, then returning x.
 - [**if_else_false.c**](../compiler_tests/control_flow/if_else_false.c) Function with a literal 0 in the condition of an if/else statement with return statements.
 - [**if_else_true.c**](../compiler_tests/control_flow/if_else_true.c) Same as above but with literal 1.
 - [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
 - [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
+- [**while_multiple.c**](../compiler_tests/control_flow/while_multiple.c) Assigns a value of 20 to integer x, then runs a while loop decrementing x by 1 each iteration until x > 10, at which point it exits the loop and returns x.
+- [**while_once.c**](../compiler_tests/control_flow/while_once.c) Assigns a value of 1 to integer x, then runs a while loop with x as the condition. The loop sets the value of x to 0, causing the loop to exit and return a constant.
+- [**while_zero.c**](../compiler_tests/control_flow/while_zero.c) A while loop with a literal 0 in the condition, causing the program to never enter the loop and return 19937 (updated test case to return a different value inside the while)
+
 
 Passing Testbench (last updated 18/03/2021)
 -------------------------------------------
@@ -101,3 +107,6 @@ BIG NEWS!!! After thinking for a long ass time, we've come up with the context r
 
 **18/03/2021**
 Finished the test script, and tested it on a case which passes! Also intentionally changed the assembly to be wrong and it correctly identifies the failure to ensure it wasn't a false positive. Added a new section in the log to track which testcases pass.
+
+*Update_1*
+Added `While` class in AST for while loops, now correctly producing the AST for while, added relevant test cases to AST section. This now means our parser / AST is fully able to parse all the basic features outlined by the spec. The goal now is to finish codegen for all these constructs, and then to start on intermediate features.

@@ -46,10 +46,30 @@ bool Context::isGlobal(std::string varName)
   return (it != globals.end());
 }
 
+
+void Context::enterScope()
+{
+  assert(stack.size() > 0); // You should only enterScope within a function => at least 1 stackFrame
+  stack.push_back(stack.back()); // Creates a copy of current scope (variables declared in function are available in sub-scope)
+  stack.back().offset = 0; // Increment stack pointer by stack.back().offset once leaving scope to deallocate memory
+}
+
+void Context::exitScope(std::ostream &dst)
+{
+  // Re-increments stack pointer to deallocate any variables no longer in scope
+  if(stack.back().offset > 0){
+    dst << "addiu $29,$29," << stack.back().offset << std::endl;
+  }
+  stack.pop_back(); // Leaves scope, re-enters previous scope
+}
+
+/* Legacy code
+
 void Context::storeReg(std::ostream &dst, int reg)
 {
   dst << "addiu $29,$29,-4" << std::endl;
   dst << "sw $" << reg << ",0($29)" << std::endl;
+  stack.back().offset += 4;
   regFile.freeReg(reg);
 }
 
@@ -59,7 +79,6 @@ void Context::restoreReg(std::ostream &dst, int reg)
   dst << "addiu $29,$29,4" << std::endl;
 }
 
-/* Legacy code
 void Context::storeInStack(std::ostream &dst, int reg, int offset)
 {
   dst << "sw $" << reg << "," << stackSize - offset << "($29)" << std::endl;
@@ -69,7 +88,6 @@ void Context::restoreFromStack(std::ostream &dst, int reg, int offset)
 {
   dst << "lw $" << reg << "," << stackSize - offset << "($29)" << std::endl;
 }
-*/
 
 void Context::functionReturn(std::ostream &dst)
 {
@@ -97,5 +115,6 @@ void Context::functionCall(std::ostream &dst)
       dst << "sw $" << i << "," << stack.back().offset+4*(i-4) << "($30)" << std::endl;
     }
   }
-
 }
+
+*/

@@ -69,6 +69,7 @@
 
 #include "ast/blocks/ast_scope.hpp"
 #include "ast/blocks/ast_ifElse.hpp"
+#include "ast/blocks/ast_while.hpp"
 
 extern Node *parseAST(std::string filename);
 
