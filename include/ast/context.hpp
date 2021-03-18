@@ -61,7 +61,8 @@ struct Context
 struct variable
 {
   unsigned int size;
-  int offset;
+  int offset; // Offset from frame pointer (+ for arguments, - for variables)
+  int reg; // Keeps track of which register the variable is in (-1 := not stored in reg)
 };
 
 struct function

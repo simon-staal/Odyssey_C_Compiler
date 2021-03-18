@@ -76,6 +76,6 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   }
   else{
     std::string id = branches[1]->getId();
-    context.stack.back().varBindings[id] = {size, -1};
+    context.stack.back().varBindings[id] = {size, -1, destReg}; // This is probably correct?
   }
 }

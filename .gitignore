@@ -7,3 +7,4 @@ src/**/*.o
 src/*.output
 .vagrant
 *.log
+out

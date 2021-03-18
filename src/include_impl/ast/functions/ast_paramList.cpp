@@ -17,8 +17,12 @@ void ParamList::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   for(int i = 0; i < branches.size(); i++){
     std::string var = branches[i]->getId();
     int size = branches[i]->getSize();
+    newFrame.varBindings[var] = {size, paramSize+8, -1};
+    if(i < 4){
+      newFrame.varBindings[var].reg = i+4; // First 4 arguments stored in registers $4-$7
+      dst << "sw $" << i+4 << "," << paramSize+8 << "($30)" << std::endl; // The first 4 args aren't actually stored in the right place
+    }
     paramSize += size;
-    newFrame.varBindings[var] = {size, paramSize};
   }
   if(paramSize > 16){
     newFrame.argSize = paramSize;
