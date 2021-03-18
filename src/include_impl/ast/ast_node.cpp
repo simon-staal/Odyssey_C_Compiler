@@ -40,6 +40,12 @@ bool Node::isFunction() const
   return 1;
 }
 
+bool Node::isInit() const
+{
+  std::cerr << "Tried to check isInit of something not implemented" << std::endl;
+  return 1;
+}
+
 void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;

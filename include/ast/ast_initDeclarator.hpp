@@ -21,10 +21,13 @@ public:
 
   virtual bool isFunction() const override;
 
+  virtual bool isInit() const override;
+
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
-  virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
+  virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  
 };
 
 #endif

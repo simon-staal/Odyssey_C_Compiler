@@ -22,6 +22,11 @@ bool InitDeclarator::isFunction() const
   return branches[0]->isFunction();
 }
 
+bool InitDeclarator::isInit() const
+{
+  return true;
+}
+
 void InitDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   branches[0]->PrettyPrint(dst, indent);
@@ -32,5 +37,5 @@ void InitDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void InitDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  std::cerr << "Gonna do this soon" << std::endl;
+  branches[1]->generateMIPS(dst, context, destReg);
 }

@@ -34,6 +34,8 @@ public:
   virtual std::string getId() const;
   // Used in codegen to check if identifier is for function
   virtual bool isFunction() const;
+  // Used in codegen to check if declarator is initialised
+  virtual bool isInit() const;
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;
