@@ -77,18 +77,39 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   // Check the type of branches1 to see if it's a variable / function declaration
   int size = branches[0]->getSize();
   if(branches[1]->isFunction()){
+    // Deals with function declaration
     branches[1]->generateMIPS(dst, context, destReg);
   }
   else{
+    // Deals with variable declaration
     std::string id = branches[1]->getId();
     context.stack.back().offset += size; // Increments stack offset to have space for variable, will actually store it when its value is assigned
+    dst << "addiu $29,$29,-" << size << std::endl; // Increments stack pointer
+
+    // If the variable is being initialised (will be similar to assignment operator)
     if(branches[1]->isInit()){
-      branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer
+      // Ensures a free register is being used
+      if(context.regFile.usedRegs[destReg]){
+        destReg = context.regFile.allocate();
+      }
+      // If no registers are free
+      if(destReg == -1){
+        for(auto it = context.stack.back().varBindings.begin(); it != context.stack.back().varBindings.end(); it++){
+          if (it->second.reg != -1){
+            context.regFile.freeReg(it->second.reg); // This variable can still be accessed directly from memory
+            destReg = it->second.reg;
+            it->second.reg = -1; // Inidicate this variable is no longer available in register
+          }
+        }
+      }
+      branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
       context.stack.back().varBindings[id] = {size, context.stack.back().offset, destReg}; // stores the space allocated
+      dst << "sw $" << destReg << ",0($29)" << std::endl; // Stores variable in memory allocated
     }
+    // Variable is not initialised
     else{
       context.stack.back().varBindings[id] = {size, context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
     }
-    dst << "addiu $29,$29,-" << size << std::endl; // Actually increments stack pointer
+
   }
 }
