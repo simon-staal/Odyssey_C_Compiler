@@ -20,7 +20,9 @@ void BinaryMul::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "mult", destReg, regLeft, regRight);
+  dst << "mult $" << regLeft << ", $" << regRight << std::endl;
+
+  dst << "mflo $" << destReg << std::endl;
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
