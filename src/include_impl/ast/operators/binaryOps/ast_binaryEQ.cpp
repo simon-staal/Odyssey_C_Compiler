@@ -20,7 +20,10 @@ void BinaryEQ::generateMIPS(std::ostream &dst, Context &context, int destReg) co
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  EZPrint(dst, "xor", destReg, regLeft, regRight);
+
+  std::cout << "beq $" << destReg << ", $0, returnone " << std::endl; 
+  std::cout << "j returnzero" << std::endl;
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);

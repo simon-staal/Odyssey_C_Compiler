@@ -20,7 +20,9 @@ void BinaryDiv::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  std::cout << "div $" << regLeft << ", $" << regRight << std::endl;
+
+  std::cout << "mflo $" << destReg << std::endl;
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
