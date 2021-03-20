@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 17/03/2021)
+Objectives (last updated 18/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -36,13 +36,14 @@ This list will keep track of the [pre-included test cases](../compiler_tests) ou
 - [**while_zero.c**](../compiler_tests/control_flow/while_zero.c) A while loop with a literal 0 in the condition, causing the program to never enter the loop and return 19937 (updated test case to return a different value inside the while)
 
 
-Passing Testbench (last updated 18/03/2021)
+Passing Testbench (last updated 20/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
 - [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
 - [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c)
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
 - [**integer/add.c**](../compiler_tests/integer/add.c)
+- [**local_var/expression_initialiser.c**](../compiler_tests/local_var/expression_initialiser.c)
 
 Changelog
 ---------
@@ -111,3 +112,6 @@ Finished the test script, and tested it on a case which passes! Also intentional
 
 *Update_1*
 Added `While` class in AST for while loops, now correctly producing the AST for while, added relevant test cases to AST section. This now means our parser / AST is fully able to parse all the basic features outlined by the spec. The goal now is to finish codegen for all these constructs, and then to start on intermediate features.
+
+**20/03/2021**
+Solved a big issue where our parser wouldn't correctly work when variables were declared and initialised at the same time, added new AST class to handle it. Also worked a lot more on register allocation / representation in context, seems to be working and passing more tests. <del>*Note: We were passing test cases where assembly being produced was wrong, I'm not sure why this was the case, might need to clarify with UTA.*</del> **never mind, I fixed this issue in the script**. Just need to keep working on codegen and running more tests.
