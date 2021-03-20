@@ -20,7 +20,9 @@ void BinaryGTEQ::generateMIPS(std::ostream &dst, Context &context, int destReg) 
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  EZPrint(dst, "sub", destReg, regLeft, regRight);
+  EZPrint(dst, "slt", destReg, 0, destReg);
+
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);

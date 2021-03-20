@@ -20,7 +20,7 @@ void BinaryGT::generateMIPS(std::ostream &dst, Context &context, int destReg) co
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  EZPrint(dst, "slt", destReg, regRight, regLeft);
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
