@@ -37,9 +37,11 @@ mips-linux-gnu-gcc -mfp32 -static -o "${OUT}" "${OUT}.o" "${TEST_DRIVER}"
 echo "Simulating"
 set +e
 qemu-mips "${OUT}"
-if [[ ${?} -eq 0 ]] ; then
+RESULT=${?}
+set -e
+
+if [[ ${RESULT} -eq 0 ]] ; then
   >&2 echo "Testcase ${1} passed successfully"
 else
   >&2 echo "Testcase ${1} failed"
 fi
-set -e
