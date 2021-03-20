@@ -34,6 +34,7 @@ public:
 
   NodePtr getDeclarations() const; // Actually returns a NodeListPtr (but it's stored as a NodePtr)
 
+  virtual int getSize() const override;
   virtual std::string getId() const override;
 
   // Visualising

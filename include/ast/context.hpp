@@ -15,7 +15,7 @@ struct stackFrame;
 // Regfile
 struct registers
 {
-  int usedRegs[32] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1};
+  int usedRegs[32] = {1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1};
   void useReg(int i); // Register is now being used
   void freeReg(int i); // Register is no longer being used
   int allocate(); // Returns empty register, -1 if no registers are available

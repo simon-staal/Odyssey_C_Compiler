@@ -8,7 +8,7 @@ if [[ ! -d "out" ]] ; then
 fi
 
 if [[ $# -eq 0 ]] ; then
-  >&2 echo "Usage: ./run_test.sh <test_name>"
+  >&2 echo "Usage: utility/run_test.sh <test_name>"
   >&2 echo "<test_name> is the name of a test in the compiler_tests directory without filepath (i.e. return_constant.c)"
   exit 1
 fi

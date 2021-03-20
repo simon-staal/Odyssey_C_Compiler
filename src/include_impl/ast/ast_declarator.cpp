@@ -26,6 +26,11 @@ bool Declarator::isFunction() const
   return false;
 }
 
+bool Declarator::isInit() const
+{
+  return false;
+}
+
 // Visualising
 void Declarator::PrettyPrint(std::ostream &dst, std::string indent) const
 {
