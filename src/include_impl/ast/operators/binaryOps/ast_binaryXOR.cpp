@@ -20,7 +20,7 @@ void BinaryXOR::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  EZPrint(dst, "xor", destReg, regLeft, regRight);
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
