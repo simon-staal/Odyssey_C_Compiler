@@ -104,6 +104,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       }
       branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
       context.stack.back().varBindings[id] = {size, context.stack.back().offset, destReg}; // stores the space allocated
+      context.regFile.useReg(destReg); // Indicates register is being used
       dst << "sw $" << destReg << ",0($29)" << std::endl; // Stores variable in memory allocated
     }
     // Variable is not initialised
