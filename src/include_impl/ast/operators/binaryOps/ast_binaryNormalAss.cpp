@@ -54,4 +54,3 @@ void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int dest
   context.regFile.freeReg(regRight);
 
 }
- 

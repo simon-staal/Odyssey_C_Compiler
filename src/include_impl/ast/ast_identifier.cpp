@@ -46,6 +46,6 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
     dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
   }else{
     dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
-  }    
+  }
 
 }
