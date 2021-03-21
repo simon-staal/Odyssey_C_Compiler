@@ -35,21 +35,26 @@ void BinarySubAss::generateMIPS(std::ostream &dst, Context &context, int destReg
     left = it->second;
   }
 
-  if(left.reg == -1){
-    dst << "lw $" << destReg << ", " << left.offset << "($30)" << std::endl;
-  }else{
-    dst << "move $" << destReg << ", $" << left.reg << std::endl;
-  }
-
   int regRight;
   if( ((regRight = context.regFile.allocate()) == -1) ){
-    dst << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
+    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
   }
 
   RightOp()->generateMIPS(dst, context, regRight);
 
-  dst << "move $" << destReg << ", $" << regRight << std::endl;
+  if(left.reg == -1){
 
+    dst << "lw $" << destReg << ", " << left.offset << "($30)" << std::endl;
+    EZPrint(dst, "sub", destReg, destReg, regRight);
+    left.reg = destReg;
+    dst << "sw $" << destReg << ", "<< left.offset << "($30)" << std::endl; // Stores result in variable
+
+
+  }else{
+    EZPrint(dst, "sub", left.reg, left.reg, regRight);
+    dst << "sw $" << left.reg << ", "<< left.offset << "($30)" << std::endl; // Stores result in variable
+
+  }
 
   context.regFile.freeReg(regRight);
 }

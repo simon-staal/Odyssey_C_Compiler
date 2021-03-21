@@ -43,7 +43,7 @@ void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int dest
 
   RightOp()->generateMIPS(dst, context, regRight);
 
-  dst << "sw $" << regRight << ", "<< left.offset << "($29)" << std::endl; // Stores result in variable
+  dst << "sw $" << regRight << ", "<< left.offset << "($30)" << std::endl; // Stores result in variable
 
   if(left.reg == -1){
     //not stored in registers
