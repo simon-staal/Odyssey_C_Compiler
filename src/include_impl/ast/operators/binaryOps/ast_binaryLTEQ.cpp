@@ -12,17 +12,18 @@ void BinaryLTEQ::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryLTEQ::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int regLeft, regRight;
-  if( ((regLeft = context.regFile.allocate()) == -1) |  ((regRight = context.regFile.allocate()) == -1) ){
+  int regRight;
+  if( ((regRight = context.regFile.allocate()) == -1) ){
     std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
   }
 
-  LeftOp()->generateMIPS(dst, context, regLeft);
+  LeftOp()->generateMIPS(dst, context, destReg);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  EZPrint(dst, "sub", destReg, destReg, regRight);
 
-  context.regFile.freeReg(regLeft);
+  dst << "slti $" << destReg << ", $" << destReg << ", 1" << std::endl;
+
   context.regFile.freeReg(regRight);
 }
  

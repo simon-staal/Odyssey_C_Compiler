@@ -25,7 +25,7 @@ void BinarySubAss::generateMIPS(std::ostream &dst, Context &context, int destReg
     }
 
 
-  std::string id = RightOp()->getId();
+  std::string id = LeftOp()->getId();
   variable left;
 
   auto it = context.stack.back().varBindings.find(id);

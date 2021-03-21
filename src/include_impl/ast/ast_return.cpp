@@ -26,5 +26,6 @@ void Return::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void Return::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
+
   branches[0]->generateMIPS(dst, context, 2);
 }

@@ -39,10 +39,10 @@ This list will keep track of the [pre-included test cases](../compiler_tests) ou
 Passing Testbench (last updated 20/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
-- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
+- [**default**](../compiler_tests/default) Except test_CALL.c
 - [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c)
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
-- [**integer/add.c**](../compiler_tests/integer/add.c)
+- [**integer**](../compiler_tests/integer) All passing!
 - [**local_var/expression_initialiser.c**](../compiler_tests/local_var/expression_initialiser.c)
 
 Changelog
