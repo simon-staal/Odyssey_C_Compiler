@@ -20,7 +20,12 @@ void BinaryLogOR::generateMIPS(std::ostream &dst, Context &context, int destReg)
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  dst << "slti $" << regLeft << ", $" << regLeft << ", 1" << std::endl;
+  dst << "slti $" << regRight << ", $" << regRight << ", 1" << std::endl;
+  EZPrint(dst, "and", regLeft, regLeft, regRight);
+
+
+  dst << "slti $" << destReg << ", $" << regLeft << ", 1" << std::endl;
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);

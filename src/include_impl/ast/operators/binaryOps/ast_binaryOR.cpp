@@ -20,7 +20,7 @@ void BinaryOR::generateMIPS(std::ostream &dst, Context &context, int destReg) co
   LeftOp()->generateMIPS(dst, context, regLeft);
   RightOp()->generateMIPS(dst, context, regRight);
 
-  EZPrint(dst, "ors", destReg, regLeft, regRight);
+  EZPrint(dst, "or", destReg, regLeft, regRight);
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
