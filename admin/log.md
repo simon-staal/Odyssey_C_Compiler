@@ -44,6 +44,7 @@ This list will keep track of the [pre-included test cases](../compiler_tests) th
 - [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
 - [**integer/add.c**](../compiler_tests/integer/add.c)
 - [**local_var/expression_initialiser.c**](../compiler_tests/local_var/expression_initialiser.c)
+- [**control_flow**](../compiler_tests/control_flow) - Passing all if/else and sequence testcases
 
 Changelog
 ---------
@@ -115,3 +116,6 @@ Added `While` class in AST for while loops, now correctly producing the AST for 
 
 **20/03/2021**
 Solved a big issue where our parser wouldn't correctly work when variables were declared and initialised at the same time, added new AST class to handle it. Also worked a lot more on register allocation / representation in context, seems to be working and passing more tests. <del>*Note: We were passing test cases where assembly being produced was wrong, I'm not sure why this was the case, might need to clarify with UTA.*</del> **never mind, I fixed this issue in the script**. Just need to keep working on codegen and running more tests.
+
+**22/03/2021**
+Implemented codegen for IfElse statements, all relevant tests (that I know of) are passing. Added/Updated functionality in context to work better, and updated return so that it actually exits a function instead of exiting a function at the end of the definiton. Want to implement function calls so that we can *hopefully* pass all tests in [**default**](../compiler_tests/default), as well as look at scopes so that we can pass all tests in [**local_var**](../compiler_tests/local_var) (see [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c), need to check how parser handles this).
