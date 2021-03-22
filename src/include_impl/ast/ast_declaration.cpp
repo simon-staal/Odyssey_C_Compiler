@@ -94,13 +94,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       }
       // If no registers are free
       if(destReg == -1){
-        for(auto it = context.stack.back().varBindings.begin(); it != context.stack.back().varBindings.end(); it++){
-          if (it->second.reg != -1){
-            context.regFile.freeReg(it->second.reg); // This variable can still be accessed directly from memory
-            destReg = it->second.reg;
-            it->second.reg = -1; // Inidicate this variable is no longer available in register
-          }
-        }
+        destReg = context.allocateFull();
       }
       branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
       context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg}; // stores the space allocated

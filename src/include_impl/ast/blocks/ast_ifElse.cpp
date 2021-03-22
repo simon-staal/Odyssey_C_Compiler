@@ -49,3 +49,35 @@ void IfElse::PrettyPrint(std::ostream &dst, std::string indent) const
   branches[2]->PrettyPrint(dst, indent+"  ");
   dst << indent << "] endElseScope" << std::endl;
 }
+
+void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+{
+  // If scope
+  context.enterScope();
+
+  // Evaluate condition
+  int conReg = context.regFile.allocate();
+  if(conReg == -1){
+    conReg = context.allocateFull();
+  }
+  branches[0]->generateMIPS(dst, context, conReg);
+
+  // If branch
+  std::string elseLabel = makeLabel("ELSE");
+  std::string endLabel = makeLabel("ENDIF");
+  dst << "bne $" << conReg << ",$0,$" << elseLabel << std::endl;
+  dst << "nop" << std::endl;
+  branches[1]->generateMIPS(dst, context, destReg);
+  context.exitScope();
+  dst << "b $" << endLabel << std::endl; // Go to end of ifElse
+  dst << "nop" << std::endl;
+
+  // Else branch
+  dst << elseLabel << ":" << std::endl;
+  context.enterScope(); // Else scope
+  branches[2]->generateMIPS(dst, context, destReg);
+  context.exitScope();
+
+  // End of ifElse
+  dst << endLabel << ":" << std::endl;
+}

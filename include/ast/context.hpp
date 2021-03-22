@@ -41,6 +41,9 @@ struct Context
   void enterScope();
   void exitScope(std::ostream &dst);
 
+  // If all registers are being used, this will clear a register and return it
+  int allocateFull();
+
   /* Legacy code -- Remove once i'm sure it's useless
   // Read / write variables between memory (stack) and register
   // Manually increments / decrements sp

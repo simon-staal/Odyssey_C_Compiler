@@ -56,13 +56,48 @@ void Context::enterScope()
 
 void Context::exitScope(std::ostream &dst)
 {
+  // Ensures changes to variable from previous scope are retained
+  int oldScope = -(stack.back()[-1]).offset; // Any variable with an offset >= to this offset need to be stored
+  for(auto it = stack.back().varBindings.begin(); it != stack.back().varBindings.end(); it++){
+    if(it->second.offset >= oldScope){
+      int reg = it->second.reg;
+      // If variable is stored in a register write it back to offset to ensure it's preserved
+      if(reg != -1){
+        dst << "sw $" << reg << "," << it->second.offset << "($30)" << std::endl;
+      }
+    }
+  }
+
   // Re-increments stack pointer to deallocate any variables no longer in scope
   if(stack.back().offset > 0){
     dst << "addiu $29,$29," << stack.back().offset << std::endl;
   }
   stack.pop_back(); // Leaves scope, re-enters previous scope
+
+  // Restores registers from previous scope
+  for(auto it = stack.back().varBindings.begin(); it != stack.back().varBindings.end(); it++){
+    int reg = it->second.reg;
+    if(reg != -1){
+      dst << "lw $" << reg << "," << it->second.offset << "($30)" << std::endl;
+    }
+  }
 }
 
+
+int Context::allocateFull()
+{
+  for(auto it = stack.back().varBindings.begin(); it != stack.back().varBindings.end(); it++){
+    int reg = it->second.reg;
+    if(reg != -1){
+      regFile.freeReg(reg);
+      it->second.reg = -1;
+      return reg;
+    }
+  }
+  std::cerr << "Unable to free any registers" << std::endl;
+  exit(1);
+  return -1;
+}
 /* Legacy code
 
 void Context::storeReg(std::ostream &dst, int reg)
