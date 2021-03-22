@@ -9,7 +9,6 @@
 #include <map>
 
 #include "ast/ast_node.hpp"
-#include "ast/ast_nodeList.hpp"
 #include "ast/ast_declarator.hpp"
 #include "ast/ast_initDeclarator.hpp"
 #include "ast/ast_declaration.hpp"
@@ -18,13 +17,14 @@
 #include "ast/ast_return.hpp"
 #include "ast/context.hpp"
 
+#include "ast/lists/ast_nodeList.hpp"
+
 #include "ast/literals/ast_integer.hpp"
 
 #include "ast/types/ast_primitive.hpp"
 
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"
-#include "ast/functions/ast_paramList.hpp"
 
 #include "ast/operators/ast_binaryOperation.hpp"
 #include "ast/operators/binaryOps/ast_binaryAdd.hpp"

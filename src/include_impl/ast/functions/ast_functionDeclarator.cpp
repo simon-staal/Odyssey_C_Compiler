@@ -1,20 +1,20 @@
 #include "ast/functions/ast_functionDeclarator.hpp"
 
 // Constructors
-// Using a NodeListPtr for params to have scalability, currently will be empty for main()
-FunctionDeclarator::FunctionDeclarator(NodePtr id, ParamListPtr params)
+// Using a ParamListPtr for params to have scalability, currently will be empty for main()
+FunctionDeclarator::FunctionDeclarator(NodePtr id, NodeListPtr params)
 {
   branches.push_back(id);
   branches.push_back(params);
 }
 
 FunctionDeclarator::FunctionDeclarator(NodePtr id, std::vector<NodePtr> params)
-  : FunctionDeclarator(id, new ParamList(params))
+  : FunctionDeclarator(id, new NodeList(params))
 {}
 
 // Should work for `main()`
 FunctionDeclarator::FunctionDeclarator(NodePtr id)
-  : FunctionDeclarator(id, new ParamList())
+  : FunctionDeclarator(id, new NodeList())
 {}
 
 // Destructor, not 100% sure if correct
@@ -69,5 +69,27 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   dst << "sw $31,4($29)" << std::endl;
   dst << "move $30,$29" << std::endl;
   // Process params
-  branches[1]->generateMIPS(dst, context, destReg);
+  stackFrame newFrame;
+  int paramSize = 0;
+  NodePtr param = branches[1]->getNode(0);
+  while(param != NULL){
+    int i = 0;
+    std::string var = param->getId();
+    int size = param->getSize();
+    newFrame.varBindings[var] = {size, paramSize+8, -1};
+    if(i < 4){
+      newFrame.varBindings[var].reg = i+4; // First 4 arguments stored in registers $4-$7
+      dst << "sw $" << i+4 << "," << paramSize+8 << "($30)" << std::endl; // The first 4 args aren't actually stored in the right place
+    }
+    paramSize += size;
+    context.functions[id].argSize.push_back(size);
+    i++;
+    param = branches[1]->getNode(i);
+  }
+  if(paramSize < 16 || paramSize > 0){
+    paramSize = 16;
+  }
+  context.functions[id].size = paramSize;
+  context.stack.push_back(newFrame);
+  // branches[1]->generateMIPS(dst, context, destReg);
 }

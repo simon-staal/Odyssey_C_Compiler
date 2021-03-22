@@ -10,6 +10,8 @@
 
 // Contains information related to where a variable exists in memory
 struct variable;
+// contains information related to size of arguments of a function
+struct function;
 // Represents current scope
 struct stackFrame;
 // Regfile
@@ -28,6 +30,7 @@ struct Context
 
   // Globals
   std::map<std::string, variable> globals;
+  std::map<std::string, function> functions; // tracks the size of the arguments
 
   // MIPS Register file
   registers regFile;
@@ -44,25 +47,6 @@ struct Context
   // If all registers are being used, this will clear a register and return it
   int allocateFull();
 
-  /* Legacy code -- Remove once i'm sure it's useless
-  // Read / write variables between memory (stack) and register
-  // Manually increments / decrements sp
-  void storeReg(std::ostream &dst, int reg);
-  void restoreReg(std::ostream &dst, int reg);
-
-  // Read / wrtie variables between memory (stack) and register
-  // from a specified index (requires stack to be already allocated)
-
-  void storeInStack(std::ostream &dst, int reg, int offset);
-  void restoreFromStack(std::ostream &dst, int reg, int offset);
-
-  // sp, fp and ra management for a function return - requires more work for leaf functions
-  void functionReturn(std::ostream &dst);
-  // Manages stack stuff for entering new function call
-  void functionAlloc(std::ostream &dst);
-
-  void functionCall(std::ostream &dst);
-  */
 };
 
 struct variable
@@ -72,11 +56,16 @@ struct variable
   int reg; // Keeps track of which register the variable is in (-1 := not stored in reg)
 };
 
+struct function
+{
+  int size; // Total size of arguments
+  std::vector<int> argSize; // Individual size of each argument
+};
+
 struct stackFrame
 {
   std::map<std::string, variable> varBindings; // Tracks variables in scope
   unsigned int offset = 0; // Keeps track of size of frame to restore the stack pointer for blocks (i.e. while loops, if statements) -- MAKE SURE TO INCREMENT WHEN ALLOCATING VARIABLES
-  int argSize = 16; // Space for arguments of subroutine call -- Extend for function with no arguments (optional optimisation)
   bool inFrame(std::string varName); // Error checking, probably not necessary
 };
 

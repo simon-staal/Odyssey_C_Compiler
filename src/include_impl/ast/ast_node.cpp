@@ -46,6 +46,12 @@ bool Node::isInit() const
   return 1;
 }
 
+NodePtr Node::getNode(unsigned index) const
+{
+  std::cerr << "Tried to getNode of something not implemented" << std::endl;
+  return NULL;
+}
+
 void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
