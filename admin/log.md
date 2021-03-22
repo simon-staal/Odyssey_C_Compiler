@@ -21,6 +21,7 @@ Objectives (last updated 22/03/2021)
 - Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 - Go through failing test-cases and fix it
 - Go through AST and check every file
+- Add void to primitives and make sure it works
 
 Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
