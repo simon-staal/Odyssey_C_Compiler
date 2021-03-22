@@ -17,9 +17,7 @@ public:
   // Destructor, not 100% sure if correct
   virtual ~FunctionDeclarator();
 
-  //This is where things should be
-  NodePtr getIdentifier() const;
-  NodePtr getParams() const;
+  virtual NodePtr getNode(unsigned index) const override;
 
   virtual std::string getId() const override;
   virtual bool isFunction() const override;

@@ -70,6 +70,6 @@ void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg
   }
 
   // Going to function
-  dst << "b " << id << std::endl;
+  dst << "jal " << id << std::endl;
   dst << "nop" << std::endl;
 }

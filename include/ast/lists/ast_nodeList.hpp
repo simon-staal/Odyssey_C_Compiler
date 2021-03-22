@@ -18,7 +18,7 @@ public:
   virtual ~NodeList();
 
   // Get stuff in list
-  NodePtr getNode(unsigned index) const override;
+  virtual NodePtr getNode(unsigned index) const override;
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;

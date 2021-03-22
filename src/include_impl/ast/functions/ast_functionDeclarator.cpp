@@ -24,15 +24,10 @@ FunctionDeclarator::~FunctionDeclarator()
   delete branches[1];
 }
 
-//This is where things should be
-NodePtr FunctionDeclarator::getIdentifier() const
+// Get stuff out to higher nodes in the tree
+NodePtr FunctionDeclarator::getNode(unsigned index) const
 {
-  return branches[0];
-}
-
-NodePtr FunctionDeclarator::getParams() const
-{
-  return branches[1];
+  return branches[index];
 }
 
 std::string FunctionDeclarator::getId() const
@@ -71,9 +66,9 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   // Process params
   stackFrame newFrame;
   int paramSize = 0;
-  NodePtr param = branches[1]->getNode(0);
+  unsigned i = 0;
+  NodePtr param = branches[1]->getNode(i);
   while(param != NULL){
-    int i = 0;
     std::string var = param->getId();
     int size = param->getSize();
     newFrame.varBindings[var] = {size, paramSize+8, -1};
