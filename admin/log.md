@@ -19,15 +19,14 @@ Objectives (last updated 18/03/2021)
 - Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
 - Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 
-Passing Testbench (last updated 20/03/2021)
+Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
 - [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
-- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c)
-- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
 - [**integer/add.c**](../compiler_tests/integer/add.c)
 - [**local_var/expression_initialiser.c**](../compiler_tests/local_var/expression_initialiser.c)
-- [**control_flow**](../compiler_tests/control_flow) - Passing all if/else and sequence testcases
+- [**control_flow**](../compiler_tests/control_flow) - Passing all if/else and sequence testcases.
+- [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 
 Changelog
 ---------
@@ -102,6 +101,9 @@ Solved a big issue where our parser wouldn't correctly work when variables were 
 
 **22/03/2021**
 Implemented codegen for IfElse statements, all relevant tests (that I know of) are passing. Added/Updated functionality in context to work better, and updated return so that it actually exits a function instead of exiting a function at the end of the definiton. Want to implement function calls so that we can *hopefully* pass all tests in [**default**](../compiler_tests/default), as well as look at scopes so that we can pass all tests in [**local_var**](../compiler_tests/local_var) (see [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c), need to check how parser handles this).
+
+*Update_1*
+Updated the scope logic, a little wasteful but should work and I cba making it cleaner, now passing [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c). Reworked the testing scripts to have 2 different scripts, [**test_single.sh**](../utility/test_single.sh) accomplishes what **run_test.sh** did previously (this is now a helper script), and [**test_dir.sh**](../utility/test_dir.sh) tests all testcases in a given directory, or every test if no directory is specified. We now pass every test in [**local_var**](../compiler_tests/local_var).
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
