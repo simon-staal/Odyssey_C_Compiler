@@ -8,23 +8,23 @@ if [[ ! -d "out" ]] ; then
 fi
 
 if [[ $# -eq 0 ]] ; then
-  >&2 echo "Usage: utility/run_test.sh <test_name>"
-  >&2 echo "<test_name> is the name of a test in the compiler_tests directory without filepath (i.e. return_constant.c)"
+  >&2 echo "Usage: utility/run_test.sh <test_path>"
+  >&2 echo "<test_path> is the full path to a test"
   exit 1
 fi
 
 echo "==========Compiling compiler=========="
 make
 
-# Recursively finds test file
-shopt -s globstar
-TEST=$(echo compiler_tests/**/"${1}")
+TEST=${1}
+TEST_NAME=${TEST%.c}
+TEST_NAME=${TEST_NAME##*/}
 TEST_DRIVER=$(echo "${TEST}" | cut -f 1 -d '.')
 TEST_DRIVER="${TEST_DRIVER}_driver.c"
-OUT=$(echo "out/${1}" | cut -f 1 -d '.')
+OUT=$(echo "out/${TEST_NAME}" | cut -f 1 -d '.')
 
-echo "==========Running test for ${1}=========="
-echo "Compiling ${1}"
+echo "==========Running test for ${TEST_NAME}=========="
+echo "Compiling ${TEST_NAME}"
 bin/c_compiler -S "${TEST}" -o "${OUT}.s"
 
 echo "========================================="
@@ -44,4 +44,5 @@ if [[ ${RESULT} -eq 0 ]] ; then
   >&2 echo "Testcase ${1} passed successfully"
 else
   >&2 echo "Testcase ${1} failed"
+  exit 1
 fi

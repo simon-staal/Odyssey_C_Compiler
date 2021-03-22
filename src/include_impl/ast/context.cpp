@@ -49,12 +49,14 @@ bool Context::isGlobal(std::string varName)
 
 void Context::enterScope()
 {
+  //std::cerr << "Entering scope" << std::endl; // Debugging
   assert(stack.size() > 0); // You should only enterScope within a function => at least 1 stackFrame
   stack.push_back(stack.back()); // Creates a copy of current scope (variables declared in function are available in sub-scope)
 }
 
 void Context::exitScope(std::ostream &dst)
 {
+  //std::cerr << "Exiting scope" << std::endl; // Debugging
   // Ensures changes to variable from previous scope are retained
   int oldScope = -(stack.end()[-2]).offset; // Any variable with an offset >= to this offset need to be stored
   for(auto it = stack.back().varBindings.begin(); it != stack.back().varBindings.end(); it++){

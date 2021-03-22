@@ -40,5 +40,5 @@ void FunctionDefinition::generateMIPS(std::ostream &dst, Context &context, int d
   // At this point, $sp and $fp should be pointing at the right place
   // All params are assigned in current.varBindings, and will copied by the function call
   branches[1]->generateMIPS(dst, context, destReg);
-
+  //context.exitScope(dst); // Remove scope created by declaration
 }
