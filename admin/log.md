@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 18/03/2021)
+Objectives (last updated 22/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -17,16 +17,19 @@ Objectives (last updated 18/03/2021)
 - <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
 - Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
-- <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 23/03/2021)
+- <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
 - Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
+- Go through failing test-cases and fix it
+- Go through AST and check every file
 
 Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
-- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
-- [**integer/add.c**](../compiler_tests/integer/add.c)
-- [**control_flow**](../compiler_tests/control_flow) - Passing all testcases, except for loops (not yet implemented)
+- [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
+- [**integer**](../compiler_tests/integer) - Passes 11 out of 12 cases, failing for [**less_than_equal.c**](../compiler_tests/integer/less_than_equal.c)
+- [**control_flow**](../compiler_tests/control_flow) - Passing 9(10) out of 12 cases, failing for loops (not yet implemented), passes one which does nothing
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
+- [**functions**](../compiler_tests/functions) - Passes 7 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c), [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c) and [**call_five_args_internal.c**](../compiler_tests/functions/call_five_args_internal.c)
 
 Changelog
 ---------
@@ -107,6 +110,9 @@ Updated the scope logic, a little wasteful but should work and I cba making it c
 
 *Update_2*
 Implemented while codegen, again the scope stuff is a bit unelegant but if they wanted me to care about having neat implementation they shouldn't just assess the functional correctness of the compile :). Updated ifElse to free the register used to evaluate the condition, previously would have it allocated for the remainder of the runtime of the program. With that our compiler works for all the basic features outlined in the spec (just waiting on kai to finish off some of the operators). Time for function calls!
+
+*Update_3*
+Function calls was a bitch... Had to add some more structs in the AST since we are no longer simply containing a single function definition in our source code. Added a root node and a global scope to contain the different functions (should work for global vars too). Added new method `getNode(unsigned index)` which allows higher up nodes to compile lower branches, as there is too much specific behaviour for more generic branches in different cases (i.e. a declaration containing a function declaration in a function definition (a function definition), or just a declaration containing a function declaration (a function declaration)), and so the behaviour needs to be moved to the top level entity. Also made some changes to the context, added a map to keep track of function declarations so that for calls we now how much space we need to allocate for the arguments. I'll need to go through all the AST files to ensure the new function is correctly done. All the other codegen is untouched, if changes need to be made later we'll cross that bridge when we get to it. On the bright side, our compiler now pasts **A LOT** of tests, updated relevant section.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

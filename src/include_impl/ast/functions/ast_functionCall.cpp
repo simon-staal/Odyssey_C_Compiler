@@ -48,7 +48,6 @@ void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg
     int i = 0;
     int offset = 0;
     while(param != NULL && i < 4){ // First 4 arguments stored in registers $4-$7
-      int i = 0;
       param->generateMIPS(dst, context, i+4);
       offset += context.functions[id].argSize[i];
       i++;
