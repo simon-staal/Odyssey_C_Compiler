@@ -50,9 +50,9 @@
 %type <expr> parameter_declaration type_name abstract_declarator direct_abstract_declarator
 %type <expr> initializer statement labeled_statement compound_statement
 %type <expr> expression_statement selection_statement iteration_statement
-%type <expr> jump_statement translation_unit external_declaration function_definition
+%type <expr> jump_statement external_declaration function_definition
 
-%type <exprList> struct_declaration_list
+%type <exprList> translation_unit struct_declaration_list argument_expression_list
 %type <exprList> specifier_qualifier_list struct_declarator_list
 %type <exprList> enumerator_list parameter_list
 %type <exprList> identifier_list initializer_list declaration_list statement_list
@@ -65,12 +65,12 @@
 
 %%
 /* Extracts AST */
-ROOT : translation_unit { g_root = $1; }
+ROOT : translation_unit { g_root = new Root(new GlobalScope(*$1)); delete $1; }
 
 /* Top level entity */
 translation_unit
-	: external_declaration { $$ = $1; }
-	| translation_unit external_declaration { std::cerr << "TODO, multiple funcitons" << std::endl; }
+	: external_declaration { $$ = initList($1); }
+	| translation_unit external_declaration { $$ = concatList($1, $2); }
 	;
 
 /* Global declaration */
@@ -235,13 +235,17 @@ primary_expression
 postfix_expression
 	: primary_expression { $$ = $1; }
 	| postfix_expression '[' expression ']' { std::cerr << "element access (array)" << std::endl; }
-	| postfix_expression '(' ')' { std::cerr << "Function call" << std::endl; }
-	| postfix_expression '(' assignment_expression ')' { std::cerr << "Function call" << std::endl; }
+	| postfix_expression '(' ')' { $$ = new FunctionCall($1); }
+	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, *$3); delete $3; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
 	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
 	| postfix_expression INC_OP { std::cerr << "++" << std::endl; }
 	| postfix_expression DEC_OP { std::cerr << "--" << std::endl; }
 	;
+
+argument_expression_list
+  : assignment_expression { $$ = initList($1); }
+  | argument_expression_list ',' assignment_expression { $$ = concatList($1, $3); }
 
 unary_expression
 	: postfix_expression { $$ = $1; }

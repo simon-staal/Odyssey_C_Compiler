@@ -16,6 +16,7 @@
 #include "ast/ast_sequence.hpp"
 #include "ast/ast_return.hpp"
 #include "ast/context.hpp"
+#include "ast/ast_root.hpp"
 
 #include "ast/lists/ast_nodeList.hpp"
 
@@ -25,6 +26,7 @@
 
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"
+#include "ast/functions/ast_functionCall.hpp"
 
 #include "ast/operators/ast_binaryOperation.hpp"
 #include "ast/operators/binaryOps/ast_binaryAdd.hpp"
@@ -69,6 +71,7 @@
 #include "ast/operators/unaryOps/ast_unaryPreInc.hpp"
 
 #include "ast/blocks/ast_scope.hpp"
+#include "ast/blocks/ast_scopeGlobal.hpp"
 #include "ast/blocks/ast_ifElse.hpp"
 #include "ast/blocks/ast_while.hpp"
 
