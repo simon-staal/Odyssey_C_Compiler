@@ -37,8 +37,6 @@ void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) cons
 void FunctionDefinition::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   branches[0]->generateMIPS(dst, context, destReg);
-  stackFrame current = context.stack.back();
-  // dst << "addiu $29,$29,-" << current.argSize << std::endl; arguments stored in previous scope
   // At this point, $sp and $fp should be pointing at the right place
   // All params are assigned in current.varBindings, and will copied by the function call
   branches[1]->generateMIPS(dst, context, destReg);

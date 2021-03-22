@@ -19,23 +19,6 @@ Objectives (last updated 18/03/2021)
 - Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
 - Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 
-Building AST Correctly (last updated 14/03/2021)
-------------------------------------------------
-This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for. The way this testing is done (currently) is by manually inspecting the graphically rendered AST (done using the `PrettyPrint()` method) and ensuring it matches what we expect.
-- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c) Function returning integer constant.
-- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
-- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
-- [**integer/add.c:**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
-- [**control_flow/sequence.c**](../compiler_tests/control_flow/sequence.c) A simple function, declaring an integer variable x, then assigning its value to 1, then adding it to itself, then returning x.
-- [**if_else_false.c**](../compiler_tests/control_flow/if_else_false.c) Function with a literal 0 in the condition of an if/else statement with return statements.
-- [**if_else_true.c**](../compiler_tests/control_flow/if_else_true.c) Same as above but with literal 1.
-- [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
-- [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
-- [**while_multiple.c**](../compiler_tests/control_flow/while_multiple.c) Assigns a value of 20 to integer x, then runs a while loop decrementing x by 1 each iteration until x > 10, at which point it exits the loop and returns x.
-- [**while_once.c**](../compiler_tests/control_flow/while_once.c) Assigns a value of 1 to integer x, then runs a while loop with x as the condition. The loop sets the value of x to 0, causing the loop to exit and return a constant.
-- [**while_zero.c**](../compiler_tests/control_flow/while_zero.c) A while loop with a literal 0 in the condition, causing the program to never enter the loop and return 19937 (updated test case to return a different value inside the while)
-
-
 Passing Testbench (last updated 20/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
@@ -119,3 +102,21 @@ Solved a big issue where our parser wouldn't correctly work when variables were 
 
 **22/03/2021**
 Implemented codegen for IfElse statements, all relevant tests (that I know of) are passing. Added/Updated functionality in context to work better, and updated return so that it actually exits a function instead of exiting a function at the end of the definiton. Want to implement function calls so that we can *hopefully* pass all tests in [**default**](../compiler_tests/default), as well as look at scopes so that we can pass all tests in [**local_var**](../compiler_tests/local_var) (see [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c), need to check how parser handles this).
+
+Building AST Correctly (last updated 14/03/2021)
+------------------------------------------------
+*This probably won't be updated anymore, refer back to the Passing Testbench section for what our compiler passes*
+
+This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for. The way this testing is done (currently) is by manually inspecting the graphically rendered AST (done using the `PrettyPrint()` method) and ensuring it matches what we expect.
+- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c) Function returning integer constant.
+- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
+- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
+- [**integer/add.c:**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
+- [**control_flow/sequence.c**](../compiler_tests/control_flow/sequence.c) A simple function, declaring an integer variable x, then assigning its value to 1, then adding it to itself, then returning x.
+- [**if_else_false.c**](../compiler_tests/control_flow/if_else_false.c) Function with a literal 0 in the condition of an if/else statement with return statements.
+- [**if_else_true.c**](../compiler_tests/control_flow/if_else_true.c) Same as above but with literal 1.
+- [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
+- [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
+- [**while_multiple.c**](../compiler_tests/control_flow/while_multiple.c) Assigns a value of 20 to integer x, then runs a while loop decrementing x by 1 each iteration until x > 10, at which point it exits the loop and returns x.
+- [**while_once.c**](../compiler_tests/control_flow/while_once.c) Assigns a value of 1 to integer x, then runs a while loop with x as the condition. The loop sets the value of x to 0, causing the loop to exit and return a constant.
+- [**while_zero.c**](../compiler_tests/control_flow/while_zero.c) A while loop with a literal 0 in the condition, causing the program to never enter the loop and return 19937 (updated test case to return a different value inside the while)

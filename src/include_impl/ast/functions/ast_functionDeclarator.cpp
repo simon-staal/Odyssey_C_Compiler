@@ -59,7 +59,7 @@ void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) cons
 void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::string id = branches[0]->getId();
-  // Macro, check this
+  // Macro, check this <-(seems to be working pog)
   dst << ".globl " << id << std::endl;
   // Function label
   dst << id << ":" << std::endl;

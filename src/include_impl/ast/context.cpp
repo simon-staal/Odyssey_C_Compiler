@@ -51,7 +51,6 @@ void Context::enterScope()
 {
   assert(stack.size() > 0); // You should only enterScope within a function => at least 1 stackFrame
   stack.push_back(stack.back()); // Creates a copy of current scope (variables declared in function are available in sub-scope)
-  stack.back().offset = 0; // Increment stack pointer by stack.back().offset once leaving scope to deallocate memory
 }
 
 void Context::exitScope(std::ostream &dst)
@@ -69,8 +68,9 @@ void Context::exitScope(std::ostream &dst)
   }
 
   // Re-increments stack pointer to deallocate any variables no longer in scope
-  if(stack.back().offset > 0){
-    dst << "addiu $29,$29," << stack.back().offset << std::endl;
+  int diff = stack.back().offset - oldScope;
+  if(diff > 0){
+    dst << "addiu $29,$29," << diff << std::endl;
   }
   stack.pop_back(); // Leaves scope, re-enters previous scope
 

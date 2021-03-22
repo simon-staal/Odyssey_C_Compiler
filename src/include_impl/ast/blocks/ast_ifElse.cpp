@@ -52,7 +52,7 @@ void IfElse::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  // If scope
+  // If scope (needed for condition)
   context.enterScope();
 
   // Evaluate condition
@@ -68,15 +68,13 @@ void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   dst << "beq $" << conReg << ",$0," << elseLabel << std::endl;
   dst << "nop" << std::endl;
   branches[1]->generateMIPS(dst, context, destReg);
-  context.exitScope(dst);
+  context.exitScope(dst); // Exit ifscope
   dst << "b " << endLabel << std::endl; // Go to end of ifElse
   dst << "nop" << std::endl;
 
   // Else branch
   dst << elseLabel << ":" << std::endl;
-  context.enterScope(); // Else scope
   branches[2]->generateMIPS(dst, context, destReg);
-  context.exitScope(dst);
 
   // End of ifElse
   dst << endLabel << ":" << std::endl;
