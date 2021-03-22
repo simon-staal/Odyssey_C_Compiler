@@ -67,6 +67,7 @@ void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   std::string endLabel = context.makeLabel("ENDIF");
   dst << "beq $" << conReg << ",$0," << elseLabel << std::endl;
   dst << "nop" << std::endl;
+  context.regFile.freeReg(conReg); // Condition no longer needed
   branches[1]->generateMIPS(dst, context, destReg);
   context.exitScope(dst); // Exit ifscope
   dst << "b " << endLabel << std::endl; // Go to end of ifElse
