@@ -17,7 +17,8 @@ Objectives (last updated 18/03/2021)
 - <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
 - Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
-- Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
+- <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 23/03/2021)
+- Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 
 Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
@@ -25,7 +26,7 @@ This list will keep track of the [pre-included test cases](../compiler_tests) th
 - [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c)
 - [**integer/add.c**](../compiler_tests/integer/add.c)
 - [**local_var/expression_initialiser.c**](../compiler_tests/local_var/expression_initialiser.c)
-- [**control_flow**](../compiler_tests/control_flow) - Passing all if/else and sequence testcases.
+- [**control_flow**](../compiler_tests/control_flow) - Passing all testcases, except for loops (not yet implemented)
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 
 Changelog
@@ -104,6 +105,9 @@ Implemented codegen for IfElse statements, all relevant tests (that I know of) a
 
 *Update_1*
 Updated the scope logic, a little wasteful but should work and I cba making it cleaner, now passing [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c). Reworked the testing scripts to have 2 different scripts, [**test_single.sh**](../utility/test_single.sh) accomplishes what **run_test.sh** did previously (this is now a helper script), and [**test_dir.sh**](../utility/test_dir.sh) tests all testcases in a given directory, or every test if no directory is specified. We now pass every test in [**local_var**](../compiler_tests/local_var).
+
+*Update_2*
+Implemented while codegen, again the scope stuff is a bit unelegant but if they wanted me to care about having neat implementation they shouldn't just assess the functional correctness of the compile :). Updated ifElse to free the register used to evaluate the condition, previously would have it allocated for the remainder of the runtime of the program. With that our compiler works for all the basic features outlined in the spec (just waiting on kai to finish off some of the operators). Time for function calls!
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
