@@ -4,8 +4,8 @@ CC = g++
 CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function
 CPPFLAGS += -I include -I src
 
-HPPFILES = $(wildcard include/ast/*.hpp) include/ast.hpp include/parser_list.hpp $(wildcard include/ast/*/*.hpp) $(wildcard src/include_impl/*/*/*.hpp)
-CPPFILES = $(wildcard src/*.cpp) $(wildcard src/include_impl/*.cpp) $(wildcard src/include_impl/*/*.cpp) $(wildcard src/include_impl/*/*/*.cpp) $(wildcard src/include_impl/*/*/*/*.cpp)
+HPPFILES := $(shell find include/ -type f -name "*.hpp")
+CPPFILES := $(shell find src/ -type f -name "*.cpp")
 OBJS = $(patsubst %.cpp,%.o,$(CPPFILES))
 
 all : $(LINK_TARGET)
