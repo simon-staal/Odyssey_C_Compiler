@@ -63,20 +63,20 @@ void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   branches[0]->generateMIPS(dst, context, conReg);
 
   // If branch
-  std::string elseLabel = makeLabel("ELSE");
-  std::string endLabel = makeLabel("ENDIF");
-  dst << "bne $" << conReg << ",$0,$" << elseLabel << std::endl;
+  std::string elseLabel = context.makeLabel("ELSE");
+  std::string endLabel = context.makeLabel("ENDIF");
+  dst << "beq $" << conReg << ",$0," << elseLabel << std::endl;
   dst << "nop" << std::endl;
   branches[1]->generateMIPS(dst, context, destReg);
-  context.exitScope();
-  dst << "b $" << endLabel << std::endl; // Go to end of ifElse
+  context.exitScope(dst);
+  dst << "b " << endLabel << std::endl; // Go to end of ifElse
   dst << "nop" << std::endl;
 
   // Else branch
   dst << elseLabel << ":" << std::endl;
   context.enterScope(); // Else scope
   branches[2]->generateMIPS(dst, context, destReg);
-  context.exitScope();
+  context.exitScope(dst);
 
   // End of ifElse
   dst << endLabel << ":" << std::endl;

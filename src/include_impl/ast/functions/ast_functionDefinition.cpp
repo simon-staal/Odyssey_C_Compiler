@@ -42,11 +42,5 @@ void FunctionDefinition::generateMIPS(std::ostream &dst, Context &context, int d
   // At this point, $sp and $fp should be pointing at the right place
   // All params are assigned in current.varBindings, and will copied by the function call
   branches[1]->generateMIPS(dst, context, destReg);
-  dst << "move $29,$30" << std::endl;
-  dst << "lw $30,0($29)" << std::endl;
-  dst << "lw $31,4($29)" << std::endl;
-  dst << "addiu $29,$29,8" << std::endl;
-  dst << "jr $31" << std::endl;
-  dst << "nop" << std::endl; // <- Not using delay slot (gross)
 
 }

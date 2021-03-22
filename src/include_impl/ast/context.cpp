@@ -57,7 +57,7 @@ void Context::enterScope()
 void Context::exitScope(std::ostream &dst)
 {
   // Ensures changes to variable from previous scope are retained
-  int oldScope = -(stack.back()[-1]).offset; // Any variable with an offset >= to this offset need to be stored
+  int oldScope = -(stack.end()[-2]).offset; // Any variable with an offset >= to this offset need to be stored
   for(auto it = stack.back().varBindings.begin(); it != stack.back().varBindings.end(); it++){
     if(it->second.offset >= oldScope){
       int reg = it->second.reg;
