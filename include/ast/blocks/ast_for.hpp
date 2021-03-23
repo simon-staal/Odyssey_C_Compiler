@@ -1,17 +1,17 @@
-#ifndef ast_while_hpp
-#define ast_while_hpp
+#ifndef ast_for_hpp
+#define ast_for_hpp
 
 #include "ast/ast_node.hpp"
 
-class While
+class For
   : public Node
 {
 public:
   // Constructor
-  While(NodePtr condition, NodePtr scope);
+  For(NodePtr initializer, NodePtr condition, NodePtr increment, NodePtr scope);
 
   // Destructor
-  virtual ~While();
+  virtual ~For();
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;

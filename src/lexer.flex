@@ -1,6 +1,8 @@
 %option noyywrap
 
 %{
+// A lot of this lexer is based off the ANSI C grammar:
+// https://www.lysator.liu.se/c/ANSI-C-grammar-l.html#MUL-ASSIGN
 // Avoid error "error: `fileno' was not declared in this scope"
 extern "C" int fileno(FILE *stream);
 

@@ -11,6 +11,7 @@
 #include "ast/ast_node.hpp"
 #include "ast/ast_nodeList.hpp"
 #include "ast/ast_root.hpp"
+#include "ast/ast_empty.hpp"
 #include "ast/ast_declarator.hpp"
 #include "ast/ast_initDeclarator.hpp"
 #include "ast/ast_declaration.hpp"
@@ -23,6 +24,7 @@
 #include "ast/blocks/ast_scopeGlobal.hpp"
 #include "ast/blocks/ast_ifElse.hpp"
 #include "ast/blocks/ast_while.hpp"
+#include "ast/blocks/ast_for.hpp"
 
 #include "ast/literals/ast_integer.hpp"
 

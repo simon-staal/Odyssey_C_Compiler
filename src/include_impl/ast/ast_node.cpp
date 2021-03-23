@@ -60,7 +60,6 @@ std::string Node::getId() const
 
 bool Node::isFunction() const
 {
-  std::cerr << "By default not a function" << std::endl;
   return false;
 }
 
