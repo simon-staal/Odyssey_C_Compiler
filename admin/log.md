@@ -19,10 +19,10 @@ Objectives (last updated 22/03/2021)
 - <del> Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.</del> (Marked complete 23/03/2021)
 - <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
 - Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
-- Go through failing test-cases and fix it
-- <del> Go through AST and check every file </del> (Marked complete 23/03/2021)
+- Go through failing test-cases in functions and fix what needs to be fixed
+- <del> Go through AST and check every file (except operators) </del> (Marked complete 23/03/2021)
 - Add void to primitives and make sure it works
-- Check memory being allocated for called function arguments
+- <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
 
 Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
