@@ -13,8 +13,10 @@ void UnarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) co
 
   GetOp()->generateMIPS(dst, context, destReg);
 
+<<<<<<< HEAD
   dst << "sub $" << destReg << ", $0, $" << destReg << std::endl; 
+=======
+  dst << "sub $" << destReg << ",$0,$" << reg << std::endl; 
+>>>>>>> master
 
 }
-
-
