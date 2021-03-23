@@ -22,6 +22,7 @@ Objectives (last updated 22/03/2021)
 - Go through failing test-cases and fix it
 - Go through AST and check every file
 - Add void to primitives and make sure it works
+- Check memory being allocated for called function arguments
 
 Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
