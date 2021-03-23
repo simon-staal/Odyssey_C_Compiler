@@ -1,4 +1,6 @@
 %code requires{
+  // A lot of this parser is based off the ANSI C Yacc grammar
+  // https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
   #include "ast.hpp"
   #include "parser_list.hpp"
 

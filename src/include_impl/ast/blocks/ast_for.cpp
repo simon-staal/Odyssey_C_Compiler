@@ -53,7 +53,13 @@ void For::generateMIPS(std::ostream &dst, Context &context, int destReg) const
   std::string endLabel = context.makeLabel("END");
   dst << "beq $" << itReg << ",$0," << endLabel << std::endl;
   dst << "nop" << std::endl;
-  branches[3]->generateMIPS(dst, context, destReg); // Scope
+  unsigned i = 0;
+  NodePtr node = branches[3]->getNode(i);
+  while(node != NULL){
+    node->generateMIPS(dst, context, destReg); // Scope
+    i++;
+    node = branches[3]->getNode(i);
+  }
   branches[2]->generateMIPS(dst, context, itReg); // Increment
   dst << "b " << startLabel << std::endl;
   dst << "nop" << std::endl;

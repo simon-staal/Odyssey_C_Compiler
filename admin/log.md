@@ -28,8 +28,8 @@ Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**integer**](../compiler_tests/integer) - Passes 11 out of 12 cases, failing for [**less_than_equal.c**](../compiler_tests/integer/less_than_equal.c)
-- [**control_flow**](../compiler_tests/control_flow) - Passing 9(10) out of 12 cases, failing for loops (not yet implemented), passes one which does nothing
+- [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
+- [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 - [**functions**](../compiler_tests/functions) - Passes 9 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c)
 
@@ -121,6 +121,9 @@ Going to go through the repo and remove all the obsolete garbage code / add docu
 
 *Update_1*
 Found issue with [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c), it has to do with how left / right ops are handled across function calls. Implemented correct behaviour in binaryAdd, this functionality will have to be refactored to work across all binary operators except assignment (and thing about unary stuff as well) - leaving that to kai cause that's his baby. After making this fix, we now pass 47/87 testcases!
+
+*Update_2*
+Finished implementing for loops, now passing all testcases in [**control_flow**](../compiler_tests/control_flow). Also added scripts to create new testcases, as not everything is tested by the testcases provided. Added test to ensure that a for loop with no increment works, and it now passes (after finding and solving a typo in unarySub which would print the wrong assembly). Can no longer test every file in the test directory, as some of the array tests using for-loop lead to an infinite loop, so won't be testing the entire directory until we get arrays implemented. For now I've moved array tests into a different directory so I can still make sure that I'm not breaking anything. Currently passing 48/83 testcases
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
