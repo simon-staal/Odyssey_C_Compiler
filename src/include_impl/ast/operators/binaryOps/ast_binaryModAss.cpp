@@ -14,12 +14,20 @@ void BinaryModAss::PrettyPrint(std::ostream &dst, std::string indent) const
 void BinaryModAss::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
 
-  int regLeft = DoLeft(dst, context, destReg);
-  int regRight = DoRight(dst, context, destReg, regLeft);
+  variable Var = LeftVar(context);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
+  RightOp()->generateMIPS(dst, context, destReg);
 
-  context.regFile.freeReg(regLeft);
-  context.regFile.freeReg(regRight);
+  if( Var.reg == -1){
+    int reg = context.allocate();
+    dst << "lw $" << reg << ", " << Var.offset << "($30)" << std::endl;
+    EZPrint(dst, "add", reg, reg, destReg);
+    Var.reg = reg;
+
+  }else{
+
+    EZPrint(dst, "add", Var.reg, Var.reg, destReg);
+  }
+  
 }
  

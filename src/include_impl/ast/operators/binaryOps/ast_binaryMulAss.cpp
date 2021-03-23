@@ -13,17 +13,23 @@ void BinaryMulAss::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryMulAss::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int regLeft, regRight;
-  if( ((regLeft = context.regFile.allocate()) == -1) |  ((regRight = context.regFile.allocate()) == -1) ){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
+
+  variable Var = LeftVar(context);
+
+  RightOp()->generateMIPS(dst, context, destReg);
+
+  if( Var.reg == -1){
+    int reg = context.allocate();
+    dst << "lw $" << reg << ", " << Var.offset << "($30)" << std::endl;
+    dst << "mult $" << reg << ", $" << destReg << std::endl;
+    dst << "mflo $" << reg << std::endl;
+    Var.reg = reg;
+
+  }else{
+    
+    dst << "mult $" << Var.reg << ", $" << destReg << std::endl;
+    dst << "mflo $" << Var.reg << std::endl;
   }
 
-  LeftOp()->generateMIPS(dst, context, regLeft);
-  RightOp()->generateMIPS(dst, context, regRight);
-
-  EZPrint(dst, "add", destReg, regLeft, regRight);
-
-  context.regFile.freeReg(regLeft);
-  context.regFile.freeReg(regRight);
 }
  

@@ -20,6 +20,7 @@ void BinaryAddAss::generateMIPS(std::ostream &dst, Context &context, int destReg
 
   if( Var.reg == -1){
     int reg = context.allocate();
+    dst << "lw $" << reg << ", " << Var.offset << "($30)" << std::endl;
     EZPrint(dst, "add", reg, reg, destReg);
     Var.reg = reg;
 

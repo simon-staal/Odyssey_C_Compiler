@@ -18,10 +18,6 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
   std::string id = getId();
   variable tmp;
 
-  // Ensures free register is used (pretty sure this will never be used)
-  if(destReg == -1){
-    destReg = context.allocate();
-  }
 
   // Finds variable
   auto it = context.stack.back().varBindings.find(id);
