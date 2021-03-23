@@ -17,6 +17,8 @@ void BinaryXORAss::generateMIPS(std::ostream &dst, Context &context, int destReg
 
   RightOp()->generateMIPS(dst, context, destReg);
 
+  ifFunction(dst, context, destReg);
+
   if( Var.reg == -1){
     int reg = context.allocate();
     dst << "lw $" << reg << ", " << Var.offset << "($30)" << std::endl;

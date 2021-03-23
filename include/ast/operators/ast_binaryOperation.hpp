@@ -33,6 +33,9 @@ public:
 
     virtual void AssEnd(std::ostream &dst, Context &context, int destReg, variable VarLeft) const;
 
+    void ifFunction(std::ostream &dst, Context &context, int destReg) const;
+
+
 
 };
 

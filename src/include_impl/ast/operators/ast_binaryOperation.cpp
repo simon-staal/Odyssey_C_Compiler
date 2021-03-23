@@ -104,3 +104,11 @@ void BinaryOperation::AssEnd(std::ostream &dst, Context &context, int destReg, v
     dst << "move $" << VarLeft.reg << ", $" << destReg << std::endl;
   }
 }
+
+void BinaryOperation::ifFunction(std::ostream &dst, Context &context, int destReg) const
+{
+    if(RightOp()->isFunction()){
+        dst << "move $" << destReg << ", $2" << std::endl;
+
+    }
+}

@@ -13,4 +13,7 @@ void UnaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) co
 
   GetOp()->generateMIPS(dst, context, destReg);
 
+  ifFunction(dst, context, destReg);
+
+
 }

@@ -19,3 +19,11 @@ void UnaryOperation::generateMIPS(std::ostream &dst, Context &context, int destR
 {
     
 }
+
+void UnaryOperation::ifFunction(std::ostream &dst, Context &context, int destReg) const
+{
+    if(GetOp()->isFunction()){
+        dst << "move $" << destReg << ", $2" << std::endl;
+
+    }
+}

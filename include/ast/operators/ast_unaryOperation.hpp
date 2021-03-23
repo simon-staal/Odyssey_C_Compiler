@@ -22,6 +22,9 @@ public:
 
     virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
 
+    void ifFunction(std::ostream &dst, Context &context, int destReg) const;
+
+
 };
 
 #endif

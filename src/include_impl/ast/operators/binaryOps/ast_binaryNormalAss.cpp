@@ -18,6 +18,9 @@ void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int dest
 
   RightOp()->generateMIPS(dst, context, destReg);
 
+  ifFunction(dst, context, destReg);
+
+
   AssEnd(dst, context, destReg, Var);
 
 }

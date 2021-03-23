@@ -14,8 +14,11 @@ void UnaryBWNOT::generateMIPS(std::ostream &dst, Context &context, int destReg) 
 
   GetOp()->generateMIPS(dst, context, destReg);
 
+  ifFunction(dst, context, destReg);
+
   int reg = context.allocate();
   dst << "li $" << reg << ", -1" << std::endl;
-  EZPrint(dst, "xor", destReg, destReg, reg);
+
+  dst << "xor $" << destReg << ", $" << destReg << ", $" << reg << std::endl;
 
 }
