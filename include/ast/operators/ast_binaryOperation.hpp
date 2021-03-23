@@ -25,6 +25,15 @@ public:
     
     virtual void EZPrint(std::ostream &dst, std::string instr, int destReg, int regLeft, int regRight) const;
 
+    virtual int DoLeft(std::ostream &dst, Context &context, int destReg) const;
+
+    virtual int DoRight(std::ostream &dst, Context &context, int destReg, int regLeft) const;
+
+    virtual variable LeftVar(Context &context) const;
+
+    virtual void AssEnd(std::ostream &dst, Context &context, int destReg, variable VarLeft) const;
+
+
 };
 
 

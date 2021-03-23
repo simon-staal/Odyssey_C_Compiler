@@ -13,47 +13,18 @@ void BinaryAddAss::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryAddAss::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-   if(destReg == -1){
-    for(auto it = context.stack.back().varBindings.begin(); it != context.stack.back().varBindings.end(); it++){
-      if (it->second.reg != -1){
-        context.regFile.freeReg(it->second.reg); // This variable can still be accessed directly from memory
-        destReg = it->second.reg;
-        it->second.reg = -1; // Inidicate this variable is no longer available in register
-      }
-     }
-    }
 
+  variable Var = LeftVar(context);
 
-  std::string id = RightOp()->getId();
-  variable left;
+  RightOp()->generateMIPS(dst, context, destReg);
 
-  auto it = context.stack.back().varBindings.find(id);
-  if( it == context.stack.back().varBindings.end() ){
-    dst << "Uninitialised Variable?" << std::endl;
-  }else{
-    left = it->second;
-  }
-
-  int regRight;
-  if( ((regRight = context.regFile.allocate()) == -1) ){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
-  }
-
-  RightOp()->generateMIPS(dst, context, regRight);
-
-  if(left.reg == -1){
-
-    dst << "lw $" << destReg << ", " << left.offset << "($30)" << std::endl;
-    EZPrint(dst, "add", destReg, destReg, regRight);
-    left.reg = destReg;
-    dst << "sw $" << destReg << ", "<< left.offset << "($30)" << std::endl; // Stores result in variable
-
+  if( Var.reg == -1){
+    int reg = context.allocate();
+    EZPrint(dst, "add", reg, reg, destReg);
+    Var.reg = reg;
 
   }else{
-    EZPrint(dst, "add", left.reg, left.reg, regRight);
-    dst << "sw $" << left.reg << ", "<< left.offset << "($30)" << std::endl; // Stores result in variable
 
+    EZPrint(dst, "add", Var.reg, Var.reg, destReg);
   }
-
-  context.regFile.freeReg(regRight);
 }

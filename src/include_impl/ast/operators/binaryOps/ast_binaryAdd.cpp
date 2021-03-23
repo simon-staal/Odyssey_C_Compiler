@@ -12,35 +12,9 @@ void BinaryAdd::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int regLeft, regRight;
-  if( ((regLeft = context.regFile.allocate()) == -1) |  ((regRight = context.regFile.allocate()) == -1) ){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
-  }
 
-  // Process left operand
-  LeftOp()->generateMIPS(dst, context, regLeft);
-  if(LeftOp()->isFunction()){
-    dst << "move $" << regLeft << ",$2" << std::endl;
-  }
-
-  // Process right operand
-  if(RightOp()->isFunction()){ // Preserve leftop across function call
-    // Preserves $s0
-    dst << "addiu $29,$29,-4" << std::endl;
-    context.stack.back().offset += 4;
-    context.stack.back().varBindings["$s0"] = {4, -context.stack.back().offset, -1};
-    dst << "sw $s0,0($29)" << std::endl;
-    // Move leftOp into $s0 to be preserved
-    dst << "move $s0,$" << regLeft << std::endl;
-  }
-  RightOp()->generateMIPS(dst, context, regRight);
-  if(RightOp()->isFunction()){
-    // Restore regleft
-    dst << "move $" << regLeft << ",$s0" << std::endl;
-    // Restore $s0
-    dst << "lw $s0," << context.stack.back().varBindings["$s0"].offset << "($30)" << std::endl;
-    dst << "move $" << regRight << ",$2" << std::endl;
-  }
+  int regLeft = DoLeft(dst, context, destReg);
+  int regRight = DoRight(dst, context, destReg, regLeft);
 
   EZPrint(dst, "add", destReg, regLeft, regRight);
 
