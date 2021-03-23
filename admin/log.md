@@ -24,14 +24,18 @@ Objectives (last updated 22/03/2021)
 - Add void to primitives and make sure it works
 - <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
 
-Passing Testbench (last updated 22/03/2021)
+Passing Testbench (last updated 23/03/2021)
 -------------------------------------------
-This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
+This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../utility/run_test.sh). Running single testcases are done using [**test_single.sh**](../utility/test_single.sh) and testing subdirectories (or all tests) is done using [**test_dir.sh**](../utility/test_dir.sh).
+
+We are currently passing:
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**integer**](../compiler_tests/integer) - Passes 11 out of 12 cases, failing for [**less_than_equal.c**](../compiler_tests/integer/less_than_equal.c)
+- [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 9(10) out of 12 cases, failing for loops (not yet implemented), passes one which does nothing
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 - [**functions**](../compiler_tests/functions) - Passes 9 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c)
+
+Overall we are passing **47/87** total testcases.
 
 Changelog
 ---------
