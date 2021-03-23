@@ -16,6 +16,15 @@ Declarator::~Declarator()
   delete branches[0];
 }
 
+// Visualising
+void Declarator::PrettyPrint(std::ostream &dst, std::string indent) const
+{
+  dst << indent << "Declarator: [" << std::endl;
+  branches[0]->PrettyPrint(dst, indent+"  ");
+  dst << indent << "]" << std::endl;
+}
+
+// Helpers for codegen
 std::string Declarator::getId() const
 {
   return branches[0]->getId();
@@ -29,12 +38,4 @@ bool Declarator::isFunction() const
 bool Declarator::isInit() const
 {
   return false;
-}
-
-// Visualising
-void Declarator::PrettyPrint(std::ostream &dst, std::string indent) const
-{
-  dst << indent << "Declarator: [" << std::endl;
-  branches[0]->PrettyPrint(dst, indent+"  ");
-  dst << indent << "]" << std::endl;
 }

@@ -24,10 +24,12 @@ void Return::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
+// Codegen
 void Return::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-
+  // Evaluates expression into $2
   branches[0]->generateMIPS(dst, context, 2);
+  
   // Exiting function
   dst << "move $29,$30" << std::endl;
   dst << "lw $30,0($29)" << std::endl;

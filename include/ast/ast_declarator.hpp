@@ -12,18 +12,18 @@ class Declarator
 public:
   // Constructors
   Declarator(NodePtr id);
-
   Declarator(std::string id);
 
   // Destructor
   virtual ~Declarator();
 
+  // Visualising
+  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+
+  // Codegen helpers
   virtual std::string getId() const override;
   virtual bool isFunction() const override;
   virtual bool isInit() const override;
-
-  // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
 };
 

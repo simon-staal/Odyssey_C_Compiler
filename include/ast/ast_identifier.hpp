@@ -12,13 +12,12 @@ public:
   // Constructor
   Identifier(std::string _id);
 
-  // Getting identifier
-  std::string getId() const override;
-
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
+  std::string getId() const override; // Getting identifier
 };
 
 #endif

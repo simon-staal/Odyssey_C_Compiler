@@ -7,19 +7,22 @@ class PrimitiveType
   : public Node
 {
 public:
+  // Supported types
   enum Specifier {
-    // Supported types
     _int
   };
 
+  // Constructor
   PrimitiveType(Specifier _type);
 
-  int getSize() const override;
-
+  // Destructor
   ~PrimitiveType();
 
+  // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Helper for codegen
+  int getSize() const override;
 protected:
   Specifier type;
 };

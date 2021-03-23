@@ -1,22 +1,15 @@
 #include "ast/types/ast_primitive.hpp"
 
+// Constructor
 PrimitiveType::PrimitiveType(Specifier _type)
   : type(_type)
 {}
 
+// Destructor
 PrimitiveType::~PrimitiveType()
 {};
 
-int PrimitiveType::getSize() const
-{
-  switch(type){
-    case _int:
-      return 4;
-    default:
-      return NULL;
-  }
-}
-
+// Visualising
 void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   switch(type){
@@ -27,4 +20,15 @@ void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const
       dst << "unknown type ";
   }
   dst << std::endl;
+}
+
+// Codegen helper
+int PrimitiveType::getSize() const
+{
+  switch(type){
+    case _int:
+      return 4;
+    default:
+      return 0;
+  }
 }

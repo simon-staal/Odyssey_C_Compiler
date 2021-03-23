@@ -11,32 +11,20 @@ class Declaration
 {
 public:
   // Constructors
-
-  /* Legacy code, refer back if needed
-  // For scaling, not necessary atm (probably lmao)
-  // Basically, we're gonna always have a declaration as a type at branches[0] and then a list of declarations at branches[1]
-  Declaration(NodePtr type, NodeListPtr declarations);
-  Declaration(NodePtr type, std::vector<NodePtr> declarations);
-  // Case where it's just 1 declaration (probs the one we'll usually use)
-  Declaration(NodePtr type, NodePtr declaration);
-  // idk if we ever have a declaration with just a type, this is here just in case ig
-  Declaration(NodePtr type);
-  */
-
   Declaration(NodePtr type, NodePtr id);
   Declaration(NodePtr type);
 
   // Destructor
   virtual ~Declaration();
 
-  virtual NodePtr getNode(unsigned index) const override;
-  virtual int getSize() const override;
-  virtual std::string getId() const override;
-
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  virtual NodePtr getNode(unsigned index) const override;
+  virtual int getSize() const override;
+  virtual std::string getId() const override;
 };
 
 #endif

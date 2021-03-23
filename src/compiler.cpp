@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		};
 		std::ofstream ofs(argv[4], std::ofstream::out);
 		if(ofs.is_open()){
-			for(int i = 0; i < macros.size(); i++){
+			for(unsigned i = 0; i < macros.size(); i++){
 				ofs << macros[i] << std::endl;
 			}
 			program->generateMIPS(ofs, context, 2);

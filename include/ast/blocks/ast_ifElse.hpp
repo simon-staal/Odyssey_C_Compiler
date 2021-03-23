@@ -15,14 +15,10 @@ public:
   // Destructor
   virtual ~IfElse();
 
-  // Where things should be
-  NodePtr getCondition() const;
-  NodePtr getIfScope() const;
-  NodePtr getElseScope() const;
-
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Codegen
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
 };
 

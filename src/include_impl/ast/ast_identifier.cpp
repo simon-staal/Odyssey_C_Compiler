@@ -5,47 +5,47 @@ Identifier::Identifier(std::string _id)
   : id(_id)
 {}
 
-// Getting identifier
-std::string Identifier::getId() const
-{
-  if(branches.empty()) { return id; }
-  else{ return branches[0]->getId(); }
-}
-
 // Visualising
 void Identifier::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Identifier: " << id << std::endl;
 }
 
+// Codegen
 void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  // only if declarator for variable
-  // context.stack.back().varBindings[id] = {0, 0};
+  // Only used if identifier for variable, used in evaluation
   std::string id = getId();
   variable tmp;
 
+  // Ensures free register is used (pretty sure this will never be used)
   if(destReg == -1){
-    for(auto it = context.stack.back().varBindings.begin(); it != context.stack.back().varBindings.end(); it++){
-      if (it->second.reg != -1){
-        context.regFile.freeReg(it->second.reg); // This variable can still be accessed directly from memory
-        destReg = it->second.reg;
-        it->second.reg = -1; // Inidicate this variable is no longer available in register
-      }
-     }
-    }
+    destReg = context.allocate();
+  }
 
+  // Finds variable
   auto it = context.stack.back().varBindings.find(id);
   if( it == context.stack.back().varBindings.end() ){
-    //variable doesnt exist in current frame !!
+    //variable doesnt exist in current frame !! -> handle globals later
+    std::cerr << "Globals not yet implemented (or code is invalid lmao)" << std::endl;
+    exit(1);
   }else{
     tmp = it->second;
   }
 
+  // Puts variable in destReg
   if(tmp.reg == -1){
     dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
   }else{
+    // This is fucking gross, will discuss with kai to fix if time allows (find register variable is stored in in higher node)
     dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
   }
 
+}
+
+// Getting identifier (codegen helper)
+std::string Identifier::getId() const
+{
+  if(branches.empty()) { return id; }
+  else{ return branches[0]->getId(); }
 }

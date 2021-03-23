@@ -15,7 +15,7 @@ void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int dest
 {
 
   if(destReg == -1){
-    destReg = context.allocateFull();
+    destReg = context.allocate();
   }
 
 

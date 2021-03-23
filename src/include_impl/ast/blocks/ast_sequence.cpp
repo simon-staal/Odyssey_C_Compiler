@@ -1,4 +1,4 @@
-#include "ast/ast_sequence.hpp"
+#include "ast/blocks/ast_sequence.hpp"
 
 // Constructors
 Sequence::Sequence()

@@ -20,7 +20,7 @@ struct registers
   int usedRegs[32] = {1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1};
   void useReg(int i); // Register is now being used
   void freeReg(int i); // Register is no longer being used
-  int allocate(); // Returns empty register, -1 if no registers are available
+  int allocate(); // Returns empty register, -1 if no registers are available (Helper function for context)
 };
 
 struct Context
@@ -38,14 +38,15 @@ struct Context
   // Return a unique label for assembly code
   std::string makeLabel(std::string label);
 
-  bool isGlobal(std::string varName); // Use to check which map to use
+  bool isGlobal(std::string varName); // Use to check which map to use for variables
 
   // Used to manage scope within a function (i.e. block structures - ifElse, while, for)
   void enterScope();
   void exitScope(std::ostream &dst);
 
+  // Use this method for allocation
   // If all registers are being used, this will clear a register and return it
-  int allocateFull();
+  int allocate();
 
 };
 
@@ -58,8 +59,8 @@ struct variable
 
 struct function
 {
-  int size; // Total size of arguments
-  std::vector<int> argSize; // Individual size of each argument
+  unsigned int size; // Total size of arguments
+  std::vector<unsigned int> argSize; // Individual size of each argument
 };
 
 struct stackFrame

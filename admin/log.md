@@ -116,6 +116,9 @@ Implemented while codegen, again the scope stuff is a bit unelegant but if they 
 *Update_3*
 Function calls was a bitch... Had to add some more structs in the AST since we are no longer simply containing a single function definition in our source code. Added a root node and a global scope to contain the different functions (should work for global vars too). Added new method `getNode(unsigned index)` which allows higher up nodes to compile lower branches, as there is too much specific behaviour for more generic branches in different cases (i.e. a declaration containing a function declaration in a function definition (a function definition), or just a declaration containing a function declaration (a function declaration)), and so the behaviour needs to be moved to the top level entity. Also made some changes to the context, added a map to keep track of function declarations so that for calls we now how much space we need to allocate for the arguments. I'll need to go through all the AST files to ensure the new function is correctly done. All the other codegen is untouched, if changes need to be made later we'll cross that bridge when we get to it. On the bright side, our compiler now pasts **A LOT** of tests, updated relevant section.
 
+**23/03/2021**
+Going to go through the repo and remove all the obsolete garbage code / add documentation to clean things up. Pre-refactor we pass 43/87 total testcases provided (for future me to refer back to and make sure I don't break anything). Cleaned a lot of stuff post refactor, and noticed a bug in function call, so now passing 44/87 testcases :D.
+
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
 *This probably won't be updated anymore, refer back to the Passing Testbench section for what our compiler passes*

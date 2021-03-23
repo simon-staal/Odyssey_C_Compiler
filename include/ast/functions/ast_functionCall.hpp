@@ -2,7 +2,7 @@
 #define ast_functionCall_hpp
 
 #include "ast/ast_node.hpp"
-#include "ast/lists/ast_nodeList.hpp"
+#include "ast/ast_nodeList.hpp"
 
 // Represents a function call as an identifier + parameters
 
@@ -18,12 +18,12 @@ public:
   // Destructor
   virtual ~FunctionCall();
 
-  virtual std::string getId() const override;
-
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  virtual std::string getId() const override;
 };
 
 #endif

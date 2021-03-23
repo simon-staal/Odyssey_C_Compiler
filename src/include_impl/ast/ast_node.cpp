@@ -1,5 +1,6 @@
 #include "ast/ast_node.hpp"
 
+// Constructors
 // Used in derived classes
 Node::Node(std::vector<NodePtr> _branches)
   : branches(_branches)
@@ -15,6 +16,7 @@ Node::Node(std::vector<NodePtr> branches1, std::vector<NodePtr> branches2)
   branches.insert(branches.end(), branches2.begin(), branches2.end());
 }
 
+// Destructor
 Node::~Node()
 {
   for(unsigned i = 0; i < branches.size(); i++){
@@ -22,6 +24,28 @@ Node::~Node()
   }
 }
 
+// Visualising
+// Overloading << for nodes, just to make things look nice
+std::ostream &operator<<(std::ostream &dst, const Node &Node)
+{
+  Node.PrettyPrint(dst, "");
+  return dst;
+}
+
+std::ostream &operator<<(std::ostream &dst, const NodePtr Node)
+{
+  Node->PrettyPrint(dst, "");
+  return dst;
+}
+
+// Codegen
+void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+{
+  std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
+  exit(1);
+}
+
+// Codegen helpers
 int Node::getSize() const
 {
   std::cerr << "Tried to getSize of something not implemented" << std::endl;
@@ -50,23 +74,4 @@ NodePtr Node::getNode(unsigned index) const
 {
   std::cerr << "Tried to getNode of something not implemented" << std::endl;
   return NULL;
-}
-
-void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
-{
-  std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
-  exit(1);
-}
-
-// Overloading << for nodes, just to make things look nice
-std::ostream &operator<<(std::ostream &dst, const Node &Node)
-{
-  Node.PrettyPrint(dst, "");
-  return dst;
-}
-
-std::ostream &operator<<(std::ostream &dst, const NodePtr Node)
-{
-  Node->PrettyPrint(dst, "");
-  return dst;
 }

@@ -15,13 +15,10 @@ public:
   // Destructor
   virtual ~FunctionDefinition();
 
-  // Where stuff is
-  NodePtr getDeclaration() const;
-  NodePtr getScope() const;
-
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Codegen
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
 };
 

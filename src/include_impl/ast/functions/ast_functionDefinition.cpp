@@ -1,7 +1,7 @@
 #include "ast/functions/ast_functionDefinition.hpp"
 
 // Constructors
-FunctionDefinition::FunctionDefinition(NodePtr declaration, NodePtr scope) //<- tempted to change type of scope to ScopePtr but then i'd have to include the hpp
+FunctionDefinition::FunctionDefinition(NodePtr declaration, NodePtr scope)
 {
   branches.push_back(declaration);
   branches.push_back(scope);
@@ -14,17 +14,6 @@ FunctionDefinition::~FunctionDefinition()
   delete branches[1];
 }
 
-// Where stuff is
-NodePtr FunctionDefinition::getDeclaration() const
-{
-  return branches[0];
-}
-
-NodePtr FunctionDefinition::getScope() const
-{
-  return branches[1];
-}
-
 // Visualising
 void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) const
 {
@@ -34,6 +23,7 @@ void FunctionDefinition::PrettyPrint(std::ostream &dst, std::string indent) cons
   dst << indent << "]" << std::endl;
 }
 
+// Codegen
 void FunctionDefinition::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   NodePtr funcDec = branches[0]->getNode(1);

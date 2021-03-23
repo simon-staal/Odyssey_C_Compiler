@@ -10,9 +10,10 @@ void GlobalScope::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
+// Codegen
 void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  for(int i = 0; i < branches.size(); i++){
+  for(unsigned i = 0; i < branches.size(); i++){
     branches[i]->generateMIPS(dst, context, destReg);
   }
 }

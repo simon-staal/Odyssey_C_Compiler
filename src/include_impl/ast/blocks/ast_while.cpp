@@ -1,27 +1,20 @@
 #include "ast/blocks/ast_while.hpp"
 
+// Constructor
 While::While(NodePtr condition, NodePtr scope)
 {
   branches.push_back(condition);
   branches.push_back(scope);
 }
 
+// Destructor
 While::~While()
 {
   delete branches[0];
   delete branches[1];
 }
 
-NodePtr While::getCondition() const
-{
-  return branches[0];
-}
-
-NodePtr While::getScope() const
-{
-  return branches[1];
-}
-
+// Visualising
 void While::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "While condition [" << std::endl;
@@ -32,6 +25,7 @@ void While::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "] endScope" << std::endl;
 }
 
+// Codegen
 void While::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   // Required to evaluate condition
@@ -41,10 +35,7 @@ void While::generateMIPS(std::ostream &dst, Context &context, int destReg) const
   dst << startLabel << ":" << std::endl;
 
   //Evaluate condition
-  int conReg = context.regFile.allocate();
-  if(conReg == -1){
-    conReg = context.allocateFull();
-  }
+  int conReg = context.allocate();
   branches[0]->generateMIPS(dst, context, conReg);
 
   // Scope of while loop

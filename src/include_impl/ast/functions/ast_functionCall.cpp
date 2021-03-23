@@ -1,5 +1,6 @@
 #include "ast/functions/ast_functionCall.hpp"
 
+// Constructors
 FunctionCall::FunctionCall(NodePtr id, NodeListPtr params)
 {
   branches.push_back(id);
@@ -14,17 +15,14 @@ FunctionCall::FunctionCall(NodePtr id)
   : FunctionCall(id, new NodeList())
 {}
 
+// Destructor
 FunctionCall::~FunctionCall()
 {
   delete branches[0];
   delete branches[1];
 }
 
-std::string FunctionCall::getId() const
-{
-  return branches[0]->getId();
-}
-
+// Visualising
 void FunctionCall::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Function Call [" << std::endl;
@@ -35,6 +33,7 @@ void FunctionCall::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
+// Codegen + helpers
 void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::string id = getId();
@@ -54,10 +53,7 @@ void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg
       param = branches[1]->getNode(i);
     }
     if(argSize > 16){ // Rest stored in memory
-      int paramReg = context.regFile.allocate();
-      if(paramReg == -1){
-        paramReg = context.allocateFull();
-      }
+      int paramReg = context.allocate();
       while(param != NULL){
         param->generateMIPS(dst, context, paramReg);
         dst << "sw $" << paramReg << "," << offset << "($29)" << std::endl;
@@ -71,4 +67,9 @@ void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg
   // Going to function
   dst << "jal " << id << std::endl;
   dst << "nop" << std::endl;
+}
+
+std::string FunctionCall::getId() const
+{
+  return branches[0]->getId();
 }

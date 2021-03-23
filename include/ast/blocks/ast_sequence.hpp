@@ -1,7 +1,7 @@
 #ifndef ast_sequence_hpp
 #define ast_sequence_hpp
 
-#include "ast_node.hpp"
+#include "ast/ast_node.hpp"
 
 // Represents a generic sequence of c++ code, basically going to be used for scope, keeping sequence generic
 // cause it might be reusable for other shit later (globals?)

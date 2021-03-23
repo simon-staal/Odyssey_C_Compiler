@@ -10,16 +10,14 @@ private:
   int value;
 
 public:
-  // Constructor
+  // Constructors
   Integer(int _value);
-
   Integer(); // Default initializer
-
-  // Useful shit (probs)
-  int getValue() const;
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+
+  // Codegen
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
 
 };

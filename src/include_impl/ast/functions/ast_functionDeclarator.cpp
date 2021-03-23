@@ -1,7 +1,6 @@
 #include "ast/functions/ast_functionDeclarator.hpp"
 
 // Constructors
-// Using a ParamListPtr for params to have scalability, currently will be empty for main()
 FunctionDeclarator::FunctionDeclarator(NodePtr id, NodeListPtr params)
 {
   branches.push_back(id);
@@ -12,32 +11,15 @@ FunctionDeclarator::FunctionDeclarator(NodePtr id, std::vector<NodePtr> params)
   : FunctionDeclarator(id, new NodeList(params))
 {}
 
-// Should work for `main()`
 FunctionDeclarator::FunctionDeclarator(NodePtr id)
   : FunctionDeclarator(id, new NodeList())
 {}
 
-// Destructor, not 100% sure if correct
+// Destructor
 FunctionDeclarator::~FunctionDeclarator()
 {
   delete branches[0];
   delete branches[1];
-}
-
-// Get stuff out to higher nodes in the tree
-NodePtr FunctionDeclarator::getNode(unsigned index) const
-{
-  return branches[index];
-}
-
-std::string FunctionDeclarator::getId() const
-{
-  return branches[0]->getId();
-}
-
-bool FunctionDeclarator::isFunction() const
-{
-  return true;
 }
 
 // Visualising
@@ -51,10 +33,11 @@ void FunctionDeclarator::PrettyPrint(std::ostream &dst, std::string indent) cons
   dst << indent << "]" << std::endl;
 }
 
+// Codegen + helpers
 void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::string id = branches[0]->getId();
-  // Macro, check this <-(seems to be working pog)
+  // Macro, required for linking or something
   dst << ".globl " << id << std::endl;
   // Function label
   dst << id << ":" << std::endl;
@@ -63,6 +46,7 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   dst << "sw $30,0($29)" << std::endl;
   dst << "sw $31,4($29)" << std::endl;
   dst << "move $30,$29" << std::endl;
+
   // Process params
   stackFrame newFrame;
   int paramSize = 0;
@@ -81,10 +65,25 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
     i++;
     param = branches[1]->getNode(i);
   }
-  if(paramSize < 16 || paramSize > 0){
+  if(paramSize < 16 && paramSize > 0){
     paramSize = 16;
   }
   context.functions[id].size = paramSize;
   context.stack.push_back(newFrame);
-  // branches[1]->generateMIPS(dst, context, destReg);
+}
+
+// Helpers for codegen
+NodePtr FunctionDeclarator::getNode(unsigned index) const
+{
+  return branches[index];
+}
+
+std::string FunctionDeclarator::getId() const
+{
+  return branches[0]->getId();
+}
+
+bool FunctionDeclarator::isFunction() const
+{
+  return true;
 }

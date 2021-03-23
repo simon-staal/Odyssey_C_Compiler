@@ -17,17 +17,15 @@ public:
   // Destructor
   virtual ~InitDeclarator();
 
-  virtual std::string getId() const override;
-
-  virtual bool isFunction() const override;
-
-  virtual bool isInit() const override;
-
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
+  // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
-  
+  virtual std::string getId() const override;
+  virtual bool isFunction() const override;
+  virtual bool isInit() const override;
+
 };
 
 #endif

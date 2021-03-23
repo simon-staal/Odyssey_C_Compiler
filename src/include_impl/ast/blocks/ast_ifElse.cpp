@@ -20,22 +20,6 @@ IfElse::~IfElse()
   delete branches[2];
 }
 
-// Where things should be
-NodePtr IfElse::getCondition() const
-{
-  return branches[0];
-}
-
-NodePtr IfElse::getIfScope() const
-{
-  return branches[1];
-}
-
-NodePtr IfElse::getElseScope() const
-{
-  return branches[2];
-}
-
 // Visualising
 void IfElse::PrettyPrint(std::ostream &dst, std::string indent) const
 {
@@ -50,16 +34,14 @@ void IfElse::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "] endElseScope" << std::endl;
 }
 
+// Codegen
 void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   // If scope (needed for condition)
   context.enterScope();
 
   // Evaluate condition
-  int conReg = context.regFile.allocate();
-  if(conReg == -1){
-    conReg = context.allocateFull();
-  }
+  int conReg = context.allocate();
   branches[0]->generateMIPS(dst, context, conReg);
 
   // If branch
