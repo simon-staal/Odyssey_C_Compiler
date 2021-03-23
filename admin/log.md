@@ -31,7 +31,7 @@ This list will keep track of the [pre-included test cases](../compiler_tests) th
 - [**integer**](../compiler_tests/integer) - Passes 11 out of 12 cases, failing for [**less_than_equal.c**](../compiler_tests/integer/less_than_equal.c)
 - [**control_flow**](../compiler_tests/control_flow) - Passing 9(10) out of 12 cases, failing for loops (not yet implemented), passes one which does nothing
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
-- [**functions**](../compiler_tests/functions) - Passes 7 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c), [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c) and [**call_five_args_internal.c**](../compiler_tests/functions/call_five_args_internal.c)
+- [**functions**](../compiler_tests/functions) - Passes 8 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c) and [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c)
 
 Changelog
 ---------
