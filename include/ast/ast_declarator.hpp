@@ -19,9 +19,7 @@ public:
   virtual ~Declarator();
 
   virtual std::string getId() const override;
-
   virtual bool isFunction() const override;
-
   virtual bool isInit() const override;
 
   // Visualising

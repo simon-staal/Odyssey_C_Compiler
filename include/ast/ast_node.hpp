@@ -36,6 +36,8 @@ public:
   virtual bool isFunction() const;
   // Used in codegen to check if declarator is initialised
   virtual bool isInit() const;
+  // Used in codegen for lists
+  virtual NodePtr getNode(unsigned index) const;
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const = 0;

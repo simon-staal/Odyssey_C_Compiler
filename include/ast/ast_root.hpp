@@ -1,17 +1,19 @@
-#ifndef ast_paramList_hpp
-#define ast_paramList_hpp
+#ifndef ast_root_hpp
+#define ast_root_hpp
 
-#include "ast/ast_nodeList.hpp"
+#include "ast_node.hpp"
 
-class ParamList;
-typedef ParamList *ParamListPtr;
-
-class ParamList
-  : public NodeList
+class Root
+  : public Node
 {
 public:
-  using NodeList::NodeList;
+  // Constructor
+  Root(NodePtr globalScope);
 
+  // Destructor
+  virtual ~Root();
+
+  // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;

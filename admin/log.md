@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 18/03/2021)
+Objectives (last updated 22/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -17,33 +17,20 @@ Objectives (last updated 18/03/2021)
 - <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
 - Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
-- Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
+- <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
+- Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
+- Go through failing test-cases and fix it
+- Go through AST and check every file
+- Add void to primitives and make sure it works
 
-Building AST Correctly (last updated 14/03/2021)
-------------------------------------------------
-This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for. The way this testing is done (currently) is by manually inspecting the graphically rendered AST (done using the `PrettyPrint()` method) and ensuring it matches what we expect.
-- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c) Function returning integer constant.
-- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
-- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
-- [**integer/add.c:**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
-- [**control_flow/sequence.c**](../compiler_tests/control_flow/sequence.c) A simple function, declaring an integer variable x, then assigning its value to 1, then adding it to itself, then returning x.
-- [**if_else_false.c**](../compiler_tests/control_flow/if_else_false.c) Function with a literal 0 in the condition of an if/else statement with return statements.
-- [**if_else_true.c**](../compiler_tests/control_flow/if_else_true.c) Same as above but with literal 1.
-- [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
-- [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
-- [**while_multiple.c**](../compiler_tests/control_flow/while_multiple.c) Assigns a value of 20 to integer x, then runs a while loop decrementing x by 1 each iteration until x > 10, at which point it exits the loop and returns x.
-- [**while_once.c**](../compiler_tests/control_flow/while_once.c) Assigns a value of 1 to integer x, then runs a while loop with x as the condition. The loop sets the value of x to 0, causing the loop to exit and return a constant.
-- [**while_zero.c**](../compiler_tests/control_flow/while_zero.c) A while loop with a literal 0 in the condition, causing the program to never enter the loop and return 19937 (updated test case to return a different value inside the while)
-
-
-Passing Testbench (last updated 20/03/2021)
+Passing Testbench (last updated 22/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../run_test.sh). This program currently runs a single test-case, will add a second script to run all tests later.
-- [**default**](../compiler_tests/default) Except test_CALL.c
-- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c)
-- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c)
-- [**integer**](../compiler_tests/integer) All passing!
-- [**local_var/expression_initialiser.c**](../compiler_tests/local_var/expression_initialiser.c)
+- [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
+- [**integer**](../compiler_tests/integer) - Passes 11 out of 12 cases, failing for [**less_than_equal.c**](../compiler_tests/integer/less_than_equal.c)
+- [**control_flow**](../compiler_tests/control_flow) - Passing 9(10) out of 12 cases, failing for loops (not yet implemented), passes one which does nothing
+- [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
+- [**functions**](../compiler_tests/functions) - Passes 7 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c), [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c) and [**call_five_args_internal.c**](../compiler_tests/functions/call_five_args_internal.c)
 
 Changelog
 ---------
@@ -115,3 +102,33 @@ Added `While` class in AST for while loops, now correctly producing the AST for 
 
 **20/03/2021**
 Solved a big issue where our parser wouldn't correctly work when variables were declared and initialised at the same time, added new AST class to handle it. Also worked a lot more on register allocation / representation in context, seems to be working and passing more tests. <del>*Note: We were passing test cases where assembly being produced was wrong, I'm not sure why this was the case, might need to clarify with UTA.*</del> **never mind, I fixed this issue in the script**. Just need to keep working on codegen and running more tests.
+
+**22/03/2021**
+Implemented codegen for IfElse statements, all relevant tests (that I know of) are passing. Added/Updated functionality in context to work better, and updated return so that it actually exits a function instead of exiting a function at the end of the definiton. Want to implement function calls so that we can *hopefully* pass all tests in [**default**](../compiler_tests/default), as well as look at scopes so that we can pass all tests in [**local_var**](../compiler_tests/local_var) (see [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c), need to check how parser handles this).
+
+*Update_1*
+Updated the scope logic, a little wasteful but should work and I cba making it cleaner, now passing [**scoped_var.c**](../compiler_tests/local_var/scoped_var.c). Reworked the testing scripts to have 2 different scripts, [**test_single.sh**](../utility/test_single.sh) accomplishes what **run_test.sh** did previously (this is now a helper script), and [**test_dir.sh**](../utility/test_dir.sh) tests all testcases in a given directory, or every test if no directory is specified. We now pass every test in [**local_var**](../compiler_tests/local_var).
+
+*Update_2*
+Implemented while codegen, again the scope stuff is a bit unelegant but if they wanted me to care about having neat implementation they shouldn't just assess the functional correctness of the compile :). Updated ifElse to free the register used to evaluate the condition, previously would have it allocated for the remainder of the runtime of the program. With that our compiler works for all the basic features outlined in the spec (just waiting on kai to finish off some of the operators). Time for function calls!
+
+*Update_3*
+Function calls was a bitch... Had to add some more structs in the AST since we are no longer simply containing a single function definition in our source code. Added a root node and a global scope to contain the different functions (should work for global vars too). Added new method `getNode(unsigned index)` which allows higher up nodes to compile lower branches, as there is too much specific behaviour for more generic branches in different cases (i.e. a declaration containing a function declaration in a function definition (a function definition), or just a declaration containing a function declaration (a function declaration)), and so the behaviour needs to be moved to the top level entity. Also made some changes to the context, added a map to keep track of function declarations so that for calls we now how much space we need to allocate for the arguments. I'll need to go through all the AST files to ensure the new function is correctly done. All the other codegen is untouched, if changes need to be made later we'll cross that bridge when we get to it. On the bright side, our compiler now pasts **A LOT** of tests, updated relevant section.
+
+Building AST Correctly (last updated 14/03/2021)
+------------------------------------------------
+*This probably won't be updated anymore, refer back to the Passing Testbench section for what our compiler passes*
+
+This list will keep track of the [pre-included test cases](../compiler_tests) our AST builds correctly for. The way this testing is done (currently) is by manually inspecting the graphically rendered AST (done using the `PrettyPrint()` method) and ensuring it matches what we expect.
+- [**default/test_RETURN.c:**](../compiler_tests/default/test_RETURN.c) Function returning integer constant.
+- [**local_var/return_constant.c:**](../compiler_tests/local_var/return_constant.c) Function returning  integer constant.
+- [**local_var/identity.c:**](../compiler_tests/local_var/identity.c) Function returning variable.
+- [**integer/add.c:**](../compiler_tests/integer/add.c) Function taking 2 input parameters (int variables), returning the sum of both.
+- [**control_flow/sequence.c**](../compiler_tests/control_flow/sequence.c) A simple function, declaring an integer variable x, then assigning its value to 1, then adding it to itself, then returning x.
+- [**if_else_false.c**](../compiler_tests/control_flow/if_else_false.c) Function with a literal 0 in the condition of an if/else statement with return statements.
+- [**if_else_true.c**](../compiler_tests/control_flow/if_else_true.c) Same as above but with literal 1.
+- [**if_false.c**](../compiler_tests/control_flow/if_false.c) Function with a literal 0 in the condition of an exclusive if statement with return statements.
+- [**if_true.c**](../compiler_tests/control_flow/if_true.c) Same as above but with literal 1.
+- [**while_multiple.c**](../compiler_tests/control_flow/while_multiple.c) Assigns a value of 20 to integer x, then runs a while loop decrementing x by 1 each iteration until x > 10, at which point it exits the loop and returns x.
+- [**while_once.c**](../compiler_tests/control_flow/while_once.c) Assigns a value of 1 to integer x, then runs a while loop with x as the condition. The loop sets the value of x to 0, causing the loop to exit and return a constant.
+- [**while_zero.c**](../compiler_tests/control_flow/while_zero.c) A while loop with a literal 0 in the condition, causing the program to never enter the loop and return 19937 (updated test case to return a different value inside the while)

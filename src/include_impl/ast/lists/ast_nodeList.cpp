@@ -1,4 +1,4 @@
-#include "ast/ast_nodeList.hpp"
+#include "ast/lists/ast_nodeList.hpp"
 
 // Constructors
 NodeList::NodeList(std::vector<NodePtr> nodes)
@@ -21,7 +21,12 @@ NodeList::~NodeList()
 // Get stuff in list
 NodePtr NodeList::getNode(unsigned index) const
 {
-  return branches[index];
+  if(index < branches.size()){
+    return branches[index];
+  }
+  else{
+    return NULL;
+  }
 }
 
 // Visualising

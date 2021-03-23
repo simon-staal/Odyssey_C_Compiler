@@ -1,19 +1,13 @@
-#ifndef ast_scope_hpp
-#define ast_scope_hpp
+#ifndef ast_scopeGlobal_hpp
+#define ast_scopeGlobal_hpp
 
 #include "ast/ast_sequence.hpp"
 
-// The meat and potatoes of a function, basically a sequence
-
-class Scope
+class GlobalScope
   : public Sequence
 {
 public:
-  // I think this works? (<-it does) should do everything like Sequence
   using Sequence::Sequence;
-
-  // Just in case we need it
-  std::vector<NodePtr> getScope();
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;

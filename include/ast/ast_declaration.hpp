@@ -29,11 +29,7 @@ public:
   // Destructor
   virtual ~Declaration();
 
-  // Where things in should be
-  NodePtr getType() const;
-
-  NodePtr getDeclarations() const; // Actually returns a NodeListPtr (but it's stored as a NodePtr)
-
+  virtual NodePtr getNode(unsigned index) const override;
   virtual int getSize() const override;
   virtual std::string getId() const override;
 

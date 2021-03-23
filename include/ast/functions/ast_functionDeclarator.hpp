@@ -2,15 +2,14 @@
 #define ast_functionDeclarator_hpp
 
 #include "ast/ast_node.hpp"
-#include "ast/functions/ast_paramList.hpp"
+#include "ast/lists/ast_nodeList.hpp"
 
 class FunctionDeclarator
   : public Node
 {
 public:
   // Constructors
-  // Using a NodeListPtr for params to have scalability, currently will be empty for main()
-  FunctionDeclarator(NodePtr id, ParamListPtr params);
+  FunctionDeclarator(NodePtr id, NodeListPtr params);
   FunctionDeclarator(NodePtr id, std::vector<NodePtr> params);
   // Should work for `main()`
   FunctionDeclarator(NodePtr id);
@@ -18,13 +17,9 @@ public:
   // Destructor, not 100% sure if correct
   virtual ~FunctionDeclarator();
 
-  //This is where things should be
-  NodePtr getIdentifier() const;
-
-  NodePtr getParams() const;
+  virtual NodePtr getNode(unsigned index) const override;
 
   virtual std::string getId() const override;
-
   virtual bool isFunction() const override;
 
   // Visualising

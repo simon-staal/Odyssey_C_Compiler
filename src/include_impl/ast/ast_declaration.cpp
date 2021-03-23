@@ -41,15 +41,9 @@ Declaration::~Declaration()
   delete branches[1];
 }
 
-// Where things in should be
-NodePtr Declaration::getType() const
+NodePtr Declaration::getNode(unsigned index) const
 {
-  return branches[0];
-}
-
-NodePtr Declaration::getDeclarations() const // Actually returns a NodeListPtr (but it's stored as a NodePtr)
-{
-  return branches[1];
+  return branches[index];
 }
 
 int Declaration::getSize() const
@@ -78,7 +72,18 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   int size = branches[0]->getSize();
   if(branches[1]->isFunction()){
     // Deals with function declaration
-    branches[1]->generateMIPS(dst, context, destReg);
+    std::string id = branches[1]->getNode(0)->getId();
+    int argSize = 0;
+    unsigned i = 0;
+    NodePtr param = branches[1]->getNode(1)->getNode(i);
+    while(param != NULL){
+      int size = param->getSize();
+      context.functions[id].argSize.push_back(size);
+      argSize += size;
+      i++;
+      param = branches[1]->getNode(1)->getNode(i);
+    }
+    context.functions[id].size = argSize;
   }
   else{
     // Deals with variable declaration
@@ -94,13 +99,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       }
       // If no registers are free
       if(destReg == -1){
-        for(auto it = context.stack.back().varBindings.begin(); it != context.stack.back().varBindings.end(); it++){
-          if (it->second.reg != -1){
-            context.regFile.freeReg(it->second.reg); // This variable can still be accessed directly from memory
-            destReg = it->second.reg;
-            it->second.reg = -1; // Inidicate this variable is no longer available in register
-          }
-        }
+        destReg = context.allocateFull();
       }
       branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
       context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg}; // stores the space allocated
