@@ -11,14 +11,10 @@ void UnaryNOT::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void UnaryNOT::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int reg;
-  if( (reg = context.regFile.allocate()) == -1){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
-  }
 
-  GetOp()->generateMIPS(dst, context, reg);
+  GetOp()->generateMIPS(dst, context, destReg);
 
-  dst << "sub $" << destReg << ", $0, " << reg << std::endl; 
+  dst << "slti $" << destReg << ", $" << destReg << ", 1" << std::endl; 
 
   context.regFile.freeReg(reg);
 }

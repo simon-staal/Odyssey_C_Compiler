@@ -10,16 +10,11 @@ void UnarySub::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void UnarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int reg;
-  if( (reg = context.regFile.allocate()) == -1){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
-  }
 
-  GetOp()->generateMIPS(dst, context, reg);
+  GetOp()->generateMIPS(dst, context, destReg);
 
-  dst << "sub $" << destReg << ", $0, $" << reg << std::endl; 
+  dst << "sub $" << destReg << ", $0, $" << destReg << std::endl; 
 
-  context.regFile.freeReg(reg);
 }
 
 

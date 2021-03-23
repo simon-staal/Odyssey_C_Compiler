@@ -10,14 +10,29 @@ void UnaryPreInc::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void UnaryPreInc::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int reg;
-  if( (reg = context.regFile.allocate()) == -1){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
+  std::string id = GetOp()->getId();
+  variable op;
+
+  auto it = context.stack.back().varBindings.find(id);
+  if( it == context.stack.back().varBindings.end() ){
+    std::cerr << "Pre Dec a non var?" << std::endl;
+  }else{
+    op = it->second;
   }
 
-  GetOp()->generateMIPS(dst, context, reg);
+  if(op.reg == -1){
 
-  dst << "sub $" << destReg << ", $0, " << reg << std::endl; 
+    dst << "lw $" << destReg << ", " << op.offset << "($30)" << std::endl;
+    dst << "addiu $" << destReg << ", $" << destReg << ", 1" << std::endl;
+    dst << "sw $" << destReg << ", " << op.offset << "($30)" << std::endl;
 
-  context.regFile.freeReg(reg);
+
+  }else{
+
+    dst << "addiu $" << op.reg << ", $" << op.reg << ", +1" << std::endl;
+    dst << "sw $" << op.reg << ", " << op.offset << "($30)" << std::endl;
+    dst << "move $" << destReg << ", $" << op.reg << std::endl;
+
+
+  }
 }
