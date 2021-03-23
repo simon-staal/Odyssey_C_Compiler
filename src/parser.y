@@ -214,8 +214,8 @@ selection_statement
 iteration_statement
 	: WHILE '(' expression ')' statement { $$ = new While($3, $5); }
 	| DO statement WHILE '(' expression ')' ';' { ; }
-	| FOR '(' expression_statement expression_statement ')' statement { ; }
-	| FOR '(' expression_statement expression_statement expression ')' statement { ; }
+	| FOR '(' expression_statement expression_statement ')' statement { $$ = new For($3, $4, new EmptyNode(), $6); }
+	| FOR '(' expression_statement expression_statement expression ')' statement { $$ = new For($3, $4, $5, $7); }
 	;
 
 /* Continue / break / return */

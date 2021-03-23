@@ -22,7 +22,7 @@ void While::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "] endCondition" << std::endl;
   dst << indent << "Do scope [" << std::endl;
   branches[1]->PrettyPrint(dst, indent+"  ");
-  dst << indent << "] endScope" << std::endl;
+  dst << indent << "] endDoScope" << std::endl;
 }
 
 // Codegen
@@ -39,7 +39,7 @@ void While::generateMIPS(std::ostream &dst, Context &context, int destReg) const
   branches[0]->generateMIPS(dst, context, conReg);
 
   // Scope of while loop
-  std::string endLabel = context.makeLabel("ENDWHILE");
+  std::string endLabel = context.makeLabel("END");
   dst << "beq $" << conReg << ",$0," << endLabel << std::endl;
   dst << "nop" << std::endl;
   branches[1]->generateMIPS(dst, context, destReg);
