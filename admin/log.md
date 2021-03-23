@@ -16,7 +16,7 @@ Objectives (last updated 22/03/2021)
 - <del> Extend AST to fully support all basic features outlined in the [**compiler spec**](../c_compiler.md)</del> (Marked complete 18/03/2021)
 - <del> Start codegen implementation for current AST nodes so that our compiler is able to produce assembly for base test case</del> (Reworked 17/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
-- Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.
+- <del> Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.</del> (Marked complete 23/03/2021)
 - <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
 - Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 - Go through failing test-cases and fix it
