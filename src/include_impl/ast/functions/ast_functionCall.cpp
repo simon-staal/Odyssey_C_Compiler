@@ -73,3 +73,8 @@ std::string FunctionCall::getId() const
 {
   return branches[0]->getId();
 }
+
+bool FunctionCall::isFunction() const
+{
+  return true;
+}

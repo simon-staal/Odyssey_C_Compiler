@@ -60,8 +60,8 @@ std::string Node::getId() const
 
 bool Node::isFunction() const
 {
-  std::cerr << "Tried to check isFunction of something not implemented" << std::endl;
-  return 1;
+  std::cerr << "By default not a function" << std::endl;
+  return false;
 }
 
 bool Node::isInit() const

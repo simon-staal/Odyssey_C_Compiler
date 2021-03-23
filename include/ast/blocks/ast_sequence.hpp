@@ -24,6 +24,9 @@ public:
 
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+
+  // Codegen helper
+  virtual NodePtr getNode(unsigned index) const;
 };
 
 #endif

@@ -20,7 +20,7 @@ Objectives (last updated 22/03/2021)
 - <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
 - Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
 - Go through failing test-cases and fix it
-- Go through AST and check every file
+- <del> Go through AST and check every file </del> (Marked complete 23/03/2021)
 - Add void to primitives and make sure it works
 - Check memory being allocated for called function arguments
 
@@ -31,7 +31,7 @@ This list will keep track of the [pre-included test cases](../compiler_tests) th
 - [**integer**](../compiler_tests/integer) - Passes 11 out of 12 cases, failing for [**less_than_equal.c**](../compiler_tests/integer/less_than_equal.c)
 - [**control_flow**](../compiler_tests/control_flow) - Passing 9(10) out of 12 cases, failing for loops (not yet implemented), passes one which does nothing
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
-- [**functions**](../compiler_tests/functions) - Passes 8 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c) and [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c)
+- [**functions**](../compiler_tests/functions) - Passes 9 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c)
 
 Changelog
 ---------
@@ -118,6 +118,9 @@ Function calls was a bitch... Had to add some more structs in the AST since we a
 
 **23/03/2021**
 Going to go through the repo and remove all the obsolete garbage code / add documentation to clean things up. Pre-refactor we pass 43/87 total testcases provided (for future me to refer back to and make sure I don't break anything). Cleaned a lot of stuff post refactor, and noticed a bug in function call, so now passing 44/87 testcases :D.
+
+*Update_1*
+Found issue with [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c), it has to do with how left / right ops are handled across function calls. Implemented correct behaviour in binaryAdd, this functionality will have to be refactored to work across all binary operators except assignment (and thing about unary stuff as well) - leaving that to kai cause that's his baby. After making this fix, we now pass 47/87 testcases!
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

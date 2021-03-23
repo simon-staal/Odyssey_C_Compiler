@@ -17,7 +17,20 @@ struct stackFrame;
 // Regfile
 struct registers
 {
-  int usedRegs[32] = {1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1};
+  int usedRegs[32] =
+  { 1, // $0 = 0 [0]
+    1, // $at = no touch [1]
+    1, 1, // $v0-$v1, return value => changed by function calls so not suitable to evaluate temporaries [2-3]
+    1, 1, 1, 1, // $a0-$a3, function arguments, just use them for that [4-7]
+    0, 0, 0, 0, 0, 0, 0, 0, // $t0-$t7, temporary registers, do what you want [8-15]
+    1, 1, 1, 1, 1, 1, 1, 1, // $s0-$s7, values preserved across function calls [16-23]
+    0, 0, // $t8-$t9, more temporaries [24-25]
+    1, 1, // $k0-$k1, kernel registers, no touchy [26-27]
+    1, // $gp, used for static global variables (probs never use) [28]
+    1, // $sp, stack pointer [29]
+    1, // $fp, frame pointer [30]
+    1}; // $ra, return address [31]
+
   void useReg(int i); // Register is now being used
   void freeReg(int i); // Register is no longer being used
   int allocate(); // Returns empty register, -1 if no registers are available (Helper function for context)

@@ -36,3 +36,11 @@ void Sequence::PrettyPrint(std::ostream &dst, std::string indent) const
   }
   dst << indent << "]" << std::endl;
 }
+
+NodePtr Sequence::getNode(unsigned index) const
+{
+  if(index < branches.size()){
+    return branches[index];
+  }
+  return NULL;
+}

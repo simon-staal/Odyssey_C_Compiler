@@ -50,7 +50,14 @@ void IfElse::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   dst << "beq $" << conReg << ",$0," << elseLabel << std::endl;
   dst << "nop" << std::endl;
   context.regFile.freeReg(conReg); // Condition no longer needed
-  branches[1]->generateMIPS(dst, context, destReg);
+  // Generate mips for contents of scope
+  unsigned i = 0;
+  NodePtr node = branches[1]->getNode(i);
+  while(node != NULL){
+    node->generateMIPS(dst, context, destReg);
+    i++;
+    node = branches[1]->getNode(i);
+  }
   context.exitScope(dst); // Exit ifscope
   dst << "b " << endLabel << std::endl; // Go to end of ifElse
   dst << "nop" << std::endl;

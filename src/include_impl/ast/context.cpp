@@ -72,12 +72,14 @@ void Context::exitScope(std::ostream &dst)
   }
 
   // Re-increments stack pointer to deallocate any variables no longer in scope
-  int diff = stack.back().offset - oldScope;
+  int diff = stack.back().offset + oldScope; // oldScope is -ve
+  //std::cerr << "Previous stack: " << std::endl << stack.end()[-2]; // Debugging
+  //std::cerr << "Current stack: " << std::endl << stack.back(); // Debugging
   if(diff > 0){
     dst << "addiu $29,$29," << diff << std::endl;
   }
   stack.pop_back(); // Leaves scope, re-enters previous scope
-
+  //std::cerr << "Current stack == previous stack:" << std::endl << stack.back(); // Debugging
   // Restores registers from previous scope
   for(auto it = stack.back().varBindings.begin(); it != stack.back().varBindings.end(); it++){
     int reg = it->second.reg;

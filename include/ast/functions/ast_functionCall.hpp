@@ -24,6 +24,7 @@ public:
   // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
   virtual std::string getId() const override;
+  bool isFunction() const override;
 };
 
 #endif
