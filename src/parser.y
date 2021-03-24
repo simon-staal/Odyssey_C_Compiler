@@ -2,7 +2,7 @@
   // A lot of this parser is based off the ANSI C Yacc grammar
   // https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
   #include "ast.hpp"
-  #include "parser_list.hpp"
+  #include "parser_list.hpp" // Contains list management functions
 
   extern Node *g_root; // A way of getting the AST out
   extern FILE *yyin;
