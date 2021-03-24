@@ -1,9 +1,9 @@
-#ifndef ast_binaryANDAss_hpp
-#define ast_binaryANDAss_hpp
+#ifndef ast_binaryAssign_hpp
+#define ast_binaryAssign_hpp
 
 #include "ast/operators/ast_binaryOperation.hpp"
 
-class BinaryANDAss
+class BinaryAssign
     : public BinaryOperation
 {
 public:
@@ -17,4 +17,3 @@ public:
 };
 
 #endif
-

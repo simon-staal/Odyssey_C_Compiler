@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 22/03/2021)
+Objectives (last updated 24/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -23,6 +23,7 @@ Objectives (last updated 22/03/2021)
 - <del> Go through AST and check every file (except operators) </del> (Marked complete 23/03/2021)
 - Add void to primitives and make sure it works
 - <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
+- Go through parser to make sure everything is added appropriately
 
 Passing Testbench (last updated 23/03/2021)
 -------------------------------------------
@@ -135,6 +136,9 @@ Implemented `break` and `continue`, expanded context to include the necessary in
 - `++i`: Causes segfault in visualising
 - `/=`: Causes segfault in qemu
 Pre parser rework, we are passing 53/88 total testcases.
+
+*Update_1*
+Finished parser expression rework, kept `UnaryInc` and `UnaryDec` classes corresponding to `++` and `--` since it optimised the assembly produced **a lot**, so I felt like they deserved their stay. Using the syntactic sugar on operators now works. We now pass 54/88 testcases :D
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

@@ -8,7 +8,7 @@ int f()
       return 2;
     }
     x *= i;
-    i -= 1;
+    --i;
   }
   return x;
 }

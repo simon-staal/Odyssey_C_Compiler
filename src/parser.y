@@ -241,8 +241,8 @@ postfix_expression
 	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, *$3); delete $3; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
 	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
-	| postfix_expression INC_OP { std::cerr << "++" << std::endl; }
-	| postfix_expression DEC_OP { std::cerr << "--" << std::endl; }
+  | postfix_expression INC_OP { $$ = new UnaryInc($1); /*There's probably an edge case where this is wrong but idgaf*/ }
+| postfix_expression DEC_OP { $$ = new UnaryDec($1); /*There's probably an edge case where this is wrong but idgaf*/ }
 	;
 
 argument_expression_list
@@ -251,33 +251,17 @@ argument_expression_list
 
 unary_expression
 	: postfix_expression { $$ = $1; }
-	| INC_OP unary_expression { std::cerr << "pre increment" << std::endl; }
-	| DEC_OP unary_expression { std::cerr << "pre decrement" << std::endl; }
+	| INC_OP unary_expression { $$ = new UnaryInc($2); }
+	| DEC_OP unary_expression { $$ = new UnaryDec($2); }
 	| '&' unary_expression { $$ = new UnaryAdr($2); }
 	| '*' unary_expression { $$ = new UnaryPtr($2); }
-	| '+' unary_expression { $$ = new UnaryAdd($2); }
+  | '+' unary_expression { $$ = $2; /*I'm sorry kai it had to be done */ }
 	| '-' unary_expression { $$ = new UnarySub($2); }
 	| '~' unary_expression { $$ = new UnaryBWNOT($2); }
 	| '!' unary_expression { $$ = new UnaryNOT($2); }
 	| SIZEOF unary_expression { std::cerr << "sizeof (duh)" << std::endl; }
 	| SIZEOF '(' type_name ')' { std::cerr << "sizeof a primitive" << std::endl; }
 	;
-
-/*  I've effectively removed this and just moved it above leaving it here just in case tho.
-
-	this is also from above
-	| unary_operator unary_expression { std::cerr << "chaining stuff, add later ig?" << std::endl; }
-
-
-unary_operator
-	: '&' { std::cerr << "Unsuported" << std::endl; }
-	| '*' { std::cerr << "Unsuported" << std::endl; }
-	| '+' { std::cerr << "Unsuported" << std::endl; }
-	| '-' { std::cerr << "Unsuported" << std::endl; }
-	| '~' { std::cerr << "Unsuported" << std::endl; }
-	| '!' { std::cerr << "Unsuported" << std::endl; }
-	;
-*/
 
 multiplicative_expression
 	: unary_expression { $$ = $1; }
@@ -344,36 +328,18 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression { $$ = $1; }
-	| unary_expression '=' assignment_expression { $$ = new BinaryNormalAss($1, $3); }
-	| unary_expression MUL_ASSIGN assignment_expression { $$ = new BinaryMulAss($1, $3); }
-	| unary_expression DIV_ASSIGN assignment_expression { $$ = new BinaryDivAss($1, $3); }
-	| unary_expression MOD_ASSIGN assignment_expression { $$ = new BinaryModAss($1, $3); }
-	| unary_expression ADD_ASSIGN assignment_expression { $$ = new BinaryAddAss($1, $3); }
-	| unary_expression SUB_ASSIGN assignment_expression { $$ = new BinarySubAss($1, $3); }
-	| unary_expression LEFT_ASSIGN assignment_expression { $$ = new BinaryLeftAss($1, $3); }
-	| unary_expression RIGHT_ASSIGN assignment_expression { $$ = new BinaryRightAss($1, $3); }
-	| unary_expression AND_ASSIGN assignment_expression { $$ = new BinaryANDAss($1, $3); }
-	| unary_expression XOR_ASSIGN assignment_expression { $$ = new BinaryXORAss($1, $3); }
-	| unary_expression OR_ASSIGN assignment_expression { $$ = new BinaryORAss($1, $3); }
+	| unary_expression '=' assignment_expression { $$ = new BinaryAssign($1, $3); }
+	| unary_expression MUL_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryMul($1, $3)); }
+	| unary_expression DIV_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryDiv($1, $3)); }
+	| unary_expression MOD_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryMod($1, $3)); }
+	| unary_expression ADD_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryAdd($1, $3)); }
+	| unary_expression SUB_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinarySub($1, $3)); }
+	| unary_expression LEFT_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryLShift($1, $3)); }
+	| unary_expression RIGHT_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryRShift($1, $3)); }
+	| unary_expression AND_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryAND($1, $3)); }
+	| unary_expression XOR_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryXOR($1, $3)); }
+	| unary_expression OR_ASSIGN assignment_expression { $$ = new BinaryAssign($1, new BinaryOR($1, $3)); }
 	;
-
-/*
-	| unary_expression assignment_operator assignment_expression { std::cerr << "Unsuported" << std::endl; }
-
-assignment_operator
-	: '=' { std::cerr << "Unsuported" << std::endl; }
-	| MUL_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| DIV_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| MOD_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| ADD_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| SUB_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| LEFT_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| RIGHT_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| AND_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| XOR_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	| OR_ASSIGN { std::cerr << "Unsuported" << std::endl; }
-	;
-*/
 
 expression
 	: assignment_expression { $$ = $1; }
