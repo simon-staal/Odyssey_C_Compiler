@@ -17,7 +17,9 @@
 #include "ast/ast_declaration.hpp"
 #include "ast/ast_identifier.hpp"
 
-#include "ast/ast_return.hpp"
+#include "ast/keywords/ast_return.hpp"
+#include "ast/keywords/ast_break.hpp"
+#include "ast/keywords/ast_continue.hpp"
 
 #include "ast/blocks/ast_sequence.hpp"
 #include "ast/blocks/ast_scope.hpp"

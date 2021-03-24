@@ -222,9 +222,9 @@ iteration_statement
 
 /* Continue / break / return */
 jump_statement
-	: CONTINUE ';' { std::cerr << "Extend AST" << std::endl; }
-	| BREAK ';' { std::cerr << "Extend AST" << std::endl; }
-	| RETURN ';' { $$ = new Return(); }
+	: CONTINUE ';' { $$ = new Continue(); }
+	| BREAK ';' { $$ = new Break(); }
+	| RETURN ';' { $$ = new Return(new Integer()); }
 	| RETURN expression ';' { $$ = new Return($2); }
 	;
 

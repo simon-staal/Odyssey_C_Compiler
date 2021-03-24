@@ -28,10 +28,10 @@ void While::PrettyPrint(std::ostream &dst, std::string indent) const
 // Codegen
 void While::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  // Required to evaluate condition
   context.enterScope();
 
   std::string startLabel = context.makeLabel("START");
+  context.stack.back().startLabel = startLabel;
   dst << startLabel << ":" << std::endl;
 
   //Evaluate condition
@@ -40,6 +40,7 @@ void While::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 
   // Scope of while loop
   std::string endLabel = context.makeLabel("END");
+  context.stack.back().endLabel = endLabel;
   dst << "beq $" << conReg << ",$0," << endLabel << std::endl;
   dst << "nop" << std::endl;
   unsigned i = 0;

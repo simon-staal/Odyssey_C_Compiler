@@ -81,6 +81,8 @@ struct stackFrame
   std::map<std::string, variable> varBindings; // Tracks variables in scope
   unsigned int offset = 0; // Keeps track of size of frame to restore the stack pointer for blocks (i.e. while loops, if statements) -- MAKE SURE TO INCREMENT WHEN ALLOCATING VARIABLES
   bool inFrame(std::string varName); // Error checking, probably not necessary
+  std::string startLabel; // Used for continue statement
+  std::string endLabel; // Used for break statement
 };
 
 std::ostream &operator<<(std::ostream &dst, stackFrame frame);

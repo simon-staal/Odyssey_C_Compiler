@@ -32,6 +32,8 @@ std::ostream &operator<<(std::ostream &dst, stackFrame frame)
   for(auto it = frame.varBindings.begin(); it != frame.varBindings.end(); it++){
     dst << "  " << it->first << ": size = " << it->second.size << ", offset = " << it->second.offset << std::endl;
   }
+  dst << "startlabel: " << frame.startLabel << std::endl;
+  dst << "endLabel: " << frame.endLabel << std::endl;
   dst << "End of frame" << std::endl;
   return dst;
 }
