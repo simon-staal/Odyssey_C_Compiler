@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
+#include<utility>
 
 // Contains information related to where a variable exists in memory
 struct variable;
@@ -14,6 +15,7 @@ struct variable;
 struct function;
 // Represents current scope
 struct stackFrame;
+
 // Regfile
 struct registers
 {

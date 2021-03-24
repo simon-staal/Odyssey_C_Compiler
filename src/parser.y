@@ -97,8 +97,8 @@ declarator
 direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; };
 	| '(' declarator ')' { $$ = $2; }
-	| direct_declarator '[' constant_expression ']' { std::cerr << "Array declarator" << std::endl; }
-	| direct_declarator '[' ']' { std::cerr << "Array declarator" << std::endl; }
+	| direct_declarator '[' constant_expression ']' { $$ = new ArrayDeclarator($1, $3); /* std::cerr << "Array declarator" << std::endl;*/ }
+	| direct_declarator '[' ']' { $$ = new ArrayDeclarator($1); /*std::cerr << "Array declarator, size is no. of things in {} after =" << std::endl;*/ }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
 	| direct_declarator '(' identifier_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
@@ -236,7 +236,7 @@ primary_expression
 
 postfix_expression
 	: primary_expression { $$ = $1; }
-	| postfix_expression '[' expression ']' { std::cerr << "element access (array)" << std::endl; }
+	| postfix_expression '[' expression ']' { $$ = new ArrayIndex($1, $3); }
 	| postfix_expression '(' ')' { $$ = new FunctionCall($1); }
 	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, *$3); delete $3; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
@@ -414,8 +414,8 @@ type_name
 
 initializer
 	: assignment_expression { $$ = $1; }
-	| '{' initializer_list '}' { std::cerr << "Unsuported" << std::endl; }
-	| '{' initializer_list ',' '}' { std::cerr << "Unsuported" << std::endl; }
+	| '{' initializer_list '}' { std::cerr << "Array initialiser" << std::endl; }
+	| '{' initializer_list ',' '}' { std::cerr << "whats the difference?? other than comma obv" << std::endl; }
 	;
 
 initializer_list

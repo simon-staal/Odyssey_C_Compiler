@@ -47,6 +47,19 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
     }
     context.functions[id].size = argSize; // All information associated with declaration now stored for function calls
   }
+  else if(branches[1]->getValue() != 0 ){ // checks if we are declaring an array
+    unsigned arraysize = branches[1]->getValue();
+    unsigned varsize = branches[0]->getSize();
+    std::string id = branches[1]->getId();
+
+    if(arraysize != 0){ // if arraysize = 0 then either something is wrong or its gonna be initialised, either way dont know size
+      context.stack.back().offset += arraysize*varsize; // creates space for all the arrays children
+      dst << "addiu $29,$29,-" << arraysize*varsize << std::endl; // Decrements stack pointer
+      context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
+    }else{
+      // im not gonna deal with this now.
+    }
+  }
   else{
     // Deals with variable declaration (will probs have to extend for globals)
     unsigned size = branches[0]->getSize(); // Size of variable

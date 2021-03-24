@@ -70,6 +70,10 @@
 #include "ast/operators/unaryOps/ast_unaryInc.hpp"
 #include "ast/operators/unaryOps/ast_unaryDec.hpp"
 
+#include "ast/arrays/ast_arrayDeclarator.hpp"
+#include "ast/arrays/ast_arrayIndex.hpp"
+
+
 #include "ast/context.hpp"
 
 extern Node *parseAST(std::string filename);

@@ -32,3 +32,8 @@ void Integer::generateMIPS(std::ostream &dst, Context &context, int destReg) con
   // All that's relevant imo
   dst << "li $" << destReg << "," << value << std::endl;
 }
+
+int Integer::getValue() const // returns value
+{
+  return value;
+}
