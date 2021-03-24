@@ -134,6 +134,7 @@ Implemented `break` and `continue`, expanded context to include the necessary in
 - `--i`: Causes segfault in visualising
 - `++i`: Causes segfault in visualising
 - `/=`: Causes segfault in qemu
+Pre parser rework, we are passing 53/88 total testcases.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
