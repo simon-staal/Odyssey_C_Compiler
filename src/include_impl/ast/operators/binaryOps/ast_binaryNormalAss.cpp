@@ -13,11 +13,10 @@ void BinaryNormalAss::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-
+  NodePtr Index;
   variable Var = LeftVar(context);
-  if(LeftOp()->getNode(1) != NULL ){ // THEN ITS AN ARRAY
+  if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY
 
-    NodePtr Index = LeftOp()->getNode(1);
     Index->generateMIPS(dst, context, destReg);
     int reg = context.allocate();
 
@@ -25,7 +24,7 @@ void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int dest
     dst << "mult $" << destReg << ", $" << reg << std::endl;
     dst << "mflo $" << destReg << std::endl;
     dst << "addiu $" << destReg << ", $" << destReg << ", " << Var.offset << std::endl;
-    dst << "lw $" << reg << ", 0($30)" << std::endl;
+    dst << "move $" << reg << ", $30" << std::endl;
     dst << "add $" << destReg << ", $" << destReg << ", $" << reg << std::endl;
 
     RightOp()->generateMIPS(dst, context, reg);
