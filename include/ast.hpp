@@ -28,6 +28,10 @@
 #include "ast/blocks/ast_while.hpp"
 #include "ast/blocks/ast_for.hpp"
 
+#include "ast/blocks/switch/ast_switch.hpp"
+#include "ast/blocks/switch/ast_case.hpp"
+#include "ast/blocks/switch/ast_default.hpp"
+
 #include "ast/literals/ast_integer.hpp"
 
 #include "ast/types/ast_primitive.hpp"
