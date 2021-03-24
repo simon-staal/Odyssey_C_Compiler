@@ -71,6 +71,14 @@ bool Node::isInit() const
 
 NodePtr Node::getNode(unsigned index) const
 {
-  std::cerr << "Tried to getNode of something not implemented" << std::endl;
+  if(index < branches.size()){
+    return branches[index];
+  }
   return NULL;
+}
+
+int Node::getValue() const
+{
+  std::cerr << "Tried to getValue of something..." << std::endl;
+  return 0;
 }

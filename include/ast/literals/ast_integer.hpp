@@ -20,6 +20,9 @@ public:
   // Codegen
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
 
+  //needed for arrays
+  virtual int getValue() const override;
+
 };
 
 #endif

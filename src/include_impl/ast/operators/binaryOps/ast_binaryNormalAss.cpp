@@ -15,12 +15,31 @@ void BinaryNormalAss::generateMIPS(std::ostream &dst, Context &context, int dest
 {
 
   variable Var = LeftVar(context);
+  if(LeftOp()->getNode(1) != NULL ){ // THEN ITS AN ARRAY
 
-  RightOp()->generateMIPS(dst, context, destReg);
+    NodePtr Index = LeftOp()->getNode(1);
+    Index->generateMIPS(dst, context, destReg);
+    int reg = context.allocate();
 
-  ifFunction(dst, context, destReg);
+    dst << "addiu $" << reg << ", $0, " << Var.size << std::endl;
+    dst << "mult $" << destReg << ", $" << reg << std::endl;
+    dst << "mflo $" << destReg << std::endl;
+    dst << "addiu $" << destReg << ", $" << destReg << ", " << Var.offset << std::endl;
+    dst << "lw $" << reg << ", 0($30)" << std::endl;
+    dst << "add $" << destReg << ", $" << destReg << ", $" << reg << std::endl;
+
+    RightOp()->generateMIPS(dst, context, reg);
+    dst << "sw $" << reg << ", 0($" << destReg << ")" << std::endl;
+    dst << "move $" << destReg << ", $" << reg << std::endl;
+
+    context.regFile.freeReg(reg);
+     
 
 
-  AssEnd(dst, context, destReg, Var);
+  }else{
 
+    RightOp()->generateMIPS(dst, context, destReg);
+    ifFunction(dst, context, destReg);
+    AssEnd(dst, context, destReg, Var);
+  }
 }

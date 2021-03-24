@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
+#include<utility>
 
 // Contains information related to where a variable exists in memory
 struct variable;
@@ -14,6 +15,13 @@ struct variable;
 struct function;
 // Represents current scope
 struct stackFrame;
+//Contains information about the array
+struct array
+{
+  unsigned int varsize = 4; // size of the variables
+  unsigned int varnum = 0; // size of array
+  int offset = 0; // fp offset, 
+};
 // Regfile
 struct registers
 {
@@ -68,6 +76,7 @@ struct variable
   unsigned int size; // How many bytes does the variable take up
   int offset; // Offset from frame pointer (+ for arguments, - for variables)
   int reg; // Keeps track of which register the variable is in (-1 := not stored in reg)
+  bool isArray = 0;
 };
 
 struct function

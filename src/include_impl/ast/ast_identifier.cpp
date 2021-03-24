@@ -33,7 +33,7 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
   if(tmp.reg == -1){
     dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
   }else{
-    // This is fucking gross, will discuss with kai to fix if time allows (find register variable is stored in in higher node)
+    // This is fucking gross, will discuss with kai to fix if time allows (find register variable is stored in in higher node) zzz just more lines of code.
     dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
   }
 
