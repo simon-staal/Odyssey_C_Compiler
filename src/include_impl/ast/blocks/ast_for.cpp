@@ -45,12 +45,15 @@ void For::generateMIPS(std::ostream &dst, Context &context, int destReg) const
   // Start of loop
   std::string startLabel = context.makeLabel("START");
   dst << startLabel << ":" << std::endl;
-
+  // To handle continue statements
+  std::string incLabel = context.makeLabel("INC");
+  context.stack.back().startLabel = incLabel;
   // Evaluate condition
   branches[1]->generateMIPS(dst, context, itReg);
 
   // Loopy bit
   std::string endLabel = context.makeLabel("END");
+  context.stack.back().endLabel = endLabel;
   dst << "beq $" << itReg << ",$0," << endLabel << std::endl;
   dst << "nop" << std::endl;
   unsigned i = 0;
@@ -60,6 +63,7 @@ void For::generateMIPS(std::ostream &dst, Context &context, int destReg) const
     i++;
     node = branches[3]->getNode(i);
   }
+  dst << incLabel << ":" << std::endl;
   branches[2]->generateMIPS(dst, context, itReg); // Increment
   dst << "b " << startLabel << std::endl;
   dst << "nop" << std::endl;

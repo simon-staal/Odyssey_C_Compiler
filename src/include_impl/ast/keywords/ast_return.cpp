@@ -1,4 +1,4 @@
-#include "ast/ast_return.hpp"
+#include "ast/keywords/ast_return.hpp"
 
 // Constructors
 Return::Return(NodePtr val)
@@ -6,9 +6,11 @@ Return::Return(NodePtr val)
   branches.push_back(val);
 }
 
+/* REFACTORED INTO PARSER
 Return::Return() // For void funcitons (hopefully this works), returns 0 (i.e. success)
   : Return(new Integer())
 {}
+*/
 
 // Destructor
 Return::~Return()
@@ -29,7 +31,7 @@ void Return::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
 {
   // Evaluates expression into $2
   branches[0]->generateMIPS(dst, context, 2);
-  
+
   // Exiting function
   dst << "move $29,$30" << std::endl;
   dst << "lw $30,0($29)" << std::endl;

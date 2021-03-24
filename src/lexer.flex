@@ -43,7 +43,9 @@ IS			(u|U|l|L)*
 
 {L}({L}|{D})*  { yylval.string=new std::string(yytext); return IDENTIFIER; }
 
-{D}+{IS}?  { yylval.number=atoi(yytext); return INT_LITERAL; }
+{D}+{IS}?  { yylval.number=(int)strtol(yytext, NULL, 0); return INT_LITERAL; }
+0[xX]{H}+{IS}? { yylval.number=(int)strtol(yytext, NULL, 0); return INT_LITERAL; }
+0{D}+{IS}? { yylval.number=(int)strtol(yytext, NULL, 0); return INT_LITERAL; }
 
 ">>="			{ return(RIGHT_ASSIGN); }
 "<<="			{ return(LEFT_ASSIGN); }

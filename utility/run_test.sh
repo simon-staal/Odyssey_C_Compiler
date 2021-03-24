@@ -13,7 +13,7 @@ if [[ $# -eq 0 ]] ; then
   exit 1
 fi
 
-echo "==========Compiling compiler=========="
+echo "=============Compiling compiler============="
 make
 
 TEST=${1}
@@ -27,7 +27,7 @@ echo "==========Running test for ${TEST_NAME}=========="
 echo "Compiling ${TEST_NAME}"
 bin/c_compiler -S "${TEST}" -o "${OUT}.s"
 
-echo "========================================="
+echo "==============================================="
 echo "Assembling output"
 mips-linux-gnu-gcc -mfp32 -static -o "${OUT}.o" -c "${OUT}.s"
 

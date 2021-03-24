@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 22/03/2021)
+Objectives (last updated 24/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -23,6 +23,7 @@ Objectives (last updated 22/03/2021)
 - <del> Go through AST and check every file (except operators) </del> (Marked complete 23/03/2021)
 - Add void to primitives and make sure it works
 - <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
+- Go through parser to make sure everything is added appropriately
 
 Passing Testbench (last updated 23/03/2021)
 -------------------------------------------
@@ -127,7 +128,17 @@ Going to go through the repo and remove all the obsolete garbage code / add docu
 Found issue with [**call_recursive_internal.c**](../compiler_tests/functions/call_recursive_internal.c), it has to do with how left / right ops are handled across function calls. Implemented correct behaviour in binaryAdd, this functionality will have to be refactored to work across all binary operators except assignment (and thing about unary stuff as well) - leaving that to kai cause that's his baby. After making this fix, we now pass 47/87 testcases!
 
 *Update_2*
-Finished implementing for loops, now passing all testcases in [**control_flow**](../compiler_tests/control_flow). Also added scripts to create new testcases, as not everything is tested by the testcases provided. Added test to ensure that a for loop with no increment works, and it now passes (after finding and solving a typo in unarySub which would print the wrong assembly). Can no longer test every file in the test directory, as some of the array tests using for-loop lead to an infinite loop, so won't be testing the entire directory until we get arrays implemented. For now I've moved array tests into a different directory so I can still make sure that I'm not breaking anything. Currently passing 48/83 testcases
+Finished implementing for loops, now passing all testcases in [**control_flow**](../compiler_tests/control_flow). Also added scripts to create new testcases, as not everything is tested by the testcases provided. Added test to ensure that a for loop with no increment works, and it now passes (after finding and solving a typo in unarySub which would print the wrong assembly). Can no longer test every file in the test directory, as some of the array tests using for-loop lead to an infinite loop, so won't be testing the entire directory until we get arrays implemented. For now I've moved array tests into a different directory so I can still make sure that I'm not breaking anything. Currently passing 48/83 testcases.
+
+**24/03/2021**
+Implemented `break` and `continue`, expanded context to include the necessary information. Starting writing testcases to specifically test their functionality, and found some bugs in operators (for syntactic sugar). Going to go through the parser and rework how they're implemented, since they're purely visual, and remove all the unnecessary clases after I'm done making sure continue and break work. For now, here's a list of stuff that's broken (make sure to test these after parser fix);
+- `--i`: Causes segfault in visualising
+- `++i`: Causes segfault in visualising
+- `/=`: Causes segfault in qemu
+Pre parser rework, we are passing 53/88 total testcases.
+
+*Update_1*
+Finished parser expression rework, kept `UnaryInc` and `UnaryDec` classes corresponding to `++` and `--` since it optimised the assembly produced **a lot**, so I felt like they deserved their stay. Using the syntactic sugar on operators now works. We now pass 54/88 testcases :D
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
