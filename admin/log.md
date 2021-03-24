@@ -25,7 +25,7 @@ Objectives (last updated 24/03/2021)
 - <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
 - Go through parser to make sure everything is added appropriately
 
-Passing Testbench (last updated 23/03/2021)
+Passing Testbench (last updated 24/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../utility/run_test.sh). Running single testcases are done using [**test_single.sh**](../utility/test_single.sh) and testing subdirectories (or all tests) is done using [**test_dir.sh**](../utility/test_dir.sh).
 
@@ -35,8 +35,11 @@ We are currently passing:
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 - [**functions**](../compiler_tests/functions) - Passes 9 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c)
+- [**array**](../compiler_tests/array) - Passes 4 out of 5 cases, failing for [**declare_global.c**](../compiler_tests/array/declare_global.c) (we haven't implemented globals yet)
+- [**programs**](../compiler_tests/programs) - Passes 2 out of 3 cases, failing for [**fibonacci.c**](../compiler_tests/programs/fibonacci.c) (probably linked with call_mutual_recursive)
+- [**Extra**](../compiler_tests/Extra) Passes 5 out of 5 cases, checking break / continue behaviour + other random testcases we've added
 
-Overall we are passing **47/87** total testcases.
+Overall we are passing **58/93** total testcases.
 
 Changelog
 ---------
@@ -139,6 +142,9 @@ Pre parser rework, we are passing 53/88 total testcases.
 
 *Update_1*
 Finished parser expression rework, kept `UnaryInc` and `UnaryDec` classes corresponding to `++` and `--` since it optimised the assembly produced **a lot**, so I felt like they deserved their stay. Using the syntactic sugar on operators now works. We now pass 54/88 testcases :D
+
+*Update_2*
+Merged in Kai's array stuff, added the array testcases back into [**compiler_tests**](../compiler_tests). 4/5 Array testcases pass, and we are now passing 58/93 testcases. Updated passing tests with relevant info.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
