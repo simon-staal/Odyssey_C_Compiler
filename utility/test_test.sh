@@ -24,7 +24,7 @@ echo "==========Running test for ${TEST_NAME}=========="
 echo "Compiling ${TEST_NAME}"
 mips-linux-gnu-gcc -mfp32 -static -o "${OUT}.s" -S "${TEST}"
 
-echo "========================================="
+echo "==============================================="
 echo "Assembling output"
 mips-linux-gnu-gcc -mfp32 -static -o "${OUT}.o" -c "${OUT}.s"
 

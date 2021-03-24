@@ -8,4 +8,5 @@ void Continue::PrettyPrint(std::ostream &dst, std::string indent) const
 void Continue::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   dst << "b " << context.stack.back().startLabel << std::endl;
+  dst << "nop" << std::endl;
 }

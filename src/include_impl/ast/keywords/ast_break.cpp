@@ -8,4 +8,5 @@ void Break::PrettyPrint(std::ostream &dst, std::string indent) const
 void Break::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   dst << "b " << context.stack.back().endLabel << std::endl;
+  dst << "nop" << std::endl;
 }

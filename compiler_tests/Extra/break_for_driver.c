@@ -1,6 +1,7 @@
+
 int f();
 
 int main()
 {
-  return !(f()==9);
+  return !(f()==35);
 }
