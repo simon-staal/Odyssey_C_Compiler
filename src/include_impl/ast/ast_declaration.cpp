@@ -45,6 +45,9 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       i++;
       param = branches[1]->getNode(1)->getNode(i);
     }
+    if(argSize < 16 && argSize > 0){
+      argSize = 16;
+    }
     context.functions[id].size = argSize; // All information associated with declaration now stored for function calls
   }
   else if(branches[1]->getArraySize() != 0 ){ // checks if we are declaring an array

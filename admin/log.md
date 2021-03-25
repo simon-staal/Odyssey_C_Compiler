@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 24/03/2021)
+Objectives (last updated 25/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -18,14 +18,17 @@ Objectives (last updated 24/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
 - <del> Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.</del> (Marked complete 23/03/2021)
 - <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
-- Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)
-- Go through failing test-cases in functions and fix what needs to be fixed
+- <del>Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md) </del> (Reworked 25/03/2021)
+- <del> Go through failing test-cases in functions and fix what needs to be fixed </del> (Marked complete 25/03/2021)
 - <del> Go through AST and check every file (except operators) </del> (Marked complete 23/03/2021)
-- Add void to primitives and make sure it works
+- <del> Add void to primitives and make sure it works</del> (Reworked 25/03/2021)
 - <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
 - Go through parser to make sure everything is added appropriately
+- Implement `sizeof()` and add types `char`, `unsigned` and `void` (?) to pass [**types**](../compiler_tests/types)
+- Implement globals, just add to how we codegen in root node (check if function of variable) + print directives and update places where we use variable identifiers to check global map.
+- Implement floats (Please Kai <3)
 
-Passing Testbench (last updated 24/03/2021)
+Passing Testbench (last updated 25/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../utility/run_test.sh). Running single testcases are done using [**test_single.sh**](../utility/test_single.sh) and testing subdirectories (or all tests) is done using [**test_dir.sh**](../utility/test_dir.sh).
 
@@ -34,9 +37,9 @@ We are currently passing:
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
-- [**functions**](../compiler_tests/functions) - Passes 9 out of 10 cases, failing for [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c)
+- [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**array**](../compiler_tests/array) - Passes 4 out of 5 cases, failing for [**declare_global.c**](../compiler_tests/array/declare_global.c) (we haven't implemented globals yet)
-- [**programs**](../compiler_tests/programs) - Passes 2 out of 3 cases, failing for [**fibonacci.c**](../compiler_tests/programs/fibonacci.c) (probably linked with call_mutual_recursive)
+- [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
 - [**Extra**](../compiler_tests/Extra) Passes 5 out of 5 cases, checking break / continue behaviour + other random testcases we've added
 
 Overall we are passing **60/93** total testcases.
@@ -147,7 +150,10 @@ Finished parser expression rework, kept `UnaryInc` and `UnaryDec` classes corres
 Merged in Kai's array stuff, added the array testcases back into [**compiler_tests**](../compiler_tests). 4/5 Array testcases pass, and we are now passing 58/93 testcases. Updated passing tests with relevant info.
 
 **25/03/2021**
-Finished implementing `switch`, `case` and `default` stuff, passing the relevant tests in [**misc**](../compiler_tests/misc), bringing us to a total of 60/93 testcases!
+Finished implementing `switch`, `case` and `default` stuff, passing the relevant tests in [**misc**](../compiler_tests/misc), bringing us to a total of 60/93 testcases! Also slightly refactored the methods Kai added to deal with arrays, now method names should be a bit more clear.
+
+*Update_1*
+Figured out why we were failing [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c), solved issue by updating variable bindings map in FuncitonCall to indicate that variables stored in registers not preserved by function calls are no longer allocated in registers. We are now passing 62/93 testcases, updated test section.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

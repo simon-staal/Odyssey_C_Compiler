@@ -1,4 +1,5 @@
 #include "ast/functions/ast_functionCall.hpp"
+#include <unordered_set>
 
 // Constructors
 FunctionCall::FunctionCall(NodePtr id, NodeListPtr params)
@@ -38,10 +39,10 @@ void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg
 {
   std::string id = getId();
   int argSize = context.functions[id].size;
+  //dst << "DEBUGGING: argSize of " << id << " = " << argSize << std::endl;
 
   // Staging arguments
   if(argSize > 0){
-    context.stack.back().offset += argSize;
     dst << "addiu $29,$29," << -argSize << std::endl; // Decrement stack pointer by appropriate amount
     NodePtr param = branches[1]->getNode(0);
     int i = 0;
@@ -64,9 +65,20 @@ void FunctionCall::generateMIPS(std::ostream &dst, Context &context, int destReg
     }
   }
 
+  // Indicate variable stored in reg no longer available
+  for(auto it = context.stack.back().varBindings.begin(); it != context.stack.back().varBindings.end(); it++){
+    std::unordered_set<int> regs = {2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14, 15, 24, 25}; // Regs changed by function calls (that we use)
+    if(regs.find(it->second.reg) != regs.end()){
+      it->second.reg = -1;
+    }
+  }
+
   // Going to function
   dst << "jal " << id << std::endl;
   dst << "nop" << std::endl;
+
+  // Returning from function
+  dst << "addiu $29, $29," << argSize << std::endl; // Deallocate memory allocated for function call vars
 }
 
 std::string FunctionCall::getId() const

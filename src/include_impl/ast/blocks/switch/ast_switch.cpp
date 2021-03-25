@@ -38,15 +38,17 @@ void Switch::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   dst << "sw $17,0($29)" << std::endl;
   branches[0]->generateMIPS(dst, context, 17);
 
-
   // Label for next case
   std::string nextCase = context.makeLabel("CASE");
   context.stack.back().startLabel = nextCase;
+  dst << "b " << nextCase << std::endl;
+  dst << "nop" << std::endl;
 
   // Break stuff
   std::string endLabel = context.makeLabel("END");
   context.stack.back().endLabel = endLabel;
 
+  // Contents of switch scope
   unsigned i = 0;
   NodePtr node = branches[1]->getNode(i);
   while(node != NULL){
