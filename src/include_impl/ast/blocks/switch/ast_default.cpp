@@ -13,7 +13,7 @@ Default::~Default()
 }
 
 // Visualising
-void PrettyPrint(std::ostream &dst, std::string indent) const
+void Default::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Default case [" << std::endl;
   dst << indent << "Execute:" << std::endl;
@@ -21,8 +21,7 @@ void PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "] endCase" << std::endl;
 }
 
-oid generateMIPS(std::ostream &dst, Context &context, int destReg) const
+void Default::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  // Think about, probably this:
   branches[0]->generateMIPS(dst, context, destReg);
 }

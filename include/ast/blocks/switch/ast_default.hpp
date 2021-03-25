@@ -6,6 +6,7 @@
 class Default
   : public Node
 {
+public:
   // Constructor
   Default(NodePtr execute);
 
