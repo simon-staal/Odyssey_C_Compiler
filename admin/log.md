@@ -39,7 +39,7 @@ We are currently passing:
 - [**programs**](../compiler_tests/programs) - Passes 2 out of 3 cases, failing for [**fibonacci.c**](../compiler_tests/programs/fibonacci.c) (probably linked with call_mutual_recursive)
 - [**Extra**](../compiler_tests/Extra) Passes 5 out of 5 cases, checking break / continue behaviour + other random testcases we've added
 
-Overall we are passing **58/93** total testcases.
+Overall we are passing **60/93** total testcases.
 
 Changelog
 ---------
@@ -145,6 +145,9 @@ Finished parser expression rework, kept `UnaryInc` and `UnaryDec` classes corres
 
 *Update_2*
 Merged in Kai's array stuff, added the array testcases back into [**compiler_tests**](../compiler_tests). 4/5 Array testcases pass, and we are now passing 58/93 testcases. Updated passing tests with relevant info.
+
+**25/03/2021**
+Finished implementing `switch`, `case` and `default` stuff, passing the relevant tests in [**misc**](../compiler_tests/misc), bringing us to a total of 60/93 testcases!
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

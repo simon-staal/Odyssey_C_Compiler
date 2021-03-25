@@ -54,6 +54,9 @@ void Switch::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
     i++;
     node = branches[1]->getNode(i);
   }
+  if(context.stack.back().startLabel != "DONE"){
+    dst << context.stack.back().startLabel << ":" << std::endl;
+  }
   dst << endLabel << ":" << std::endl;
 
   // Restore $s1

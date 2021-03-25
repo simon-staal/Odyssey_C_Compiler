@@ -25,5 +25,6 @@ void Default::generateMIPS(std::ostream &dst, Context &context, int destReg) con
 {
   // Last case
   dst << context.stack.back().startLabel << ":" << std::endl;
+  context.stack.back().startLabel = "DONE"; // In case no default
   branches[0]->generateMIPS(dst, context, destReg);
 }
