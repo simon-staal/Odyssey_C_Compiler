@@ -47,8 +47,8 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
     }
     context.functions[id].size = argSize; // All information associated with declaration now stored for function calls
   }
-  else if(branches[1]->getValue() != 0 ){ // checks if we are declaring an array
-    unsigned arraysize = branches[1]->getValue();
+  else if(branches[1]->getArraySize() != 0 ){ // checks if we are declaring an array
+    unsigned arraysize = branches[1]->getArraySize();
     unsigned varsize = branches[0]->getSize();
     std::string id = branches[1]->getId();
 

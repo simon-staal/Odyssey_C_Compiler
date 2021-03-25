@@ -24,7 +24,7 @@ public:
   // Codegen + helpers
   virtual std::string getId() const override;
   virtual bool isFunction() const override;
-  virtual int getValue() const override;
+  virtual int getArraySize() const override;
 
 };
 

@@ -35,7 +35,7 @@ void ArrayDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
 // Codegen + helpers
 void ArrayDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  
+
 }
 
 
@@ -49,7 +49,7 @@ bool ArrayDeclarator::isFunction() const
   return false;
 }
 
-int ArrayDeclarator::getValue() const // gets size of array when its being declared
+int ArrayDeclarator::getArraySize() const // gets size of array when its being declared
 {
   return branches[1]->getValue();
 }
