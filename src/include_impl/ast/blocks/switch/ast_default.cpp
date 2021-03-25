@@ -23,5 +23,7 @@ void Default::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void Default::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
+  // Last case
+  dst << context.stack.back().startLabel << ":" << std::endl;
   branches[0]->generateMIPS(dst, context, destReg);
 }

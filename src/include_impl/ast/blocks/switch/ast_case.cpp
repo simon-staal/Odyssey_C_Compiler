@@ -26,17 +26,18 @@ void Case::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void Case::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
+  // Start of case
+  dst << context.stack.back().startLabel << ":" << std::endl;
+
   // Evaluate condition
   int conReg = context.allocate();
   branches[0]->generateMIPS(dst, context, conReg);
-  std::string skip = context.makeLabel("SKIP");
-  dst << "bne $" << conReg << ",$17," << skip << std::endl; // Skips if condition doesn't match
+  std::string nextCase = context.makeLabel("CASE");
+  context.stack.back().startLabel = nextCase; // Updates next case
+  dst << "bne $" << conReg << ",$17," << nextCase << std::endl; // Skips to next case if condition doesn't match
   dst << "nop" << std::endl;
   context.regFile.freeReg(conReg);
 
   // Execute case
   branches[1]->generateMIPS(dst, context, destReg);
-
-  // End of case
-  dst << skip << ":" << std::endl;
 }

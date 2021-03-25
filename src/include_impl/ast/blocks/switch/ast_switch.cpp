@@ -38,6 +38,11 @@ void Switch::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   dst << "sw $17,0($29)" << std::endl;
   branches[0]->generateMIPS(dst, context, 17);
 
+
+  // Label for next case
+  std::string nextCase = context.makeLabel("CASE");
+  context.stack.back().startLabel = nextCase;
+
   // Break stuff
   std::string endLabel = context.makeLabel("END");
   context.stack.back().endLabel = endLabel;
