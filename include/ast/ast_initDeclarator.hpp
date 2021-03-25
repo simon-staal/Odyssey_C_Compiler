@@ -22,10 +22,10 @@ public:
 
   // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
-  virtual std::string getId() const override;
-  virtual bool isFunction() const override;
-  virtual bool isInit() const override;
-
+  std::string getId() const override;
+  bool isFunction() const override;
+  bool isInit() const override;
+  int getValue() const override;
 };
 
 #endif

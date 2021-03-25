@@ -20,21 +20,28 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
 
 
   // Finds variable
-  auto it = context.stack.back().varBindings.find(id);
-  if( it == context.stack.back().varBindings.end() ){
-    //variable doesnt exist in current frame !! -> handle globals later
-    std::cerr << "Globals not yet implemented (or code is invalid lmao)" << std::endl;
-    exit(1);
-  }else{
-    tmp = it->second;
+  if(context.isGlobal(id)){
+    dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
+    dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")($" << destReg << ")" << std::endl;
+    dst << "nop" << std::endl
   }
+  else{
+    auto it = context.stack.back().varBindings.find(id);
+    if( it == context.stack.back().varBindings.end() ){
+      //variable doesnt exist in current frame !! -> handle globals later
+      std::cerr << "Code is invalid lmao)" << std::endl;
+      exit(1);
+    }else{
+      tmp = it->second;
+    }
 
-  // Puts variable in destReg
-  if(tmp.reg == -1){
-    dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
-  }else{
-    // This is fucking gross, will discuss with kai to fix if time allows (find register variable is stored in in higher node) zzz just more lines of code.
-    dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
+    // Puts variable in destReg
+    if(tmp.reg == -1){
+      dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
+    }else{
+      // This is fucking gross, will discuss with kai to fix if time allows (find register variable is stored in in higher node) zzz just more lines of code.
+      dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
+    }
   }
 
 }

@@ -7,7 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include<utility>
+#include <utility>
+#include <unordered_set>
 
 // Contains information related to where a variable exists in memory
 struct variable;
@@ -44,7 +45,7 @@ struct Context
   std::vector<stackFrame> stack;
 
   // Globals
-  std::map<std::string, variable> globals;
+  std::unordered_set<std::string> globals; // Just needs to track the names of globals
   std::map<std::string, function> functions; // tracks the size of the arguments
 
   // MIPS Register file

@@ -20,12 +20,13 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
     else{
       // Global variables
       std::string id = branches[i]->getId();
+      context.globals.insert(id); // Add to global set
       dst << ".globl " << id << std::endl;
       dst << ".data" << std::endl;
       int array = branches[i]->getArraySize();
       if(array == 0){ // Not an array
         int size = branches[i]->getSize();
-        dst << ".size " << id << ", " << size;
+        dst << ".size " << id << ", " << size << std::endl;
         dst << id << ":" << std::endl;
         if(branches[i]->isInit()){
           dst << ".word " << branches[i]->getValue() << std::endl; //TODO: Implement methods
@@ -36,7 +37,7 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
       }
       else{
         int size = array*branches[i]->getSize();
-        dst << ".size " << id << ", " << size;
+        dst << ".size " << id << ", " << size << std::endl;
         dst << id << ":" << std::endl;
         if(branches[i]->isInit()){
           // Talk to kai

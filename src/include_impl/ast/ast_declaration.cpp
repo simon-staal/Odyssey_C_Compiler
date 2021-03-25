@@ -107,3 +107,23 @@ std::string Declaration::getId() const
 {
   return branches[1]->getId();
 }
+
+bool Declaration::isFunction() const
+{
+  return branches[1]->isFunction();
+}
+
+bool Declaration::isInit() const
+{
+  return branches[1]->isInit();
+}
+
+int Declaration::getArraySize() const
+{
+  return branches[1]->getArraySize();
+}
+
+int Declaration::getValue() const
+{
+  return branches[1]->getValue();
+}

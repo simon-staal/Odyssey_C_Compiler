@@ -44,6 +44,11 @@ std::string ArrayDeclarator::getId() const
   return branches[0]->getId();
 }
 
+bool ArrayDeclarator::isInit() const
+{
+  return false;
+}
+
 bool ArrayDeclarator::isFunction() const
 {
   return false;

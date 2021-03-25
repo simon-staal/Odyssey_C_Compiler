@@ -44,3 +44,8 @@ bool InitDeclarator::isInit() const
 {
   return true;
 }
+
+int InitDeclarator::getValue() const
+{
+  return branches[1]->getValue();
+}
