@@ -18,8 +18,9 @@ public:
   // Visualising
   virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
-  // Codegen
+  // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  bool isFunction() const override;
 };
 
 #endif

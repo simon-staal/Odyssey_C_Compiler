@@ -21,9 +21,9 @@ public:
 
   // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
-  virtual NodePtr getNode(unsigned index) const override;
-  virtual std::string getId() const override;
-  virtual bool isFunction() const override;
+  NodePtr getNode(unsigned index) const override;
+  std::string getId() const override;
+  bool isFunction() const override;
 };
 
 #endif
