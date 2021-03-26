@@ -9,7 +9,7 @@ ArrayDeclarator::ArrayDeclarator(NodePtr id, NodePtr size)
 
 
 ArrayDeclarator::ArrayDeclarator(NodePtr id)
-  : ArrayDeclarator(id, new Integer(0))
+  : ArrayDeclarator(id, new Integer(-1))
 {
 
 }

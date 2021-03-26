@@ -29,6 +29,7 @@ public:
   bool isInit() const override;
   int getArraySize() const override;
   int getValue() const override;
+  int getValue(int i) const override;
 };
 
 #endif

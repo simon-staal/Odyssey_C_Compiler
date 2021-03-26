@@ -54,3 +54,8 @@ int InitDeclarator::getValue(int i) const
 {
   return branches[1]->getValue(i);
 }
+
+int InitDeclarator::getArraySize() const
+{
+  return branches[0]->getArraySize();
+}

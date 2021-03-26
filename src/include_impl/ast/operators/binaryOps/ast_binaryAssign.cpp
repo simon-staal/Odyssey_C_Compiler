@@ -1,4 +1,5 @@
 #include "ast/operators/binaryOps/ast_binaryAssign.hpp"
+#include <cmath> // For array stuff
 
 void BinaryAssign::PrettyPrint(std::ostream &dst, std::string indent) const
 {
@@ -15,30 +16,58 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
 {
   NodePtr Index;
   variable Var = LeftVar(context);
+  std::string id = LeftOp()->getId();
+  int offset = context.allocate();
   if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY
 
-    Index->generateMIPS(dst, context, destReg);
-    int reg = context.allocate();
+    Index->generateMIPS(dst, context, offset);
 
-    dst << "addiu $" << reg << ", $0, " << Var.size << std::endl;
-    dst << "mult $" << destReg << ", $" << reg << std::endl;
-    dst << "mflo $" << destReg << std::endl;
-    dst << "addiu $" << destReg << ", $" << destReg << ", " << Var.offset << std::endl;
-    dst << "move $" << reg << ", $30" << std::endl;
-    dst << "add $" << destReg << ", $" << destReg << ", $" << reg << std::endl;
+    if(context.isGlobal(id)){
+      // Scales offset
+      dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
 
+      // Load global address
+      dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
+      dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+
+      // Loads array element
+      dst << "addu $" << destReg << ",$" << offset << ",$" << destReg << std::endl;
+    }
+
+    else{
+      // Scales offset
+      dst << "addiu $" << destReg << ", $0, " << (int)log2(Var.size) << std::endl;
+      dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
+
+      // Load start of array
+      dst << "addiu $" << destReg << ",$30," << Var.offset << std::endl;
+      dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
+    }
+
+    int reg = offset;
     RightOp()->generateMIPS(dst, context, reg);
     dst << "sw $" << reg << ", 0($" << destReg << ")" << std::endl;
-    dst << "move $" << destReg << ", $" << reg << std::endl;
-
-    context.regFile.freeReg(reg);
-     
-
+    dst << "move $" << destReg << ", $" << reg << std::endl; // Could switch registers to be more efficient but CBA
 
   }else{
 
     RightOp()->generateMIPS(dst, context, destReg);
     ifFunction(dst, context, destReg);
-    AssEnd(dst, context, destReg, Var);
+
+    if(context.isGlobal(id)){
+      int address = offset; // Temporary register
+      dst << "lui $" << address << ",%hi(" << id << ")" << std::endl;
+      dst << "addiu $" << address << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+      dst << "sw $" << destReg << ",0($" << address << ")" << std::endl;
+    }
+    else{
+      dst << "sw $" << destReg << ", "<< Var.offset << "($30)" << std::endl; // Stores result in variable
+      if(Var.reg == -1){
+        //not stored in registers
+      }else{
+        dst << "move $" << Var.reg << ", $" << destReg << std::endl;
+      }
+    }
   }
+  context.regFile.freeReg(offset);
 }

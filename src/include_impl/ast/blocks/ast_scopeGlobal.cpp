@@ -41,7 +41,7 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
         dst << id << ":" << std::endl;
         if(branches[i]->isInit()){
           // Initializes every index in order
-          for(unsigned index = 0; index < array; i++){
+          for(unsigned index = 0; index < array; index++){
             dst << ".word " << branches[i]->getValue(index) << std::endl;
           }
         }
