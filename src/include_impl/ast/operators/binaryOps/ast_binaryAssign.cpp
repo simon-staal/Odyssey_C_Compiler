@@ -15,7 +15,6 @@ void BinaryAssign::PrettyPrint(std::ostream &dst, std::string indent) const
 void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   NodePtr Index;
-  variable Var = LeftVar(context);
   std::string id = LeftOp()->getId();
   int offset = context.allocate();
   if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY
@@ -35,6 +34,7 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     }
 
     else{
+      variable Var = LeftVar(context);
       // Scales offset
       dst << "addiu $" << destReg << ", $0, " << (int)log2(Var.size) << std::endl;
       dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
@@ -50,7 +50,6 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     dst << "move $" << destReg << ", $" << reg << std::endl; // Could switch registers to be more efficient but CBA
 
   }else{
-
     RightOp()->generateMIPS(dst, context, destReg);
     ifFunction(dst, context, destReg);
 
@@ -61,6 +60,7 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
       dst << "sw $" << destReg << ",0($" << address << ")" << std::endl;
     }
     else{
+      variable Var = LeftVar(context);
       dst << "sw $" << destReg << ", "<< Var.offset << "($30)" << std::endl; // Stores result in variable
       if(Var.reg == -1){
         //not stored in registers
