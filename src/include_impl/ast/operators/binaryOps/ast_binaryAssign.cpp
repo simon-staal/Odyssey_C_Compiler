@@ -16,9 +16,9 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
 {
   NodePtr Index;
   std::string id = LeftOp()->getId();
-  int offset = context.allocate();
+  int reg = context.allocate(); // Allocates temporary GPR for processing
   if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY
-
+    int offset = reg;
     Index->generateMIPS(dst, context, offset);
 
     if(context.isGlobal(id)){
@@ -44,7 +44,6 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
       dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
     }
 
-    int reg = offset;
     RightOp()->generateMIPS(dst, context, reg);
     dst << "sw $" << reg << ", 0($" << destReg << ")" << std::endl;
     dst << "move $" << destReg << ", $" << reg << std::endl; // Could switch registers to be more efficient but CBA
@@ -54,9 +53,9 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     ifFunction(dst, context, destReg);
 
     if(context.isGlobal(id)){
-      int address = offset; // Temporary register
+      int address = reg; // Temporary register
       dst << "lui $" << address << ",%hi(" << id << ")" << std::endl;
-      dst << "addiu $" << address << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+      dst << "addiu $" << address << ",$" << address << ",%lo(" << id << ")" << std::endl;
       dst << "sw $" << destReg << ",0($" << address << ")" << std::endl;
     }
     else{
@@ -69,5 +68,5 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
       }
     }
   }
-  context.regFile.freeReg(offset);
+  context.regFile.freeReg(reg);
 }
