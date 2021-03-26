@@ -22,7 +22,8 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
   // Finds variable
   if(context.isGlobal(id)){
     dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
-    dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")($" << destReg << ")" << std::endl;
+    dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+    dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
     dst << "nop" << std::endl;
   }
   else{
