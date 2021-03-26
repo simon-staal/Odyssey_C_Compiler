@@ -29,7 +29,7 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
         dst << ".size " << id << ", " << size << std::endl;
         dst << id << ":" << std::endl;
         if(branches[i]->isInit()){
-          dst << ".word " << branches[i]->getValue() << std::endl; //TODO: Implement methods
+          dst << ".word " << branches[i]->getValue() << std::endl;
         }
         else{
           dst << ".space " << size << std::endl;
@@ -40,7 +40,10 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
         dst << ".size " << id << ", " << size << std::endl;
         dst << id << ":" << std::endl;
         if(branches[i]->isInit()){
-          // Talk to kai
+          // Initializes every index in order
+          for(unsigned index = 0; index < array; i++){
+            dst << ".word " << branches[i]->getValue(index) << std::endl;
+          }
         }
         else{
           dst << ".space " << size << std::endl;

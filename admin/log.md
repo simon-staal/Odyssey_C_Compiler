@@ -155,6 +155,9 @@ Finished implementing `switch`, `case` and `default` stuff, passing the relevant
 *Update_1*
 Figured out why we were failing [**call_mutual_recursive.c**](../compiler_tests/functions/call_mutual_recursive.c), solved issue by updating variable bindings map in FuncitonCall to indicate that variables stored in registers not preserved by function calls are no longer allocated in registers. We are now passing 62/93 testcases, updated test section.
 
+**26/03/2021**
+Started work on globals, added a bunch of files and now passing 63/93 tests.
+
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
 *This probably won't be updated anymore, refer back to the Passing Testbench section for what our compiler passes*

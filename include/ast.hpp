@@ -72,6 +72,7 @@
 
 #include "ast/arrays/ast_arrayDeclarator.hpp"
 #include "ast/arrays/ast_arrayIndex.hpp"
+#include "ast/arrays/ast_arrayInit.hpp"
 
 
 #include "ast/context.hpp"

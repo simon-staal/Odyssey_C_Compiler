@@ -414,8 +414,8 @@ type_name
 
 initializer
 	: assignment_expression { $$ = $1; }
-	| '{' initializer_list '}' { std::cerr << "Array initialiser" << std::endl; }
-	| '{' initializer_list ',' '}' { std::cerr << "whats the difference?? other than comma obv" << std::endl; }
+	| '{' initializer_list '}' { $$ = new ArrayInit(*$2); }
+	| '{' initializer_list ',' '}' { $$ = new ArrayInit(*$2); }
 	;
 
 initializer_list

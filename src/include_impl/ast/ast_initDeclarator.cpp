@@ -49,3 +49,8 @@ int InitDeclarator::getValue() const
 {
   return branches[1]->getValue();
 }
+
+int InitDeclarator::getValue(int i) const
+{
+  return branches[1]->getValue(i);
+}

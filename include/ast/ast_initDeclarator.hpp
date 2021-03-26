@@ -26,6 +26,7 @@ public:
   bool isFunction() const override;
   bool isInit() const override;
   int getValue() const override;
+  int getValue(int i) const override;
 };
 
 #endif

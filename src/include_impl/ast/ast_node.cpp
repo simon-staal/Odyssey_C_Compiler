@@ -79,12 +79,19 @@ NodePtr Node::getNode(unsigned index) const
 
 int Node::getArraySize() const
 {
-  std::cerr << "Tried to getArraySize of something..." << std::endl;
+  // DEBUGGING
+  // std::cerr << "Tried to getArraySize of something..." << std::endl;
   return 0;
 }
 
 int Node::getValue() const
 {
   std::cerr << "Tried to getValue of something with no value" << std::endl;
+  exit(1);
+}
+
+int Node::getValue(int i) const
+{
+  std::cerr << "Tried to getValue (array) of something not implemented" << std::endl;
   exit(1);
 }
