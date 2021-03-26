@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 25/03/2021)
+Objectives (last updated 26/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -25,24 +25,31 @@ Objectives (last updated 25/03/2021)
 - <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
 - Go through parser to make sure everything is added appropriately
 - Implement `sizeof()` and add types `char`, `unsigned` and `void` (?) to pass [**types**](../compiler_tests/types)
-- Implement globals, just add to how we codegen in root node (check if function of variable) + print directives and update places where we use variable identifiers to check global map.
+- <del> Implement globals, just add to how we codegen in root node (check if function of variable) + print directives and update places where we use variable identifiers to check global map. </del> (Marked complete 26/03/2021)
 - Implement floats (Please Kai <3)
+- Implement typedef (should be pretty easy probs)
 
-Passing Testbench (last updated 25/03/2021)
+Passing Testbench (last updated 26/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../utility/run_test.sh). Running single testcases are done using [**test_single.sh**](../utility/test_single.sh) and testing subdirectories (or all tests) is done using [**test_dir.sh**](../utility/test_dir.sh).
 
 We are currently passing:
-- [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
+- [**array**](../compiler_tests/array) - Passes 5 out of 5 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
-- [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
+- [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
+- [**Extra**](../compiler_tests/Extra) Passes 9 out of 9 cases, checking break / continue behaviour + reading / writing to global variables / arrays + other random testcases we've added
+- [**float**](../compiler_tests/floats) - Not yet implemented
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
-- [**array**](../compiler_tests/array) - Passes 4 out of 5 cases, failing for [**declare_global.c**](../compiler_tests/array/declare_global.c) (we haven't implemented globals yet)
+- [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
+- [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
+- [**misc**](../compiler_tests/misc) - Passes 2 out of 6 testcases (typedef and enum not yet implemented)
+- [**pointer**](../compiler_tests/pointer) - Not yet implemented
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
-- [**Extra**](../compiler_tests/Extra) Passes 5 out of 5 cases, checking break / continue behaviour + other random testcases we've added
+- [**strings**](../compiler_tests/strings) - Not yet implemented
+- [**struct**](../compiler_tests/struct) - Not yet implemented
+- [**types**](../compiler_tests/types) - Not yet implemented
 
-Overall we are passing **60/93** total testcases.
+Overall we are passing **67/97** total testcases.
 
 Changelog
 ---------
@@ -157,6 +164,9 @@ Figured out why we were failing [**call_mutual_recursive.c**](../compiler_tests/
 
 **26/03/2021**
 Started work on globals, added a bunch of files and now passing 63/93 tests.
+
+*Update_1*
+Fully finished implementing both globals (both reading and writing from), and added test cases to ensure this worked (as there were no test cases that actually did this pre-included), with all passing. Our compiler is now passing 67/97 testcases! Updated goals and merging to master.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
