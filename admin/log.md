@@ -44,7 +44,7 @@ We are currently passing:
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 - [**misc**](../compiler_tests/misc) - Passes 2 out of 6 testcases (typedef and enum not yet implemented)
-- [**pointer**](../compiler_tests/pointer) - Not yet implemented
+- [**pointer**](../compiler_tests/pointer) - Passes 4/5 (not arithmetic) 
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
 - [**strings**](../compiler_tests/strings) - Not yet implemented
 - [**struct**](../compiler_tests/struct) - Not yet implemented
@@ -177,6 +177,7 @@ Implemented Post Inc and Dec everything still working.
 
 *Update_1*
 Added implementation for rest of sizeof, currently untested, all tests still passing. Reworked some of the scripts / compiler.cpp to update the formatting as well as just run more cleanly.
+Implemented pointer stuff and support for types.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
