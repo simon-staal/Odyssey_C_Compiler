@@ -150,6 +150,8 @@ Implemented `break` and `continue`, expanded context to include the necessary in
 - `/=`: Causes segfault in qemu
 Pre parser rework, we are passing 53/88 total testcases.
 
+Implemented arrays (except globals) passing 4/5.
+
 *Update_1*
 Finished parser expression rework, kept `UnaryInc` and `UnaryDec` classes corresponding to `++` and `--` since it optimised the assembly produced **a lot**, so I felt like they deserved their stay. Using the syntactic sugar on operators now works. We now pass 54/88 testcases :D
 

@@ -241,8 +241,8 @@ postfix_expression
 	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, *$3); delete $3; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
 	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
-  | postfix_expression INC_OP { $$ = new UnaryInc($1); /*There's probably an edge case where this is wrong but idgaf*/ }
-| postfix_expression DEC_OP { $$ = new UnaryDec($1); /*There's probably an edge case where this is wrong but idgaf*/ }
+  | postfix_expression INC_OP { $$ = new UnaryPostInc($1); /* need post inc + pre inc classes tho*/ }
+| postfix_expression DEC_OP { $$ = new UnaryPostDec($1); /*Shouldn't have changed the file name can implement this pretty easy*/ }
 	;
 
 argument_expression_list

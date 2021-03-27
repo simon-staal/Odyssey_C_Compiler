@@ -22,7 +22,7 @@ void UnaryAdr::generateMIPS(std::ostream &dst, Context &context, int destReg) co
     var = it->second;
   }
 
-  put its address in destReg
+  //put its address in destReg
   dst << "add $" << destReg << ", $30, " << var.offset << std::endl;
 
 }

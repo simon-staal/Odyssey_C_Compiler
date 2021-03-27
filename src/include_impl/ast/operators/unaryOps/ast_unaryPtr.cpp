@@ -21,7 +21,7 @@ void UnaryPtr::generateMIPS(std::ostream &dst, Context &context, int destReg) co
     var = it->second;
   }
 
-  GetOp->generateMIPS(dst, context, destReg); // puts ptr value (its pointed address) into destReg like any other variable
+  GetOp()->generateMIPS(dst, context, destReg); // puts ptr value (its pointed address) into destReg like any other variable
   dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl; // loads whatever its pointing at.
 
 }
