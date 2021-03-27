@@ -130,12 +130,12 @@ declaration_specifiers
 	;
 
 type_specifier
-	: VOID { std::cerr << "Unsuported" << std::endl; }
-	| CHAR { std::cerr << "Unsuported" << std::endl; }
+	: VOID { $$ = new PrimitiveType(PrimitiveType::Specifier::_void); }
+	| CHAR { $$ = new PrimitiveType(PrimitiveType::Specifier::_char); }
 	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
 	| FLOAT { std::cerr << "Unsuported" << std::endl; }
 	| DOUBLE { std::cerr << "Unsuported" << std::endl; }
-	| UNSIGNED { std::cerr << "Unsuported" << std::endl; }
+	| UNSIGNED { $$ = new PrimitiveType(PrimitiveType::Specifier::_unsigned); }
 	| struct_specifier { std::cerr << "Unsuported" << std::endl; }
 	| enum_specifier { std::cerr << "Unsuported" << std::endl; }
 	;
@@ -259,8 +259,8 @@ unary_expression
 	| '-' unary_expression { $$ = new UnarySub($2); }
 	| '~' unary_expression { $$ = new UnaryBWNOT($2); }
 	| '!' unary_expression { $$ = new UnaryNOT($2); }
-	| SIZEOF unary_expression { std::cerr << "sizeof (duh)" << std::endl; }
-	| SIZEOF '(' type_name ')' { std::cerr << "sizeof a primitive" << std::endl; }
+	| SIZEOF unary_expression { $$ = new SizeOf($2); }
+	| SIZEOF '(' type_name ')' { $$ = new SizeOf($3); }
 	;
 
 multiplicative_expression

@@ -52,6 +52,12 @@ int Node::getSize() const
   return 0;
 }
 
+int Node::getSize(Context &context) const
+{
+  std::cerr << "Tried to getSize of expression of something not implemented" << std::endl;
+  return 0;
+}
+
 std::string Node::getId() const
 {
   std::cerr << "Tried to getId of something not implemented" << std::endl;

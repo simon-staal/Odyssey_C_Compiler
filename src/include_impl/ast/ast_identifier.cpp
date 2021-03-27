@@ -55,3 +55,20 @@ std::string Identifier::getId() const
   if(branches.empty()) { return id; }
   else{ return branches[0]->getId(); }
 }
+
+int Identifier::getSize(Context &context) const
+{
+  if(context.isGlobal(id)){
+    // TODO: Add some shit to globals
+    std::cerr << "SizeOf globals not implemented" << std::endl;
+    return 0;
+  }
+  else{
+    auto it = context.stack.back().varBindings.find(id);
+    if(it == context.stack.back().varBindings.end()){
+      std:: cerr << "Variable not found" << std::endl;
+      exit(1);
+    }
+    return it->second.size;
+  }
+}
