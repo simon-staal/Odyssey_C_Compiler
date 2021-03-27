@@ -17,7 +17,7 @@ NodePtr UnaryOperation::getOp() const
 
 void UnaryOperation::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-    
+
 }
 
 void UnaryOperation::ifFunction(std::ostream &dst, Context &context, int destReg) const
@@ -36,4 +36,8 @@ std::string UnaryOperation::getId() const
 bool UnaryOperation::isPtr() const
 {
     return branches[0]->isPtr();
+}
+int UnaryOperation::getSize(Context &context) const
+{
+  return branches[0]->getSize(context);
 }

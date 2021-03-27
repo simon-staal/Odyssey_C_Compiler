@@ -37,3 +37,8 @@ int Integer::getValue() const // returns value
 {
   return value;
 }
+
+int Integer::getSize() const
+{
+  return 4; // Int size is 4
+}

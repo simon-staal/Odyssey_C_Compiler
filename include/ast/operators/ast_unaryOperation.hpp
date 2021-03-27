@@ -27,6 +27,7 @@ public:
     bool isPtr() const override;
 
     std::string getId() const;
+    int getSize(Context &context) const override; // For sizeof stuff
 
 
 };

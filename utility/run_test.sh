@@ -13,9 +13,6 @@ if [[ $# -eq 0 ]] ; then
   exit 1
 fi
 
-echo "=============Compiling compiler============="
-make
-
 TEST=${1}
 TEST_NAME=${TEST%.c}
 TEST_NAME=${TEST_NAME##*/}
@@ -23,11 +20,25 @@ TEST_DRIVER=$(echo "${TEST}" | cut -f 1 -d '.')
 TEST_DRIVER="${TEST_DRIVER}_driver.c"
 OUT=$(echo "out/${TEST_NAME}" | cut -f 1 -d '.')
 
-echo "==========Running test for ${TEST_NAME}=========="
+# Formatting
+TERMINAL_WIDTH=$(tput cols)
+TITLE="Running test for ${TEST_NAME}"
+LEN=`expr length "$TITLE"`
+DIFF=$(($TERMINAL_WIDTH - $LEN))
+BUFFER=$(($DIFF / 2))
+UNEVEN=$(($DIFF % 2))
+if [[ $UNEVEN -eq 1 ]] ; then
+  EXTRA="="
+else
+  EXTRA=""
+fi
+SEP=$(echo $(printf '=%.0s' $(eval "echo {1.."$(($BUFFER))"}")))
+
+echo "${SEP}${TITLE}${SEP}${EXTRA}"
 echo "Compiling ${TEST_NAME}"
 bin/c_compiler -S "${TEST}" -o "${OUT}.s"
 
-echo "==============================================="
+echo $(printf '=%.0s' $(eval "echo {1.."$(($TERMINAL_WIDTH))"}"))
 echo "Assembling output"
 mips-linux-gnu-gcc -mfp32 -static -o "${OUT}.o" -c "${OUT}.s"
 

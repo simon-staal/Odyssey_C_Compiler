@@ -1,6 +1,8 @@
 #include "ast.hpp"
 
-// extern FILE *yyin // Used to pass input file to lexer / parser
+#include <sys/ioctl.h>
+#include <unistd.h>
+void printHeader(std::string title); // Nice pretty output format
 
 int main(int argc, char *argv[])
 {
@@ -9,23 +11,22 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
-		// Parsing / building AST
-		/*
-		yyin = fopen(argv[2], "r");
-		if(yyin == NULL){
-			std::cerr << "Couldn't open file: " << argv[2] << std::endl;
-			exit(1);
-		}
-		*/
+		// Formatting stuff
+		struct winsize size;
+	  ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+	  int width = size.ws_col;
 
 		Node *program = parseAST(argv[2]);
-		std::cout << "=============AST Representation=============" << std::endl;
+
+		// Visualising outputs
+		printHeader("AST Representation");
 		std::cout << program << std::endl;
 
-		std::cout << "===============Assembly Code===============" << std::endl;
+		printHeader("Assembly Code");
 		Context context_vis;
 		program->generateMIPS(std::cout, context_vis, 2);
 
+		// Actual compilation
 		Context context;
 		std::vector<std::string> macros = {
 			".section .mdebug.abi32",
@@ -47,4 +48,15 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 
+}
+
+void printHeader(std::string title){
+  struct winsize size;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+  int width = size.ws_col;
+  int lead = (width-title.length())/2;
+  int extra = (width-title.length())%2;
+  std::string buffer (lead, '=');
+  std::string pad = (extra) ? "=" : "";
+  std::cout << buffer << title << buffer << pad << std::endl;
 }
