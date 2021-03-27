@@ -173,6 +173,7 @@ Fully finished implementing both globals (both reading and writing from), and ad
 
 **27/03/2021**
 Added types `void`, `char` and `unsigned` to the primitives header file, and implemented `sizeof` to work for all these, as well as variable names. Currently passing all tests in [**types**](../compiler_tests/types), but the implementation of sizeof is very fragile and currently only works on literal type names and identifiers, functionality needs to be extended so that it works for any expression it can be passed by the parser. The types themselves are also not implemented, so this also needs to be done, will need to add another codegen helper for this. Adding everything didn't break anything, so we are now passing 72/97 testcases.
+Implemented Post Inc and Dec everything still working.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

@@ -77,6 +77,8 @@
 #include "ast/arrays/ast_arrayIndex.hpp"
 #include "ast/arrays/ast_arrayInit.hpp"
 
+#include "ast/ast_pointerDeclarator.hpp"
+#include "ast/types/ast_pointer.hpp"
 
 #include "ast/context.hpp"
 

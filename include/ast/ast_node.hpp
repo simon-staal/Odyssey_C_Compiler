@@ -54,6 +54,8 @@ public:
   // used to get literal values before codegen
   virtual int getValue() const;
   virtual int getValue(int i) const; // For arrays
+  virtual bool isPtr() const;
+  virtual NodePtr getOp() const; // for unaryops
 };
 
 #endif

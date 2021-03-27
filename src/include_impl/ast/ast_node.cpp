@@ -101,3 +101,14 @@ int Node::getValue(int i) const
   std::cerr << "Tried to getValue (array) of something not implemented" << std::endl;
   exit(1);
 }
+
+bool Node::isPtr() const
+{
+  return false;
+}
+
+NodePtr Node::getOp() const
+{
+  std::cerr << "Tried to getOp of something not implemented" << std::endl;
+  exit(1);
+}

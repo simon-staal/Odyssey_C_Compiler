@@ -16,6 +16,17 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
 {
   NodePtr Index;
   std::string id = LeftOp()->getId();
+  if( LeftOp()->isPtr() ){
+
+    RightOp()->generateMIPS(dst, context, destReg);
+    int address = context.allocate();
+    LeftOp()->getOp()->generateMIPS(dst, context, address);
+
+    dst << "sw $" << destReg << ", 0($" << address << ")" << std::endl;
+
+    context.regFile.freeReg(address);
+
+  }else{
   int reg = context.allocate(); // Allocates temporary GPR for processing
   if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY
     int offset = reg;
@@ -69,4 +80,5 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     }
   }
   context.regFile.freeReg(reg);
+  }
 }

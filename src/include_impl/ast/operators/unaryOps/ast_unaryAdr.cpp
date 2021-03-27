@@ -4,7 +4,7 @@ void UnaryAdr::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Unary Adr [ " << std::endl;
   dst << indent << "Op:" << std::endl;
-  GetOp()->PrettyPrint(dst, indent+"  ");
+  getOp()->PrettyPrint(dst, indent+"  ");
   std::cout << indent << "]" <<std::endl;
 }
 
@@ -12,7 +12,7 @@ void UnaryAdr::PrettyPrint(std::ostream &dst, std::string indent) const
 void UnaryAdr::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   //find variable you are &ing
-  std::string id = GetOp()->getId();
+  std::string id = getOp()->getId();
   variable var;
 
   auto it = context.stack.back().varBindings.find(id);

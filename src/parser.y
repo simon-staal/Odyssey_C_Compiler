@@ -89,7 +89,7 @@ function_definition
 
 /* Name of something (variable, function, array) */
 declarator
-	: pointer direct_declarator { std::cerr << "deal with pointers later" << std::endl; }
+	: pointer direct_declarator { $$ = new PointerDeclarator($2); }
 	| direct_declarator { $$ = $1; }
 	;
 
@@ -146,9 +146,9 @@ init_declarator
 	;
 
 abstract_declarator
-	: pointer
+	: pointer {/* $$ = new Pointer($1); */}
 	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
+	| pointer direct_abstract_declarator {/* $$ = new Pointer($1); */}
 	;
 
 direct_abstract_declarator

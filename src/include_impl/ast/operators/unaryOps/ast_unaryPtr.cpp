@@ -4,14 +4,14 @@ void UnaryPtr::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Unary Ptr [ " << std::endl;
   dst << indent << "Op:" << std::endl;
-  GetOp()->PrettyPrint(dst, indent+"  ");
+  getOp()->PrettyPrint(dst, indent+"  ");
   std::cout << indent << "]" <<std::endl;
 }
 
 void UnaryPtr::generateMIPS(std::ostream &dst, Context &context, int destReg) const // only for dereferencing.
 {
   //find variable you are *ing
-  std::string id = GetOp()->getId();
+  std::string id = getOp()->getId();
   variable var;
 
   auto it = context.stack.back().varBindings.find(id);
@@ -21,8 +21,13 @@ void UnaryPtr::generateMIPS(std::ostream &dst, Context &context, int destReg) co
     var = it->second;
   }
 
-  GetOp()->generateMIPS(dst, context, destReg); // puts ptr value (its pointed address) into destReg like any other variable
+  getOp()->generateMIPS(dst, context, destReg); // puts ptr value (its pointed address) into destReg like any other variable
   dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl; // loads whatever its pointing at.
 
+}
+
+bool UnaryPtr::isPtr() const 
+{
+  return true;
 }
 
