@@ -123,10 +123,10 @@ declaration
 
 /* Type of something (+ typedef) */
 declaration_specifiers
-	: TYPEDEF { std::cerr << "deal with this shit later" << std::endl; }
-	| TYPEDEF declaration_specifiers { std::cerr << "Not needed afaik since we only support TYPEDEF" << std::endl; }
+  : TYPEDEF { $$ = new TypeDef(new PrimitiveType(PrimitiveType::Specifier::_void)); /*idk when we'd use this*/ }
+	| TYPEDEF declaration_specifiers { $$ = new TypeDef($2); }
 	| type_specifier { $$ = $1; }
-	| type_specifier declaration_specifiers { std::cerr << "I don't think we need this either" << std::endl; }
+	| type_specifier declaration_specifiers { std::cerr << "I don't think we need this either (function ptrs?)" << std::endl; }
 	;
 
 type_specifier

@@ -35,6 +35,7 @@
 #include "ast/literals/ast_integer.hpp"
 
 #include "ast/types/ast_primitive.hpp"
+#include "ast/types/ast_typedef.hpp"
 
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"
