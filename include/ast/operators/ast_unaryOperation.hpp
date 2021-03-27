@@ -9,7 +9,7 @@ class UnaryOperation
 {
 protected:
 
-    NodePtr GetOp() const;
+    NodePtr getOp() const;
 
 public:
 
@@ -23,6 +23,10 @@ public:
     virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
 
     void ifFunction(std::ostream &dst, Context &context, int destReg) const;
+    
+    bool isPtr() const override;
+
+    std::string getId() const;
     int getSize(Context &context) const override; // For sizeof stuff
 
 

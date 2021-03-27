@@ -62,7 +62,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       if(arraysize != -1){ // if arraysize = 0 then either something is wrong or its gonna be initialised, either way dont know size
         context.stack.back().offset += arraysize*varsize; // creates space for all the arrays children
         dst << "addiu $29,$29,-" << arraysize*varsize << std::endl; // Decrements stack pointer
-        context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
+        context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1, "_int"}; // stores the space allocated (currently not available in a register)
       }else{
         // im not gonna deal with this now.
       }
@@ -83,14 +83,22 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
         destReg = context.allocate();
       }
       branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
-      context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg}; // stores the space allocated
+      if( branches[1]->isPtr() ){
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, "_ptr"}; // stores the space allocated
+      }else{
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, "_int"}; // stores the space allocated
+      }
       context.regFile.useReg(destReg); // Indicates register is being used
       dst << "sw $" << destReg << ",0($29)" << std::endl; // Stores variable in memory allocated
     }
 
     // Variable is not initialised, space is allocated and everything is stored in context for intialisation
     else{
-      context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
+      if( branches[1]->isPtr() ){
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, "_ptr"}; // labels it a ptr
+      }else{
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, "_int"}; // stores the space allocated (currently not available in a register)
+      }
     }
   }
 }

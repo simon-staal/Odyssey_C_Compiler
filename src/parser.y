@@ -89,7 +89,7 @@ function_definition
 
 /* Name of something (variable, function, array) */
 declarator
-	: pointer direct_declarator { std::cerr << "deal with pointers later" << std::endl; }
+	: pointer direct_declarator { $$ = new PointerDeclarator($2); }
 	| direct_declarator { $$ = $1; }
 	;
 
@@ -133,11 +133,11 @@ type_specifier
 	: VOID { $$ = new PrimitiveType(PrimitiveType::Specifier::_void); }
 	| CHAR { $$ = new PrimitiveType(PrimitiveType::Specifier::_char); }
 	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
-	| FLOAT { std::cerr << "Unsuported" << std::endl; }
-	| DOUBLE { std::cerr << "Unsuported" << std::endl; }
+	| FLOAT { std::cerr << "Unsupported" << std::endl; }
+	| DOUBLE { std::cerr << "Unsupported" << std::endl; }
 	| UNSIGNED { $$ = new PrimitiveType(PrimitiveType::Specifier::_unsigned); }
-	| struct_specifier { std::cerr << "Unsuported" << std::endl; }
-	| enum_specifier { std::cerr << "Unsuported" << std::endl; }
+	| struct_specifier { std::cerr << "Unsupported" << std::endl; }
+	| enum_specifier { std::cerr << "Unsupported" << std::endl; }
 	;
 
 init_declarator
@@ -146,21 +146,21 @@ init_declarator
 	;
 
 abstract_declarator
-	: pointer
+	: pointer {/* $$ = new Pointer($1); */}
 	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
+	| pointer direct_abstract_declarator {/* $$ = new Pointer($1); */}
 	;
 
 direct_abstract_declarator
 	: '(' abstract_declarator ')' { $$ = $2; }
-	| '[' ']' { std::cerr << "Unsuported" << std::endl; }
-	| '[' constant_expression ']' { std::cerr << "Unsuported" << std::endl; }
-	| direct_abstract_declarator '[' ']' { std::cerr << "Unsuported" << std::endl; }
-	| direct_abstract_declarator '[' constant_expression ']' { std::cerr << "Unsuported" << std::endl; }
-	| '(' ')' { std::cerr << "Unsuported" << std::endl; }
-	| '(' parameter_list ')' { std::cerr << "Unsuported" << std::endl; }
-	| direct_abstract_declarator '(' ')' { std::cerr << "Unsuported" << std::endl; }
-	| direct_abstract_declarator '(' parameter_list ')' { std::cerr << "Unsuported" << std::endl; }
+	| '[' ']' { std::cerr << "Unsupported" << std::endl; }
+	| '[' constant_expression ']' { std::cerr << "Unsupported" << std::endl; }
+	| direct_abstract_declarator '[' ']' { std::cerr << "Unsupported" << std::endl; }
+	| direct_abstract_declarator '[' constant_expression ']' { std::cerr << "Unsupported" << std::endl; }
+	| '(' ')' { std::cerr << "Unsupported" << std::endl; }
+	| '(' parameter_list ')' { std::cerr << "Unsupported" << std::endl; }
+	| direct_abstract_declarator '(' ')' { std::cerr << "Unsupported" << std::endl; }
+	| direct_abstract_declarator '(' parameter_list ')' { std::cerr << "Unsupported" << std::endl; }
 	;
 
 declaration_list
@@ -241,8 +241,8 @@ postfix_expression
 	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, *$3); delete $3; }
 	| postfix_expression '.' IDENTIFIER { std::cerr << "member variable access" << std::endl; }
 	| postfix_expression PTR_OP IDENTIFIER { std::cerr << "->" << std::endl; }
-  | postfix_expression INC_OP { $$ = new UnaryInc($1); /*There's probably an edge case where this is wrong but idgaf*/ }
-| postfix_expression DEC_OP { $$ = new UnaryDec($1); /*There's probably an edge case where this is wrong but idgaf*/ }
+  | postfix_expression INC_OP { $$ = new UnaryPostInc($1); /* need post inc + pre inc classes tho*/ }
+| postfix_expression DEC_OP { $$ = new UnaryPostDec($1); /*Shouldn't have changed the file name can implement this pretty easy*/ }
 	;
 
 argument_expression_list
@@ -323,7 +323,7 @@ logical_or_expression
 
 conditional_expression
 	: logical_or_expression { $$ = $1; }
-	| logical_or_expression '?' expression ':' conditional_expression { std::cerr << "Unsuported" << std::endl; }
+	| logical_or_expression '?' expression ':' conditional_expression { std::cerr << "Unsupported" << std::endl; }
 	;
 
 assignment_expression
@@ -351,9 +351,9 @@ constant_expression
 	;
 
 struct_specifier
-	: STRUCT IDENTIFIER '{' struct_declaration_list '}' { std::cerr << "Unsuported" << std::endl; }
-	| STRUCT '{' struct_declaration_list '}' { std::cerr << "Unsuported" << std::endl; }
-	| STRUCT IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
+	: STRUCT IDENTIFIER '{' struct_declaration_list '}' { std::cerr << "Unsupported" << std::endl; }
+	| STRUCT '{' struct_declaration_list '}' { std::cerr << "Unsupported" << std::endl; }
+	| STRUCT IDENTIFIER { std::cerr << "Unsupported" << std::endl; }
 	;
 
 struct_declaration_list
@@ -362,12 +362,12 @@ struct_declaration_list
 	;
 
 struct_declaration
-	: specifier_qualifier_list struct_declarator_list ';' { std::cerr << "Unsuported" << std::endl; }
+	: specifier_qualifier_list struct_declarator_list ';' { std::cerr << "Unsupported" << std::endl; }
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list { std::cerr << "Unsuported" << std::endl; }
-	| type_specifier { std::cerr << "Unsuported" << std::endl; }
+	: type_specifier specifier_qualifier_list { std::cerr << "Unsupported" << std::endl; }
+	| type_specifier { std::cerr << "Unsupported" << std::endl; }
 	;
 
 struct_declarator_list
@@ -377,14 +377,14 @@ struct_declarator_list
 
 struct_declarator
 	: declarator { $$ = $1; }
-	| ':' constant_expression { std::cerr << "Unsuported" << std::endl; }
-	| declarator ':' constant_expression { std::cerr << "Unsuported" << std::endl; }
+	| ':' constant_expression { std::cerr << "Unsupported" << std::endl; }
+	| declarator ':' constant_expression { std::cerr << "Unsupported" << std::endl; }
 	;
 
 enum_specifier
-	: ENUM '{' enumerator_list '}' { std::cerr << "Unsuported" << std::endl; }
-	| ENUM IDENTIFIER '{' enumerator_list '}' { std::cerr << "Unsuported" << std::endl; }
-	| ENUM IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
+	: ENUM '{' enumerator_list '}' { std::cerr << "Unsupported" << std::endl; }
+	| ENUM IDENTIFIER '{' enumerator_list '}' { std::cerr << "Unsupported" << std::endl; }
+	| ENUM IDENTIFIER { std::cerr << "Unsupported" << std::endl; }
 	;
 
 enumerator_list
@@ -393,13 +393,13 @@ enumerator_list
 	;
 
 enumerator
-	: IDENTIFIER { std::cerr << "Unsuported" << std::endl; }
-	| IDENTIFIER '=' constant_expression { std::cerr << "Unsuported" << std::endl; }
+	: IDENTIFIER { std::cerr << "Unsupported" << std::endl; }
+	| IDENTIFIER '=' constant_expression { std::cerr << "Unsupported" << std::endl; }
 	;
 
 pointer
-	: '*' { std::cerr << "Unsuported" << std::endl; }
-	| '*' pointer { std::cerr << "Unsuported" << std::endl; }
+	: '*'
+	| '*' pointer { std::cerr << "Multiple pointers check this if its not working" << std::endl; }
 	;
 
 identifier_list
@@ -408,8 +408,8 @@ identifier_list
 	;
 
 type_name
-	: specifier_qualifier_list { std::cerr << "Unsuported" << std::endl; }
-	| specifier_qualifier_list abstract_declarator { std::cerr << "Unsuported" << std::endl; }
+	: specifier_qualifier_list { std::cerr << "Unsupported" << std::endl; }
+	| specifier_qualifier_list abstract_declarator { std::cerr << "Unsupported" << std::endl; }
 	;
 
 initializer

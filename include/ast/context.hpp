@@ -71,6 +71,7 @@ struct variable
   unsigned int size; // How many bytes does the variable take up
   int offset; // Offset from frame pointer (+ for arguments, - for variables)
   int reg; // Keeps track of which register the variable is in (-1 := not stored in reg)
+  std::string type;
 };
 
 struct function

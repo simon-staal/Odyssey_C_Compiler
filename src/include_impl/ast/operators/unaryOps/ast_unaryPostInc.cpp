@@ -1,14 +1,14 @@
-#include "ast/operators/unaryOps/ast_unaryInc.hpp"
+#include "ast/operators/unaryOps/ast_unaryPostInc.hpp"
 
-void UnaryInc::PrettyPrint(std::ostream &dst, std::string indent) const
+void UnaryPostInc::PrettyPrint(std::ostream &dst, std::string indent) const
 {
-  dst << indent << "Unary Inc [ " << std::endl;
+  dst << indent << "Unary Post Inc [ " << std::endl;
   dst << indent << "Op:" << std::endl;
   getOp()->PrettyPrint(dst, indent+"  ");
   std::cout << indent << "]" <<std::endl;
 }
 
-void UnaryInc::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+void UnaryPostInc::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
   std::string id = getOp()->getId();
   variable op;
@@ -25,14 +25,17 @@ void UnaryInc::generateMIPS(std::ostream &dst, Context &context, int destReg) co
     dst << "lw $" << destReg << ", " << op.offset << "($30)" << std::endl;
     dst << "addiu $" << destReg << ", $" << destReg << ", 1" << std::endl;
     dst << "sw $" << destReg << ", " << op.offset << "($30)" << std::endl;
+    dst << "addiu $" << destReg << ", $" << destReg << ", -1" << std::endl;
 
 
   }else{
 
-    dst << "addiu $" << op.reg << ", $" << op.reg << ", +1" << std::endl;
+    dst << "addiu $" << op.reg << ", $" << op.reg << ", 1" << std::endl;
     dst << "sw $" << op.reg << ", " << op.offset << "($30)" << std::endl;
-    dst << "move $" << destReg << ", $" << op.reg << std::endl;
+    dst << "addiu $" << destReg << ", $" << op.reg << ", -1" << std::endl;
 
+    context.regFile.freeReg(op.reg);
+    op.reg = -1;
 
   }
 }

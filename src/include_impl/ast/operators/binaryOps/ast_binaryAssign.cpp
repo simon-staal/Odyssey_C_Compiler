@@ -16,6 +16,47 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
 {
   NodePtr Index;
   std::string id = LeftOp()->getId();
+  variable Var = LeftVar(context);
+
+  if( LeftOp()->isPtr() ){  // if it has *p on the left hand side
+    NodePtr assigned = RightOp()->getNode(1);
+    if( assigned != NULL ){
+
+      RightOp()->generateTypeMIPS(dst, context, destReg, "_ptr");
+
+    }else{
+      RightOp()->generateMIPS(dst, context, destReg);
+    }
+
+    int address = context.allocate();
+    LeftOp()->getOp()->generateMIPS(dst, context, address);
+
+    dst << "sw $" << destReg << ", 0($" << address << ")" << std::endl;
+
+    context.regFile.freeReg(address);
+
+  }else if( Var.type == "_ptr" ){ // if it has p with type pointer on the left hand side
+
+    NodePtr assigned = RightOp()->getNode(1); // checks if its just gonna be equal to &x e.g or any ptr arithmetic stuff
+    if( assigned != NULL ){
+      //std::cerr << "This is where the fun begins" << std::endl;
+      RightOp()->generateTypeMIPS(dst, context, destReg, "_ptr");
+      //std::cerr << "This is where the fun ends" << std::endl;
+    }else{
+      RightOp()->generateMIPS(dst, context, destReg);
+    }
+
+    dst << "sw $" << destReg << ", " << Var.offset << "($30)" << std::endl;
+
+    if(Var.reg == -1){
+      //not stored in registers
+    }else{
+      dst << "move $" << Var.reg << ", $" << destReg << std::endl;
+    }
+
+  }
+
+  else{
   int reg = context.allocate(); // Allocates temporary GPR for processing
   if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY
     int offset = reg;
@@ -69,4 +110,10 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     }
   }
   context.regFile.freeReg(reg);
+  }
+}
+
+void BinaryAssign::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+{
+
 }

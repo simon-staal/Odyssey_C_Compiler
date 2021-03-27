@@ -4,21 +4,25 @@ void UnaryAdr::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Unary Adr [ " << std::endl;
   dst << indent << "Op:" << std::endl;
-  GetOp()->PrettyPrint(dst, indent+"  ");
+  getOp()->PrettyPrint(dst, indent+"  ");
   std::cout << indent << "]" <<std::endl;
 }
 
 
 void UnaryAdr::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  int reg;
-  if( (reg = context.regFile.allocate()) == -1){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
+  //find variable you are &ing
+  std::string id = getOp()->getId();
+  variable var;
+
+  auto it = context.stack.back().varBindings.find(id);
+  if( it == context.stack.back().varBindings.end() ){
+    std::cerr << "Uninitialised Variable?" << std::endl;
+  }else{
+    var = it->second;
   }
 
-  GetOp()->generateMIPS(dst, context, reg);
+  //put its address in destReg
+  dst << "add $" << destReg << ", $30, " << var.offset << std::endl;
 
-  dst << "sub $" << destReg << ", $0, " << reg << std::endl; 
-
-  context.regFile.freeReg(reg);
 }

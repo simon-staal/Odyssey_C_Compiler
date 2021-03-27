@@ -12,7 +12,7 @@ void BinaryAdd::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-
+  // std::cerr << "Hello :D" << std::endl; (I couldn't remove him ;( )
   int regLeft = DoLeft(dst, context, destReg);
   int regRight = DoRight(dst, context, destReg, regLeft);
 
@@ -20,4 +20,31 @@ void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) c
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
+}
+
+void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+{
+  if(type == "_ptr"){
+    if( isPtrVar(context, LeftOp()) ){
+      LeftOp()->generateMIPS(dst, context, destReg);
+    }else{
+      LeftOp()->generateMIPS(dst, context, destReg);
+      dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
+    }
+
+    int temp = context.allocate();
+    if( isPtrVar(context, RightOp()) ){
+      RightOp()->generateMIPS(dst, context, temp);
+    }else{
+      RightOp()->generateMIPS(dst, context, temp);
+      dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
+    }
+      EZPrint(dst, "add", destReg, destReg, temp);
+      context.regFile.freeReg(temp);
+
+  }else{
+
+    //whateber
+  }
+
 }

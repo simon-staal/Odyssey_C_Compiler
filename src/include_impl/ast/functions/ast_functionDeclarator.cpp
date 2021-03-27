@@ -55,7 +55,11 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   while(param != NULL){
     std::string var = param->getId();
     int size = param->getSize();
-    newFrame.varBindings[var] = {size, paramSize+8, -1};
+    if( param->getNode(1)->isPtr() ){
+      newFrame.varBindings[var] = {size, paramSize+8, -1, "_ptr"};
+    }else{
+      newFrame.varBindings[var] = {size, paramSize+8, -1, "_int"};
+    }
     if(i < 4){
       newFrame.varBindings[var].reg = i+4; // First 4 arguments stored in registers $4-$7
       dst << "sw $" << i+4 << "," << paramSize+8 << "($30)" << std::endl; // The first 4 args aren't actually stored in the right place

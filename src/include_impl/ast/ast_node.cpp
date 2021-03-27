@@ -45,6 +45,13 @@ void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
   exit(1);
 }
 
+// Codegen
+void Node::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+{
+  std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
+  exit(1);
+}
+
 // Codegen helpers
 int Node::getSize() const
 {
@@ -60,8 +67,8 @@ int Node::getSize(Context &context) const
 
 std::string Node::getId() const
 {
-  std::cerr << "Tried to getId of something not implemented" << std::endl;
-  exit(1);
+  // std::cerr << "Tried to getId of something not implemented" << std::endl; Functionality updated
+  return "<NULL>";
 }
 
 bool Node::isFunction() const
@@ -99,5 +106,16 @@ int Node::getValue() const
 int Node::getValue(int i) const
 {
   std::cerr << "Tried to getValue (array) of something not implemented" << std::endl;
+  exit(1);
+}
+
+bool Node::isPtr() const
+{
+  return false;
+}
+
+NodePtr Node::getOp() const
+{
+  std::cerr << "Tried to getOp of something not implemented" << std::endl;
   exit(1);
 }
