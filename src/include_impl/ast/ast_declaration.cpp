@@ -45,20 +45,29 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       i++;
       param = branches[1]->getNode(1)->getNode(i);
     }
+    if(argSize < 16 && argSize > 0){
+      argSize = 16;
+    }
     context.functions[id].size = argSize; // All information associated with declaration now stored for function calls
   }
-  else if(branches[1]->getValue() != 0 ){ // checks if we are declaring an array
-    unsigned arraysize = branches[1]->getValue();
+  else if(branches[1]->getArraySize() != 0 ){ // checks if we are declaring an array
+    unsigned arraysize = branches[1]->getArraySize();
     unsigned varsize = branches[0]->getSize();
     std::string id = branches[1]->getId();
 
-    if(arraysize != 0){ // if arraysize = 0 then either something is wrong or its gonna be initialised, either way dont know size
-      context.stack.back().offset += arraysize*varsize; // creates space for all the arrays children
-      dst << "addiu $29,$29,-" << arraysize*varsize << std::endl; // Decrements stack pointer
-      context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
-    }else{
-      // im not gonna deal with this now.
+    if(branches[1]->isInit()){
+      // Initialized array, Kai do this at some point
     }
+    else{
+      if(arraysize != -1){ // if arraysize = 0 then either something is wrong or its gonna be initialised, either way dont know size
+        context.stack.back().offset += arraysize*varsize; // creates space for all the arrays children
+        dst << "addiu $29,$29,-" << arraysize*varsize << std::endl; // Decrements stack pointer
+        context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1}; // stores the space allocated (currently not available in a register)
+      }else{
+        // im not gonna deal with this now.
+      }
+    }
+
   }
   else{
     // Deals with variable declaration (will probs have to extend for globals)
@@ -103,4 +112,29 @@ int Declaration::getSize() const
 std::string Declaration::getId() const
 {
   return branches[1]->getId();
+}
+
+bool Declaration::isFunction() const
+{
+  return branches[1]->isFunction();
+}
+
+bool Declaration::isInit() const
+{
+  return branches[1]->isInit();
+}
+
+int Declaration::getArraySize() const
+{
+  return branches[1]->getArraySize();
+}
+
+int Declaration::getValue() const
+{
+  return branches[1]->getValue();
+}
+
+int Declaration::getValue(int i) const
+{
+  return branches[1]->getValue(i);
 }

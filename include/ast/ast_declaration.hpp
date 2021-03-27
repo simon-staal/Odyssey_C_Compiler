@@ -22,9 +22,14 @@ public:
 
   // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
-  virtual NodePtr getNode(unsigned index) const override;
-  virtual int getSize() const override;
-  virtual std::string getId() const override;
+  NodePtr getNode(unsigned index) const override;
+  int getSize() const override;
+  std::string getId() const override;
+  bool isFunction() const override;
+  bool isInit() const override;
+  int getArraySize() const override;
+  int getValue() const override;
+  int getValue(int i) const override;
 };
 
 #endif

@@ -48,8 +48,11 @@ public:
   virtual bool isFunction() const;
   // Used in codegen to check if declarator is initialised
   virtual bool isInit() const;
+  // Used to get ArraySize
+  virtual int getArraySize() const;
   // used to get literal values before codegen
   virtual int getValue() const;
+  virtual int getValue(int i) const; // For arrays
 };
 
 #endif

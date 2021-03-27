@@ -9,7 +9,7 @@ ArrayDeclarator::ArrayDeclarator(NodePtr id, NodePtr size)
 
 
 ArrayDeclarator::ArrayDeclarator(NodePtr id)
-  : ArrayDeclarator(id, new Integer(0))
+  : ArrayDeclarator(id, new Integer(-1))
 {
 
 }
@@ -35,7 +35,7 @@ void ArrayDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
 // Codegen + helpers
 void ArrayDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  
+
 }
 
 
@@ -44,12 +44,17 @@ std::string ArrayDeclarator::getId() const
   return branches[0]->getId();
 }
 
+bool ArrayDeclarator::isInit() const
+{
+  return false;
+}
+
 bool ArrayDeclarator::isFunction() const
 {
   return false;
 }
 
-int ArrayDeclarator::getValue() const // gets size of array when its being declared
+int ArrayDeclarator::getArraySize() const // gets size of array when its being declared
 {
   return branches[1]->getValue();
 }

@@ -80,7 +80,7 @@ int BinaryOperation::DoRight(std::ostream &dst, Context &context, int destReg, i
 
 variable BinaryOperation::LeftVar(Context &context) const
 {
-  
+
   std::string id = LeftOp()->getId();
   variable left;
 
@@ -93,16 +93,6 @@ variable BinaryOperation::LeftVar(Context &context) const
 
   return left;
 
-}
-
-void BinaryOperation::AssEnd(std::ostream &dst, Context &context, int destReg, variable VarLeft) const
-{
-  dst << "sw $" << destReg << ", "<< VarLeft.offset << "($30)" << std::endl; // Stores result in variable
-  if(VarLeft.reg == -1){
-    //not stored in registers
-  }else{
-    dst << "move $" << VarLeft.reg << ", $" << destReg << std::endl;
-  }
 }
 
 void BinaryOperation::ifFunction(std::ostream &dst, Context &context, int destReg) const

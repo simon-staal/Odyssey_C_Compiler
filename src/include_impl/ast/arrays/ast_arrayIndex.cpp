@@ -1,4 +1,5 @@
 #include "ast/arrays/ast_arrayIndex.hpp"
+#include <cmath> // Required for shift stuff
 
 // Constructors
 ArrayIndex::ArrayIndex(NodePtr id, NodePtr index)
@@ -29,28 +30,45 @@ void ArrayIndex::PrettyPrint(std::ostream &dst, std::string indent) const
 void ArrayIndex::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
     std::string id = branches[0]->getId();
-    variable array;
-    auto it = context.stack.back().varBindings.find(id);
-    if( it == context.stack.back().varBindings.end() ){
-    std::cerr << "Uninitialised Variable?" << std::endl;
-    }else{
-        array = it->second;
+    int offset = context.allocate(); // Offset from start of array
+    branches[1]->generateMIPS(dst, context, offset);
+
+    if(context.isGlobal(id)){
+      // Scales offset
+      dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
+
+      // Load global address
+      dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
+      dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+
+      // Loads array element
+      dst << "addu $" << destReg << ",$" << offset << ",$" << destReg << std::endl;
+
+      // Load value into destReg
+      dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
+      dst << "nop" << std::endl; // Idk if this is needed but godbolt has it
     }
+    else{
+      variable array;
+      auto it = context.stack.back().varBindings.find(id);
+      if( it == context.stack.back().varBindings.end() ){
+      std::cerr << "Uninitialised Variable?" << std::endl;
+      }else{
+          array = it->second;
+      }
 
-    branches[1]->generateMIPS(dst, context, destReg);
+      // Scales offset
+      dst << "addiu $" << destReg << ", $0, " << (int)log2(array.size) << std::endl;
+      dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
 
-    int reg = context.allocate();
+      // Load start of array
+      dst << "addiu $" << destReg << ",$30," << array.offset << std::endl;
+      dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
+      dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl;
+    }
+    // Frees temporary register
+    context.regFile.freeReg(offset);
 
-    dst << "addiu $" << reg << ", $0, " << array.size << std::endl;
-    dst << "mult $" << destReg << ", $" << reg << std::endl;
-    dst << "mflo $" << destReg << std::endl;
-    dst << "addiu $" << destReg << ", $" << destReg << ", " << array.offset << std::endl;
-    dst << "move $" << reg << ", $30" << std::endl;
-    dst << "add $" << destReg << ", $" << destReg << ", $" << reg << std::endl;
-    dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl;
-
-
-    context.regFile.freeReg(reg);
 }
 
 

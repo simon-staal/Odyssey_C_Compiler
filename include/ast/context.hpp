@@ -7,7 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include<utility>
+#include <utility>
+#include <unordered_set>
 
 // Contains information related to where a variable exists in memory
 struct variable;
@@ -44,7 +45,7 @@ struct Context
   std::vector<stackFrame> stack;
 
   // Globals
-  std::map<std::string, variable> globals;
+  std::unordered_set<std::string> globals; // Just needs to track the names of globals
   std::map<std::string, function> functions; // tracks the size of the arguments
 
   // MIPS Register file
@@ -83,7 +84,7 @@ struct stackFrame
   std::map<std::string, variable> varBindings; // Tracks variables in scope
   unsigned int offset = 0; // Keeps track of size of frame to restore the stack pointer for blocks (i.e. while loops, if statements) -- MAKE SURE TO INCREMENT WHEN ALLOCATING VARIABLES
   bool inFrame(std::string varName); // Error checking, probably not necessary
-  std::string startLabel; // Used for continue statement
+  std::string startLabel; // Used for continue statement (and case stuff for switch)
   std::string endLabel; // Used for break statement
 };
 

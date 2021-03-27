@@ -32,3 +32,8 @@ void FunctionDefinition::generateMIPS(std::ostream &dst, Context &context, int d
   // All params are assigned in current.varBindings, and will copied by the function call
   branches[1]->generateMIPS(dst, context, destReg);
 }
+
+bool FunctionDefinition::isFunction() const
+{
+  return true;
+}

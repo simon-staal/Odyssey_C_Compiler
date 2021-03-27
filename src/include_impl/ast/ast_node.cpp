@@ -55,7 +55,7 @@ int Node::getSize() const
 std::string Node::getId() const
 {
   std::cerr << "Tried to getId of something not implemented" << std::endl;
-  return "";
+  exit(1);
 }
 
 bool Node::isFunction() const
@@ -66,7 +66,7 @@ bool Node::isFunction() const
 bool Node::isInit() const
 {
   std::cerr << "Tried to check isInit of something not implemented" << std::endl;
-  return 1;
+  exit(1);
 }
 
 NodePtr Node::getNode(unsigned index) const
@@ -77,8 +77,21 @@ NodePtr Node::getNode(unsigned index) const
   return NULL;
 }
 
+int Node::getArraySize() const
+{
+  // DEBUGGING
+  // std::cerr << "Tried to getArraySize of something..." << std::endl;
+  return 0;
+}
+
 int Node::getValue() const
 {
-  std::cerr << "Tried to getValue of something..." << std::endl;
-  return 0;
+  std::cerr << "Tried to getValue of something with no value" << std::endl;
+  exit(1);
+}
+
+int Node::getValue(int i) const
+{
+  std::cerr << "Tried to getValue (array) of something not implemented" << std::endl;
+  exit(1);
 }

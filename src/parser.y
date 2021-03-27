@@ -192,9 +192,9 @@ statement
 
 /* Case statements */
 labeled_statement
-	: IDENTIFIER ':' statement { std::cerr << "Add to AST" << std::endl ; }
-	| CASE constant_expression ':' statement { ; }
-	| DEFAULT ':' statement { ; }
+	: IDENTIFIER ':' statement { std::cerr << "Enum stuff" << std::endl; }
+	| CASE constant_expression ':' statement { $$ = new Case($2, $4); }
+	| DEFAULT ':' statement { $$ = new Default($3); }
 	;
 
 /* Standard stuff */
@@ -207,7 +207,7 @@ expression_statement
 selection_statement
 	: IF '(' expression ')' statement { $$ = new IfElse($3, $5); }
 	| IF '(' expression ')' statement ELSE statement { $$ = new IfElse($3, $5, $7); }
-	| SWITCH '(' expression ')' statement { ; }
+	| SWITCH '(' expression ')' statement { $$ = new Switch($3, $5); }
 	;
 /* we can solve the shift/reduce conflict by writing '%right "then" "else"' to give right asssociasivity to else
  (shift) tho it already does this and may cause further ambiguities */
@@ -414,8 +414,8 @@ type_name
 
 initializer
 	: assignment_expression { $$ = $1; }
-	| '{' initializer_list '}' { std::cerr << "Array initialiser" << std::endl; }
-	| '{' initializer_list ',' '}' { std::cerr << "whats the difference?? other than comma obv" << std::endl; }
+	| '{' initializer_list '}' { $$ = new ArrayInit(*$2); }
+	| '{' initializer_list ',' '}' { $$ = new ArrayInit(*$2); }
 	;
 
 initializer_list
