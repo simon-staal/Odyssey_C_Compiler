@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 26/03/2021)
+Objectives (last updated 27/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -18,18 +18,19 @@ Objectives (last updated 26/03/2021)
 - <del> Go through QEMU stuff to get a test script working</del> (Marked complete 18/03/2021)
 - <del> Continue to build codegen implementation for current AST nodes, try to compile test cases for which the correct AST can be built.</del> (Marked complete 23/03/2021)
 - <del> Extend AST to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 22/03/2021)
-- <del>Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md) </del> (Reworked 25/03/2021)
-- <del> Go through failing test-cases in functions and fix what needs to be fixed </del> (Marked complete 25/03/2021)
-- <del> Go through AST and check every file (except operators) </del> (Marked complete 23/03/2021)
+- <del>Extend compiler to support intermediate features outlined in the [**compiler spec**](../c_compiler.md)</del> (Reworked 25/03/2021)
+- <del> Go through failing test-cases in functions and fix what needs to be fixed</del> (Marked complete 25/03/2021)
+- <del> Go through AST and check every file (except operators)</del> (Marked complete 23/03/2021)
 - <del> Add void to primitives and make sure it works</del> (Reworked 25/03/2021)
-- <del>Check memory being allocated for called function arguments </del> (Marked complete 23/03/2021)
+- <del>Check memory being allocated for called function arguments</del> (Marked complete 23/03/2021)
 - Go through parser to make sure everything is added appropriately
-- Implement `sizeof()` and add types `char`, `unsigned` and `void` (?) to pass [**types**](../compiler_tests/types)
-- <del> Implement globals, just add to how we codegen in root node (check if function of variable) + print directives and update places where we use variable identifiers to check global map. </del> (Marked complete 26/03/2021)
+- <del>Implement `sizeof()` and add types `char`, `unsigned` and `void` (?) to pass [**types**](../compiler_tests/types)</del> (Marked complete 27/03/2021)
+- <del> Implement globals, just add to how we codegen in root node (check if function of variable) + print directives and update places where we use variable identifiers to check global map.</del> (Marked complete 26/03/2021)
 - Implement floats (Please Kai <3)
 - Implement typedef (should be pretty easy probs)
+- Actually implement types `char` and `unsigned`, check if `void` functions work
 
-Passing Testbench (last updated 26/03/2021)
+Passing Testbench (last updated 27/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../utility/run_test.sh). Running single testcases are done using [**test_single.sh**](../utility/test_single.sh) and testing subdirectories (or all tests) is done using [**test_dir.sh**](../utility/test_dir.sh).
 
@@ -47,9 +48,9 @@ We are currently passing:
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
 - [**strings**](../compiler_tests/strings) - Not yet implemented
 - [**struct**](../compiler_tests/struct) - Not yet implemented
-- [**types**](../compiler_tests/types) - Not yet implemented
+- [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **67/97** total testcases.
+Overall we are passing **72/97** total testcases.
 
 Changelog
 ---------
@@ -167,6 +168,9 @@ Started work on globals, added a bunch of files and now passing 63/93 tests.
 
 *Update_1*
 Fully finished implementing both globals (both reading and writing from), and added test cases to ensure this worked (as there were no test cases that actually did this pre-included), with all passing. Our compiler is now passing 67/97 testcases! Updated goals and merging to master.
+
+**27/03/2021**
+Added types `void`, `char` and `unsigned` to the primitives header file, and implemented `sizeof` to work for all these, as well as variable names. Currently passing all tests in [**types**](../compiler_tests/types), but the implementation of sizeof is very fragile and currently only works on literal type names and identifiers, functionality needs to be extended so that it works for any expression it can be passed by the parser. The types themselves are also not implemented, so this also needs to be done, will need to add another codegen helper for this. Adding everything didn't break anything, so we are now passing 72/97 testcases.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
