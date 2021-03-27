@@ -28,6 +28,12 @@ int PrimitiveType::getSize() const
   switch(type){
     case _int:
       return 4;
+    case _void:
+      return 1; // Godbolt says so, this is invalid tho
+    case _unsigned:
+      return 4;
+    case _char:
+      return 1;
     default:
       return 0;
   }

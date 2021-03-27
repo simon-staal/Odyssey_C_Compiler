@@ -9,7 +9,10 @@ class PrimitiveType
 public:
   // Supported types
   enum Specifier {
-    _int
+    _int,
+    _void,
+    _unsigned,
+    _char
   };
 
   // Constructor

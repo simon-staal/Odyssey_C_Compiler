@@ -40,6 +40,8 @@
 #include "ast/functions/ast_functionDefinition.hpp"
 #include "ast/functions/ast_functionCall.hpp"
 
+#include "ast/operators/ast_sizeof.hpp"
+
 #include "ast/operators/ast_binaryOperation.hpp"
 #include "ast/operators/binaryOps/ast_binaryAdd.hpp"
 #include "ast/operators/binaryOps/ast_binarySub.hpp"
@@ -59,7 +61,6 @@
 #include "ast/operators/binaryOps/ast_binaryXOR.hpp"
 #include "ast/operators/binaryOps/ast_binaryRShift.hpp"
 #include "ast/operators/binaryOps/ast_binaryLShift.hpp"
-
 #include "ast/operators/binaryOps/ast_binaryAssign.hpp"
 
 #include "ast/operators/unaryOps/ast_unaryNOT.hpp"

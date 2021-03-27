@@ -42,6 +42,7 @@ public:
   virtual NodePtr getNode(unsigned index) const;
   // Used for codegen in returning the size of a variable
   virtual int getSize() const;
+  virtual int getSize(Context &context) const;
   // Used in codegen in returning the identifier of a variable / function
   virtual std::string getId() const;
   // Used in codegen to check if a declaration is for a function
