@@ -8,17 +8,21 @@ void UnaryPtr::PrettyPrint(std::ostream &dst, std::string indent) const
   std::cout << indent << "]" <<std::endl;
 }
 
-void UnaryPtr::generateMIPS(std::ostream &dst, Context &context, int destReg) const
+void UnaryPtr::generateMIPS(std::ostream &dst, Context &context, int destReg) const // only for dereferencing.
 {
-  int reg;
-  if( (reg = context.regFile.allocate()) == -1){
-    std::cerr << "OOPSIES NO REGS ARE FREE. OVERWRITING" << std::endl;
+  //find variable you are *ing
+  std::string id = GetOp()->getId();
+  variable var;
+
+  auto it = context.stack.back().varBindings.find(id);
+  if( it == context.stack.back().varBindings.end() ){
+    std::cerr << "Uninitialised Variable?" << std::endl;
+  }else{
+    var = it->second;
   }
 
-  GetOp()->generateMIPS(dst, context, reg);
+  GetOp->generateMIPS(dst, context, destReg); // puts ptr value (its pointed address) into destReg like any other variable
+  dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl; // loads whatever its pointing at.
 
-  dst << "sub $" << destReg << ", $0, " << reg << std::endl; 
-
-  context.regFile.freeReg(reg);
 }
 
