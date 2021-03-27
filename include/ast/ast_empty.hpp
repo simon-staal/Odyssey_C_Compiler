@@ -9,7 +9,7 @@ class EmptyNode
   : public Node
 {
 public:
-  // Should inherit consturctor from Node
+  // Should inherit contructor from Node
 
   // Visualising
   void PrettyPrint(std::ostream &dst, std::string indent) const override;

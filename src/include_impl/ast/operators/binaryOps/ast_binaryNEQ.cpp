@@ -12,15 +12,14 @@ void BinaryNEQ::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryNEQ::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  
+
   int regLeft = DoLeft(dst, context, destReg);
   int regRight = DoRight(dst, context, destReg, regLeft);
 
-  EZPrint(dst, "sub", destReg, regLeft, regRight);
+  EZPrint(dst, "xor", destReg, regLeft, regRight);
 
-  dst << "sltiu $" << destReg << ", $" << destReg << ", 1" << std::endl;
+  dst << "sltu $" << destReg << ", $0, $" << destReg << std::endl;
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
 }
- 

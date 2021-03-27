@@ -1,9 +1,9 @@
-#ifndef ast_unaryPreDec_hpp
-#define ast_unaryPreDec_hpp
+#ifndef ast_unaryDec_hpp
+#define ast_unaryDec_hpp
 
 #include "ast/operators/ast_unaryOperation.hpp"
 
-class UnaryPreDec
+class UnaryDec
     : public UnaryOperation
 {
 public:

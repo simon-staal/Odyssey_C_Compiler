@@ -20,7 +20,7 @@ protected:
   std::vector<NodePtr> branches;
 
 public:
-  // Constructors, should never be called (I think?)
+  // Constructors
   // Used in derived classes
   Node(std::vector<NodePtr> _branches);
   Node();

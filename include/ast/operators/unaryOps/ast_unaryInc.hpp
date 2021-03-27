@@ -1,9 +1,9 @@
-#ifndef ast_unaryPreInc_hpp
-#define ast_unaryPreInc_hpp
+#ifndef ast_unaryInc_hpp
+#define ast_unaryInc_hpp
 
 #include "ast/operators/ast_unaryOperation.hpp"
 
-class UnaryPreInc
+class UnaryInc
     : public UnaryOperation
 {
 public:
