@@ -41,5 +41,5 @@ for TEST in ${TESTS}; do
   TOTAL=$((${TOTAL}+1))
 done
 
-echo "========================================="
+echo $(printf '=%.0s' $(eval "echo {1.."$(($TERMINAL_WIDTH))"}"))
 echo "Passed ${PASSED} out of ${TOTAL} tests"
