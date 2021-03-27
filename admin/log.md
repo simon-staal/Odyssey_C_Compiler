@@ -29,6 +29,7 @@ Objectives (last updated 27/03/2021)
 - Implement floats (Please Kai <3)
 - Implement typedef (should be pretty easy probs)
 - Actually implement types `char` and `unsigned`, check if `void` functions work
+- Implement pointer arithmetic for sub, post/pre inc/dec
 
 Passing Testbench (last updated 27/03/2021)
 -------------------------------------------
@@ -44,13 +45,13 @@ We are currently passing:
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 - [**misc**](../compiler_tests/misc) - Passes 2 out of 6 testcases (typedef and enum not yet implemented)
-- [**pointer**](../compiler_tests/pointer) - Passes 4/5 (not arithmetic) 
+- [**pointer**](../compiler_tests/pointer) - Passes 5 out of 5 - NEED TO EXTEND POINTER ARITHMETIC
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
 - [**strings**](../compiler_tests/strings) - Not yet implemented
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **72/97** total testcases.
+Overall we are passing **76/97** total testcases.
 
 Changelog
 ---------
@@ -173,11 +174,14 @@ Fully finished implementing both globals (both reading and writing from), and ad
 
 **27/03/2021**
 Added types `void`, `char` and `unsigned` to the primitives header file, and implemented `sizeof` to work for all these, as well as variable names. Currently passing all tests in [**types**](../compiler_tests/types), but the implementation of sizeof is very fragile and currently only works on literal type names and identifiers, functionality needs to be extended so that it works for any expression it can be passed by the parser. The types themselves are also not implemented, so this also needs to be done, will need to add another codegen helper for this. Adding everything didn't break anything, so we are now passing 72/97 testcases.
-Implemented Post Inc and Dec everything still working.
+*KAI:* Implemented Post Inc and Dec everything still working. (untested)
 
 *Update_1*
 Added implementation for rest of sizeof, currently untested, all tests still passing. Reworked some of the scripts / compiler.cpp to update the formatting as well as just run more cleanly.
-Implemented pointer stuff and support for types.
+*KAI:* Implemented pointer stuff and support for types.
+
+*Update_2*
+Debugged pointer arithmetic, solved issue and now passing for 5/5 testcases. Will need to update pointer arithmetic to also work with sub (Need to add functionality for subtracting int from pointer (return pointer) and subtracting pointer from pointer (return int)), post/pre inc and dec.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

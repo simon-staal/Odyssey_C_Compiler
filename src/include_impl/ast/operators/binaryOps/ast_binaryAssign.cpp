@@ -39,7 +39,9 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
 
     NodePtr assigned = RightOp()->getNode(1); // checks if its just gonna be equal to &x e.g or any ptr arithmetic stuff
     if( assigned != NULL ){
+      //std::cerr << "This is where the fun begins" << std::endl;
       RightOp()->generateTypeMIPS(dst, context, destReg, "_ptr");
+      //std::cerr << "This is where the fun ends" << std::endl;
     }else{
       RightOp()->generateMIPS(dst, context, destReg);
     }
@@ -53,7 +55,7 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     }
 
   }
-  
+
   else{
   int reg = context.allocate(); // Allocates temporary GPR for processing
   if((Index = LeftOp()->getNode(1)) != NULL ){ // THEN ITS AN ARRAY

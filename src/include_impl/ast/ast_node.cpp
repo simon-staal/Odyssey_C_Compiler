@@ -67,8 +67,8 @@ int Node::getSize(Context &context) const
 
 std::string Node::getId() const
 {
-  std::cerr << "Tried to getId of something not implemented" << std::endl;
-  return "<null>";
+  // std::cerr << "Tried to getId of something not implemented" << std::endl; Functionality updated
+  return "<NULL>";
 }
 
 bool Node::isFunction() const

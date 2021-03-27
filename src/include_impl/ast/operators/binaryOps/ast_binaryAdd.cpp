@@ -12,7 +12,7 @@ void BinaryAdd::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-
+  // std::cerr << "Hello :D" << std::endl; (I couldn't remove him ;( )
   int regLeft = DoLeft(dst, context, destReg);
   int regRight = DoRight(dst, context, destReg, regLeft);
 
@@ -24,19 +24,19 @@ void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) c
 
 void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
 {
-  if(type == "_ptr"){  
-    if( isPointer(context, LeftOp()) ){
-      generateMIPS(dst, context, destReg);
+  if(type == "_ptr"){
+    if( isPtrVar(context, LeftOp()) ){
+      LeftOp()->generateMIPS(dst, context, destReg);
     }else{
-      generateMIPS(dst, context, destReg);
+      LeftOp()->generateMIPS(dst, context, destReg);
       dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
     }
 
     int temp = context.allocate();
-    if( isPointer(context, RightOp()) ){
-      generateMIPS(dst, context, temp);
+    if( isPtrVar(context, RightOp()) ){
+      RightOp()->generateMIPS(dst, context, temp);
     }else{
-      generateMIPS(dst, context, temp);
+      RightOp()->generateMIPS(dst, context, temp);
       dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
     }
       EZPrint(dst, "add", destReg, destReg, temp);

@@ -108,12 +108,12 @@ void BinaryOperation::generateTypeMIPS(std::ostream &dst, Context &context, int 
   std::cerr << "shouldnt be used??" << std::endl;
 }
 
-bool BinaryOperation::isPointer(Context &context, NodePtr op) const
+bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
 {
-      std::string id;
+      std::string id = op->getId();
       variable var;
       if( !(op->isFunction()) ){
-        if( (id = op->getId()) != "<null>" ){
+        if( id != "<NULL>" ){
           auto it = context.stack.back().varBindings.find(id);
           if( it == context.stack.back().varBindings.end() ){
             std::cerr << "Uninitialised Variable?" << std::endl;
@@ -126,5 +126,5 @@ bool BinaryOperation::isPointer(Context &context, NodePtr op) const
           }
         }
       }
-      return false;    
+      return false;
 }

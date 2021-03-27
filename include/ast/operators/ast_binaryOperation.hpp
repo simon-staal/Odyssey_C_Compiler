@@ -35,7 +35,7 @@ public:
 
     virtual void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const;
 
-    bool isPointer(Context &context, NodePtr op) const;
+    bool isPtrVar(Context &context, NodePtr op) const;
 
 };
 
