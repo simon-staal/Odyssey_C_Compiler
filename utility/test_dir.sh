@@ -12,6 +12,21 @@ else
   TESTS=$(find compiler_tests/${1} -type f -not -name "*_driver.c")
 fi
 
+# Formatting
+TERMINAL_WIDTH=$(tput cols)
+BUFFER=$(($TERMINAL_WIDTH / 2 - 9))
+UNEVEN=$(($TERMINAL_WIDTH % 2))
+if [[ $UNEVEN -eq 1 ]] ; then
+  EXTRA="="
+else
+  EXTRA=""
+fi
+
+SEP=$(echo $(printf '=%.0s' $(eval "echo {1.."$(($BUFFER))"}")))
+
+echo "${SEP}Compiling compiler${SEP}${EXTRA}"
+make
+
 PASSED=0
 TOTAL=0
 

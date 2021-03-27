@@ -17,7 +17,7 @@ NodePtr UnaryOperation::GetOp() const
 
 void UnaryOperation::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-    
+
 }
 
 void UnaryOperation::ifFunction(std::ostream &dst, Context &context, int destReg) const
@@ -26,4 +26,9 @@ void UnaryOperation::ifFunction(std::ostream &dst, Context &context, int destReg
         dst << "move $" << destReg << ", $2" << std::endl;
 
     }
+}
+
+int UnaryOperation::getSize(Context &context) const
+{
+  return branches[0]->getSize(context);
 }

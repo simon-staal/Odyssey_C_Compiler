@@ -23,6 +23,7 @@ public:
     virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
 
     void ifFunction(std::ostream &dst, Context &context, int destReg) const;
+    int getSize(Context &context) const override; // For sizeof stuff
 
 
 };
