@@ -33,6 +33,26 @@ void ArrayIndex::generateMIPS(std::ostream &dst, Context &context, int destReg) 
     int offset = context.allocate(); // Offset from start of array
     branches[1]->generateMIPS(dst, context, offset);
 
+    variable array;
+    auto it = context.stack.back().varBindings.find(id);
+    if( it == context.stack.back().varBindings.end() ){
+      std::cerr << "Uninitialised Variable?" << std::endl;
+    }else{
+      array = it->second;
+    }
+
+    if( array.type == "_ptr" ){
+
+    dst << "sll $" << offset << ",$" << offset << ", 2" << std::endl; // Will need to extend if we do doubles/longs
+    dst << "lw $" << destReg << ", " << array.offset << "($30)" << std::endl;
+    dst << "add $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
+    dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl;
+
+    context.regFile.freeReg(offset);
+   
+
+    }else{
+
     if(context.isGlobal(id)){
       // Scales offset
       dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
@@ -49,13 +69,6 @@ void ArrayIndex::generateMIPS(std::ostream &dst, Context &context, int destReg) 
       dst << "nop" << std::endl; // Idk if this is needed but godbolt has it
     }
     else{
-      variable array;
-      auto it = context.stack.back().varBindings.find(id);
-      if( it == context.stack.back().varBindings.end() ){
-      std::cerr << "Uninitialised Variable?" << std::endl;
-      }else{
-          array = it->second;
-      }
 
       // Scales offset
       dst << "addiu $" << destReg << ", $0, " << (int)log2(array.size) << std::endl;
@@ -69,6 +82,7 @@ void ArrayIndex::generateMIPS(std::ostream &dst, Context &context, int destReg) 
     // Frees temporary register
     context.regFile.freeReg(offset);
 
+    }
 }
 
 

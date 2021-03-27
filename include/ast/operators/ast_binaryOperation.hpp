@@ -33,7 +33,9 @@ public:
 
     void ifFunction(std::ostream &dst, Context &context, int destReg) const;
 
+    virtual void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const;
 
+    bool isPointer(Context &context, NodePtr op) const;
 
 };
 
