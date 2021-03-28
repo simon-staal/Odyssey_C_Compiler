@@ -12,13 +12,12 @@ void BinarySub::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void BinarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  
+
   int regLeft = DoLeft(dst, context, destReg);
   int regRight = DoRight(dst, context, destReg, regLeft);
 
   EZPrint(dst, "sub", destReg, regLeft, regRight);
-  std::cerr << "we got here" << std::endl;
-  
+
   if( isPtrVar(context, RightOp()) ){
     dst << "sra $" << destReg << ", $" << destReg << ", 2" << std::endl;
   }
@@ -26,7 +25,7 @@ void BinarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
 }
- 
+
 
 void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
 {
@@ -61,4 +60,3 @@ void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
   }
 
 }
-

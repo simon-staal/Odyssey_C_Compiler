@@ -22,6 +22,7 @@ public:
   std::string getId() const override;
   int getSize() const override;
   bool isEnum() const override;
+  std::string getType() const override;
 
 protected:
   std::string id;
