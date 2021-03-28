@@ -32,13 +32,7 @@ void ArrayDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
-// Codegen + helpers
-void ArrayDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
-{
-
-}
-
-
+// Codegen helpers
 std::string ArrayDeclarator::getId() const
 {
   return branches[0]->getId();

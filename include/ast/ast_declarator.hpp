@@ -18,12 +18,12 @@ public:
   virtual ~Declarator();
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+  void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
   // Codegen helpers
-  virtual std::string getId() const override;
-  virtual bool isFunction() const override;
-  virtual bool isInit() const override;
+  std::string getId() const override;
+  bool isFunction() const override;
+  bool isInit() const override;
 
 };
 

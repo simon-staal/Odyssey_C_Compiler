@@ -16,14 +16,13 @@ public:
   virtual ~ArrayDeclarator();
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+  void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
-  // Codegen + helpers
-  void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
-  virtual std::string getId() const override;
-  virtual bool isFunction() const override;
+  // Codegen helpers
+  std::string getId() const override;
+  bool isFunction() const override;
   bool isInit() const override;
-  virtual int getArraySize() const override;
+  int getArraySize() const override;
 };
 
 #endif

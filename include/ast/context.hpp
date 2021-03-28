@@ -45,8 +45,8 @@ struct registers
 enum Specifier {
   _int,
   _void,
-  _unsigned,
-  _char,
+  _unsigned, // Not implemented yet
+  _char, // Not implemented yet
   _float,
   _double,
   _ptr

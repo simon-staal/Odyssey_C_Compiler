@@ -15,15 +15,14 @@ public:
   virtual ~PointerDeclarator();
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
-  virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
   // Get stuff in list (codegen)
-  virtual bool isInit() const override;
-  virtual bool isFunction() const override;
-  virtual std::string getId() const override;
+  bool isInit() const override;
+  bool isFunction() const override;
+  std::string getId() const override;
   bool isPtr() const override;
-  
+
 };
 
 #endif
