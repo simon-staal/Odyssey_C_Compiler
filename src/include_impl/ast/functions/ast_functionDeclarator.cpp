@@ -51,6 +51,7 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   stackFrame newFrame;
   int paramSize = 0;
   unsigned i = 0;
+  unsigned f = 12;
   NodePtr param = branches[1]->getNode(i);
   while(param != NULL){
     std::string var = param->getId();
@@ -61,13 +62,33 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
     }else{
       newFrame.varBindings[var] = {size, paramSize+8, -1, type};
     }
-    if(i < 4){
-      newFrame.varBindings[var].reg = i+4; // First 4 arguments stored in registers $4-$7
-      dst << "sw $" << i+4 << "," << paramSize+8 << "($30)" << std::endl; // The first 4 args aren't actually stored in the right place
+
+    switch(type){
+      case _float:
+        if(f <= 14){
+          dst << "swc1 $f" << f << "," << paramSize+8 << "($30)" << std::endl; // floating point arguments stored in $f12 & $f14
+          f += 2;
+        }
+        else if(i < 4){
+          newFrame.varBindings[var].reg = i+4;
+          dst << "sw $" << i+4 << "," << paramSize+8 << "($30)" << std::endl; // stores 2 extra fp arguments in $6-$7
+        }
+        break;
+      case _double:
+        if(f <= 14){
+          dst << "sdc1 $f" << f << "," << paramSize+8 << "($30)" << std::endl;
+          f += 2;
+        }
+        break;
+      default:
+        if(i < 4){
+          newFrame.varBindings[var].reg = i+4; // First 4 arguments stored in registers $4-$7
+          dst << "sw $" << i+4 << "," << paramSize+8 << "($30)" << std::endl; // The first 4 args aren't actually stored in the right place
+        }
     }
+    i++;
     paramSize += size;
     context.functions[id].argSize.push_back(size);
-    i++;
     param = branches[1]->getNode(i);
   }
   if(paramSize < 16 && paramSize > 0){

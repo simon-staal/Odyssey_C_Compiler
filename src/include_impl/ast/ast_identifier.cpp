@@ -78,12 +78,7 @@ void Identifier::generateTypeMIPS(std::ostream &dst, Context &context, int destR
     switch(type)
     {
       case _float:
-        if(tmp.reg == -1){
-          dst << "l.s $f" << destReg << ", " << tmp.offset << "($30)" << std::endl;
-        }
-        else{
-          dst << "mtc1 $" << tmp.reg << ", $f" << destReg << std::endl;
-        }
+        dst << "l.s $f" << destReg << ", " << tmp.offset << "($30)" << std::endl;
         break;
       case _double:
         dst << "l.d $f" << destReg << ", " << tmp.offset << "($30)" << std::endl;
