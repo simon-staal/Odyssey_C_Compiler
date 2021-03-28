@@ -1,6 +1,6 @@
 #include "ast.hpp"
 
-#include <sys/ioctl.h>
+#include <sys/ioctl.h> // Headers for formatting
 #include <unistd.h>
 void printHeader(std::string title); // Nice pretty output format
 
@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
+		// Generates AST
 		Node *program = parseAST(argv[2]);
 
 		// -V enables visualisation
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
 			struct winsize size;
 			ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
 			int width = size.ws_col;
+
 			// Visualising outputs
 			printHeader("AST Representation");
 			std::cout << program << std::endl;
@@ -30,6 +32,7 @@ int main(int argc, char *argv[])
 
 		// Actual compilation
 		Context context;
+		// Directives
 		std::vector<std::string> macros = {
 			".section .mdebug.abi32",
 			".previous",
@@ -49,7 +52,6 @@ int main(int argc, char *argv[])
 			std::cerr << "Couldn't open output file: " << argv[4] << std::endl;
 			exit(1);
 		}
-
 }
 
 void printHeader(std::string title){
