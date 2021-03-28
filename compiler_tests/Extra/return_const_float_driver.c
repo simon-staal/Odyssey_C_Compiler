@@ -3,5 +3,5 @@ float f();
 
 int main()
 {
-  return !(f()==3.0);
+  return !(f()==6.0);
 }

@@ -137,13 +137,12 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
   if(LeftOp()->isFunction()){
 
     LeftOp()->generateMIPS(dst, context, destReg);
-    dst << "mtc1 $2, $f" << destReg  << std::endl;
-    dst << "mtc1 $3, $f" << destReg + 1 << std::endl;
+    dst << "mov.s $f0, $f6" << std::endl;
 
   }else{
 
     LeftOp()->generateTypeMIPS(dst, context, destReg, type);
-
+    dst << "mov.s $f6, $f" << destReg << std::endl;
   }
 
   return 2;
@@ -154,14 +153,21 @@ int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destRe
 
   if(RightOp()->isFunction()){
 
+    dst << "addiu $29,$29,-4" << std::endl;
+    context.stack.back().offset += 4;
+    context.stack.back().varBindings["$f20"] = {4, -context.stack.back().offset, -1};
+    dst << "swc1 $f20,0($29)" << std::endl;
+
+    dst << "mov.s $f20, $f6" << std::endl; // save left result into preserved register
+
     RightOp()->generateMIPS(dst, context, destReg);
-    dst << "mtc1 $2, $f" << destReg << std::endl;
-    dst << "mtc1 $3, $f" << destReg + 1 << std::endl;
+    dst << "mov.s $f6, $f20" << std::endl; // restore register
+    dst << "lwc1 $f20," << context.stack.back().varBindings["$f20"].offset << "($30)" << std::endl; //restore saved register
 
   }else{
 
     RightOp()->generateTypeMIPS(dst, context, destReg, type);
-
+    dst << "mov.s $f8, $f" << destReg << std::endl;
   }
 
   return 4;

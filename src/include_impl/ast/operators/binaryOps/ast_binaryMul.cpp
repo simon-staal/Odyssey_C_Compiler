@@ -24,3 +24,23 @@ void BinaryMul::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   context.regFile.freeReg(regRight);
 }
  
+void BinaryMul::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+  switch(type)
+  {
+    case _ptr:
+    {
+      std::cerr << "multiplying pointers are we?" << std::endl;
+    }
+    case _float:
+    {
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, type);
+
+      dst << "mul.s $f0, $f6, $f8" << std::endl;
+
+      break;
+    }
+
+  }
+}

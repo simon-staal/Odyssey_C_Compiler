@@ -1,5 +1,5 @@
 
 float f()
 {
-  return 3.0;
+  return 6.0;
 }

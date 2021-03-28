@@ -29,34 +29,46 @@ void BinarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) c
 
 void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
-  if(type == _ptr){
-    int ptrcount = 0;
-    if( isPtrVar(context, LeftOp()) ){
-      ptrcount++;
-      LeftOp()->generateMIPS(dst, context, destReg);
-    }else{
-      LeftOp()->generateMIPS(dst, context, destReg);
-      dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
+  switch(type)
+  {
+    case _ptr:
+    {
+      int ptrcount = 0;
+      if( isPtrVar(context, LeftOp()) ){
+        ptrcount++;
+        LeftOp()->generateMIPS(dst, context, destReg);
+      }else{
+        LeftOp()->generateMIPS(dst, context, destReg);
+        dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
+      }
+
+      int temp = context.allocate();
+      if( isPtrVar(context, RightOp()) ){
+        ptrcount++;
+        RightOp()->generateMIPS(dst, context, temp);
+      }else{
+        RightOp()->generateMIPS(dst, context, temp);
+        dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
+      }
+
+      EZPrint(dst, "sub", destReg, destReg, temp);
+      if( ptrcount > 1 ){
+        dst << "sra $" << destReg << ", $" << destReg << ", 2" << std::endl;
+      }
+        context.regFile.freeReg(temp);
     }
 
-    int temp = context.allocate();
-    if( isPtrVar(context, RightOp()) ){
-      ptrcount++;
-      RightOp()->generateMIPS(dst, context, temp);
-    }else{
-      RightOp()->generateMIPS(dst, context, temp);
-      dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
+    case _float:
+    {
+
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, type);
+
+      dst << "sub.s $f0, $f6, $f8" << std::endl;
+
+      break;
+
     }
-
-    EZPrint(dst, "sub", destReg, destReg, temp);
-    if( ptrcount > 1 ){
-      dst << "sra $" << destReg << ", $" << destReg << ", 2" << std::endl;
-    }
-      context.regFile.freeReg(temp);
-
-  }else{
-
-    //whateber
   }
-
 }
+

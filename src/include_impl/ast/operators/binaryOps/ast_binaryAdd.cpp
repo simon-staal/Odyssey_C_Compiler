@@ -48,10 +48,10 @@ void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
     }
     case _float:
     {
-      int regLeft = DoTypeLeft(dst, context, 2, type);
-      int regRight = DoTypeRight(dst, context, 4, type);
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, type);
 
-      dst << "add.s $f0, $f2, $f4" << std::endl;
+      dst << "add.s $f0, $f6, $f8" << std::endl;
 
       break;
     }
