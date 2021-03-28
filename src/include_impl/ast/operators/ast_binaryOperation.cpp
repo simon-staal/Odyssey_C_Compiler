@@ -132,44 +132,97 @@ bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
 
 int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
+  switch(type)
+  {
+    case _float:
+    {
+      if(LeftOp()->isFunction()){
 
-  // Process left operand
-  if(LeftOp()->isFunction()){
+        LeftOp()->generateMIPS(dst, context, destReg);
+        dst << "mov.s $f0, $f6" << std::endl;
 
-    LeftOp()->generateMIPS(dst, context, destReg);
-    dst << "mov.s $f0, $f6" << std::endl;
+      }else{
 
-  }else{
+        LeftOp()->generateTypeMIPS(dst, context, destReg, type);
+        dst << "mov.s $f6, $f" << destReg << std::endl;
+      }
 
-    LeftOp()->generateTypeMIPS(dst, context, destReg, type);
-    dst << "mov.s $f6, $f" << destReg << std::endl;
+      return 2;
+    }
+
+    case _double:
+    {
+
+      if(LeftOp()->isFunction()){
+
+        LeftOp()->generateMIPS(dst, context, destReg);
+        dst << "mov.d $f0, $f6" << std::endl;
+
+      }else{
+
+        LeftOp()->generateTypeMIPS(dst, context, destReg, type);
+        dst << "mov.d $f6, $f" << destReg << std::endl;
+      }
+
+      return 2;
+    }
+
   }
-
-  return 2;
 }
 
 int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
+  switch(type)
+  {
 
-  if(RightOp()->isFunction()){
+    case _float:
+    {
+      if(RightOp()->isFunction()){
 
-    dst << "addiu $29,$29,-4" << std::endl;
-    context.stack.back().offset += 4;
-    context.stack.back().varBindings["$f20"] = {4, -context.stack.back().offset, -1};
-    dst << "swc1 $f20,0($29)" << std::endl;
+        dst << "addiu $29,$29,-4" << std::endl;
+        context.stack.back().offset += 4;
+        context.stack.back().varBindings["$f20"] = {4, -context.stack.back().offset, -1};
+        dst << "swc1 $f20,0($29)" << std::endl;
 
-    dst << "mov.s $f20, $f6" << std::endl; // save left result into preserved register
+        dst << "mov.s $f20, $f6" << std::endl; // save left result into preserved register
 
-    RightOp()->generateMIPS(dst, context, destReg);
-    dst << "mov.s $f6, $f20" << std::endl; // restore register
-    dst << "lwc1 $f20," << context.stack.back().varBindings["$f20"].offset << "($30)" << std::endl; //restore saved register
+        RightOp()->generateMIPS(dst, context, destReg);
+        dst << "mov.s $f6, $f20" << std::endl; // restore register
+        dst << "lwc1 $f20," << context.stack.back().varBindings["$f20"].offset << "($30)" << std::endl; //restore saved register
 
-  }else{
+      }else{
 
-    RightOp()->generateTypeMIPS(dst, context, destReg, type);
-    dst << "mov.s $f8, $f" << destReg << std::endl;
+        RightOp()->generateTypeMIPS(dst, context, destReg, type);
+        dst << "mov.s $f8, $f" << destReg << std::endl;
+      }
+
+      return 4;
+    }
+
+    case _double:
+    {
+      if(RightOp()->isFunction()){
+
+        dst << "addiu $29,$29,-8" << std::endl;
+        context.stack.back().offset += 8;
+        context.stack.back().varBindings["$f20"] = {8, -context.stack.back().offset, -1};
+        dst << "sdc1 $f20,0($29)" << std::endl;
+
+        dst << "mov.d $f20, $f6" << std::endl; // save left result into preserved register
+
+        RightOp()->generateMIPS(dst, context, destReg);
+        dst << "mov.d $f6, $f20" << std::endl; // restore register
+        dst << "ldc1 $f20," << context.stack.back().varBindings["$f20"].offset << "($30)" << std::endl; //restore saved register
+
+      }else{
+
+        RightOp()->generateTypeMIPS(dst, context, destReg, type);
+        dst << "mov.d $f8, $f" << destReg << std::endl;
+      }
+
+      return 4;
+    }
+
   }
-
-  return 4;
 
 }

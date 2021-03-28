@@ -56,5 +56,15 @@ void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
       break;
     }
 
+    case _double:
+    {
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, type);
+
+      dst << "add.d $f0, $f6, $f8" << std::endl;
+
+      break;
+    }
+
   }
 }
