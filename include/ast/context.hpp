@@ -65,6 +65,14 @@ struct Context
 
   // MIPS Register file
   registers regFile;
+  registers floatRegs = {{ // Special floating point reg file
+    1, 1, // $f0-1 used for return of floats/doubles
+    0, 1, // $f2-3 available
+    0, 1, 0, 1, 0, 1, 0, 1, // $f4-$f11 temporaries, available
+    0, 1, 0, 1, // $f12-$f15 used for arguments, stored in memory => available
+    0, 1, 0, 1, // $f16-$f19 more temporaries, available
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 // $f20-$f30 saved registers, preserved across fn calls
+  }};
 
   // Return a unique label for assembly code
   std::string makeLabel(std::string label);
@@ -79,6 +87,7 @@ struct Context
   // Use this method for allocation
   // If all registers are being used, this will clear a register and return it
   int allocate();
+  int allocateFloat();
 
 };
 

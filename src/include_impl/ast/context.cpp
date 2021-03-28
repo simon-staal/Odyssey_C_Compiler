@@ -119,3 +119,14 @@ int Context::allocate()
   std::cerr << "Unable to free any registers" << std::endl;
   exit(1);
 }
+
+int Context::allocateFloat()
+{
+  int reg = floatRegs.allocate();
+  if(reg != -1){
+    return reg;
+  }
+  // Hopefully this never happens lmao
+  std::cerr << "Unable to allocate any registers" << std::endl;
+  exit(1);
+}
