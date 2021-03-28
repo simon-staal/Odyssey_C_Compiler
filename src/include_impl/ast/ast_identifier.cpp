@@ -18,7 +18,6 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
   std::string id = getId();
   variable tmp;
 
-
   // Finds variable
   if(context.isGlobal(id)){
     // Load global address
@@ -46,6 +45,55 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
       dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
     }else{
       dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
+    }
+  }
+}
+
+void Identifier::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+  std::string id = getId();
+  variable tmp;
+
+  // All this stuff is needed because we might (and probably will) call generateTypeMIPS recursively on a regular identifier
+  if(context.isGlobal(id)){ // For now globals are int only - need to figure out directives n shit
+    // Load global address
+    dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
+    dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+    // Load value into destReg
+    dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
+    dst << "nop" << std::endl; // Idk if this is needed but godbolt has it and i'm not taking chances
+  }
+  else if(context.isEnum(id)){
+    dst << "li $" << destReg << "," << context.enums[id].value << std::endl;
+  }
+  else{
+    auto it = context.stack.back().varBindings.find(id);
+    if( it == context.stack.back().varBindings.end() ){
+      //variable doesnt exist in current frame !! -> handle globals later
+      std::cerr << "Code is invalid lmao)" << std::endl;
+      exit(1);
+    }else{
+      tmp = it->second;
+    }
+    switch(type)
+    {
+      case _float:
+        if(tmp.reg == -1){
+          dst << "l.s $f" << destReg << ", " << tmp.offset << "($30)" << std::endl;
+        }
+        else{
+          dst << "mtc1 $" << tmp.reg << ", $f" << destReg << std::endl;
+        }
+        break;
+      case _double:
+        dst << "l.d $f" << destReg << ", " << tmp.offset << "($30)" << std::endl;
+        break;
+      default:
+        if(tmp.reg == -1){
+          dst << "lw $" << destReg << ", " << tmp.offset << "($30)" << std::endl;
+        }else{
+          dst << "move $" << destReg << ", $" << tmp.reg << std::endl;
+        }
     }
   }
 }

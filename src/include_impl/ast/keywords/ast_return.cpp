@@ -32,7 +32,7 @@ void Return::generateMIPS(std::ostream &dst, Context &context, int destReg) cons
   switch(context.stack.back().returnType)
   {
     case _float:
-      branches[0]->generateMIPS(dst, context, 0); // Evaluates expression into $f0
+      branches[0]->generateTypeMIPS(dst, context, 0, Specifier::_float); // Evaluates expression into $f0
       dst << "mfc1 $2, $f0" << std::endl; // Moves expression from $f0 to $2
       break;
     case _double:

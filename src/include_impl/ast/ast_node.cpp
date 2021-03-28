@@ -48,7 +48,7 @@ void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 // Codegen
 void Node::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
-  std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
+  std::cerr << "YOU IN STILL THE WRONG HOUSE FOOL" << std::endl;
   exit(1);
 }
 
