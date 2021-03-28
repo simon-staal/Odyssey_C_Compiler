@@ -20,22 +20,37 @@ void UnaryPostInc::generateMIPS(std::ostream &dst, Context &context, int destReg
     op = it->second;
   }
 
-  if(op.reg == -1){
+  if( op.type == "_ptr" ){
 
-    dst << "lw $" << destReg << ", " << op.offset << "($30)" << std::endl;
-    dst << "addiu $" << destReg << ", $" << destReg << ", 1" << std::endl;
-    dst << "sw $" << destReg << ", " << op.offset << "($30)" << std::endl;
-    dst << "addiu $" << destReg << ", $" << destReg << ", -1" << std::endl;
+    if(op.reg == -1){
 
+      dst << "lw $" << destReg << ", " << op.offset << "($30)" << std::endl;
+      dst << "addiu $" << destReg << ", $" << destReg << ", 4" << std::endl;
+      dst << "sw $" << destReg << ", " << op.offset << "($30)" << std::endl;
+      dst << "addiu $" << destReg << ", $" << destReg << ", -4" << std::endl;
+
+    }else{
+
+      dst << "addiu $" << op.reg << ", $" << op.reg << ", 4" << std::endl;
+      dst << "sw $" << op.reg << ", " << op.offset << "($30)" << std::endl;
+      dst << "addiu $" << destReg << ", $" << op.reg << ", -4" << std::endl;
+    }
 
   }else{
 
-    dst << "addiu $" << op.reg << ", $" << op.reg << ", 1" << std::endl;
-    dst << "sw $" << op.reg << ", " << op.offset << "($30)" << std::endl;
-    dst << "addiu $" << destReg << ", $" << op.reg << ", -1" << std::endl;
+    if(op.reg == -1){
 
-    context.regFile.freeReg(op.reg);
-    op.reg = -1;
+      dst << "lw $" << destReg << ", " << op.offset << "($30)" << std::endl;
+      dst << "addiu $" << destReg << ", $" << destReg << ", 1" << std::endl;
+      dst << "sw $" << destReg << ", " << op.offset << "($30)" << std::endl;
+      dst << "addiu $" << destReg << ", $" << destReg << ", -1" << std::endl;
 
+    }else{
+
+      dst << "addiu $" << op.reg << ", $" << op.reg << ", 1" << std::endl;
+      dst << "sw $" << op.reg << ", " << op.offset << "($30)" << std::endl;
+      dst << "addiu $" << destReg << ", $" << op.reg << ", -1" << std::endl;
+
+    }
   }
 }

@@ -22,7 +22,16 @@ void UnaryAdr::generateMIPS(std::ostream &dst, Context &context, int destReg) co
     var = it->second;
   }
 
+  if(getOp()->getNode(1) != NULL){
+    getOp()->getNode(1)->generateMIPS(dst, context, destReg);
+    dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
+    dst << "addi $" << destReg << ", $" << destReg << ", " << var.offset << std::endl;
+    dst << "add $" << destReg << ", $" << destReg << ", $30" << std::endl;
+  }else{
+
   //put its address in destReg
-  dst << "add $" << destReg << ", $30, " << var.offset << std::endl;
+  dst << "addi $" << destReg << ", $30, " << var.offset << std::endl;
+  }
+
 
 }

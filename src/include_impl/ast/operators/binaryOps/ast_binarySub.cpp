@@ -17,6 +17,11 @@ void BinarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   int regRight = DoRight(dst, context, destReg, regLeft);
 
   EZPrint(dst, "sub", destReg, regLeft, regRight);
+  std::cerr << "we got here" << std::endl;
+  
+  if( isPtrVar(context, RightOp()) ){
+    dst << "sra $" << destReg << ", $" << destReg << ", 2" << std::endl;
+  }
 
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
@@ -43,10 +48,11 @@ void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
       RightOp()->generateMIPS(dst, context, temp);
       dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
     }
-      EZPrint(dst, "sub", destReg, destReg, temp);
-      if(ptrcount > 1 ){
-        dst << "sra $" << destReg << ", $" << destReg << ", 2" << std::endl;
-      }
+
+    EZPrint(dst, "sub", destReg, destReg, temp);
+    if( ptrcount > 1 ){
+      dst << "sra $" << destReg << ", $" << destReg << ", 2" << std::endl;
+    }
       context.regFile.freeReg(temp);
 
   }else{
