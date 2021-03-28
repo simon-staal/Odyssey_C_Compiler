@@ -52,7 +52,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **84/103** total testcases.
+Overall we are passing **86/105** total testcases.
 
 Changelog
 ---------
@@ -194,6 +194,8 @@ Finished implementing and testing enums, I've done it quite lazily because we do
 Starting working on types properly, had to refactor a decent amount of stuff, with the biggest thing being `enum Specifier` being moved to context, and `getType(), generateTypeMIPS()` now using the enum which should provide a **significant** speedup to comparisons as well as save us a lot more memory.
 
 BIG PROGRESS! Starting working on extending functionality for new types, able to successfully return constant floats + doubles! Added cases in extra, everything passing so now at 84/103!
+
+Further extended functionality to work with identifier and init declarator, should be able to port functionality over to binary assign pretty easily. Created 2 new tests to ensure this was working, both passed successfully, so now at 86/105.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

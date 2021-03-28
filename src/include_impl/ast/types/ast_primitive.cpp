@@ -16,6 +16,21 @@ void PrimitiveType::PrettyPrint(std::ostream &dst, std::string indent) const
     case _int:
       dst << "int";
       break;
+    case _void:
+      dst << "void";
+      break;
+    case _unsigned:
+      dst << "unsigned";
+      break;
+    case _char:
+      dst << "char";
+      break;
+    case _float:
+      dst << "float";
+      break;
+    case _double:
+      dst << "double";
+      break;
     default:
       dst << "unknown type ";
   }

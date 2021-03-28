@@ -17,6 +17,7 @@ public:
 
   // Codegen + helpers
   void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const override;
   std::string getId() const override; // Getting identifier
   int getSize(Context &context) const override; // Size of variable
 };

@@ -105,12 +105,10 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
           break;
         case _double:
           branches[1]->generateTypeMIPS(dst, context, 0, type); // generated into $f0+f1
-          // Stores variable in memory (check if s.s can be used instead)
-          dst << "mfc1 $" << destReg << ", $f0" << std::endl;
-          dst << "sw $" << destReg << ",0($29)" << std::endl;
-          dst << "mfc1 $" << destReg << ", $f1" << std::endl;
-          dst << "sw $" << destReg << ",4($29)" << std::endl;
+          // Stores variable in memory (check this works)
+          dst << "s.d $f0, 0($29)" << std::endl;
           context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, type}; // Not stored in registers
+          break;
         default:
           branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
           if( branches[1]->getNode(0)->isPtr() ){
