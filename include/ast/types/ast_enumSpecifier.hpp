@@ -20,6 +20,7 @@ public:
   // Codegen
   void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
   std::string getId() const override;
+  int getSize() const override;
   bool isEnum() const override;
 
 protected:

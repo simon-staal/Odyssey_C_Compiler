@@ -50,6 +50,11 @@ std::string EnumSpecifier::getId() const
   return id;
 }
 
+int EnumSpecifier::getSize() const
+{
+  return 4;
+}
+
 bool EnumSpecifier::isEnum() const
 {
   return true;

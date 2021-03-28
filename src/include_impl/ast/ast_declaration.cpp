@@ -22,7 +22,8 @@ Declaration::~Declaration()
 void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Declaration [" << std::endl;
-  dst << indent+"  " << "Type: ";
+  dst << indent << "Type: ";
+  if(branches[0]->isEnum()) { dst << std::endl; }
   branches[0]->PrettyPrint(dst, indent+"  ");
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
