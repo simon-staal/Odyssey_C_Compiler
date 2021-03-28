@@ -136,13 +136,13 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
   // Process left operand
   if(LeftOp()->isFunction()){
 
-    LeftOp()->generateTypeMIPS(dst, context, destReg, type);
+    LeftOp()->generateMIPS(dst, context, destReg);
     dst << "mtc1 $2, $f" << destReg  << std::endl;
     dst << "mtc1 $3, $f" << destReg + 1 << std::endl;
 
   }else{
 
-    generateTypeMIPS(dst, context, destReg, type);
+    LeftOp()->generateTypeMIPS(dst, context, destReg, type);
 
   }
 
@@ -152,16 +152,15 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
 int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
 
-    // Process left operand
   if(RightOp()->isFunction()){
 
-    RightOp()->generateTypeMIPS(dst, context, destReg, type);
+    RightOp()->generateMIPS(dst, context, destReg);
     dst << "mtc1 $2, $f" << destReg << std::endl;
     dst << "mtc1 $3, $f" << destReg + 1 << std::endl;
 
   }else{
 
-    generateTypeMIPS(dst, context, destReg, type);
+    RightOp()->generateTypeMIPS(dst, context, destReg, type);
 
   }
 
