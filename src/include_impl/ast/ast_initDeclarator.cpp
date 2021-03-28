@@ -29,6 +29,11 @@ void InitDeclarator::generateMIPS(std::ostream &dst, Context &context, int destR
   branches[1]->generateMIPS(dst, context, destReg);
 }
 
+void InitDeclarator::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+  branches[1]->generateTypeMIPS(dst, context, destReg, type);
+}
+
 // Helpers
 std::string InitDeclarator::getId() const
 {

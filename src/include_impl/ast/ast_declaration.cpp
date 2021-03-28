@@ -63,7 +63,11 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       context.stack.back().offset += arraysize*varsize; // creates space for all the arrays children
       dst << "addiu $29,$29,-" << arraysize*varsize << std::endl; // Decrements stack pointer
       context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1, type}; // stores the space allocated (currently not available in a register)
-      branches[1]->generateMIPS(dst, context, destReg);
+      switch(type)
+      {
+        default:
+          branches[1]->generateMIPS(dst, context, destReg); // generateMIPS works for default int behaviour
+      }
     }
     else{
       if(arraysize != -1){ // if arraysize = 0 then either something is wrong or its gonna be initialised, either way dont know size
@@ -78,7 +82,6 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   }
   else{
     enum Specifier type = branches[0]->getType();
-    //std::cerr << "DEBUGGING: type is " << type << std::endl;
     // Deals with variable declaration (globals handled in globalScope)
     unsigned size = branches[0]->getSize(); // Size of variable
     std::string id = branches[1]->getId(); // Variable id
@@ -91,14 +94,33 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       if(context.regFile.usedRegs[destReg]){
         destReg = context.allocate();
       }
-      branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
-      if( branches[1]->getNode(0)->isPtr() ){
-        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, Specifier::_ptr}; // stores the space allocated
-      }else{
-        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, type}; // stores the space allocated
+      switch(type)
+      {
+        case _float:
+          branches[1]->generateTypeMIPS(dst, context, 0, type); // generated into $f0
+          dst << "mfc1 $" << destReg << ", $f0" << std::endl;
+          dst << "s.s $f0, 0($29)" << std::endl;
+          context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, type};
+          context.regFile.useReg(destReg);
+          break;
+        case _double:
+          branches[1]->generateTypeMIPS(dst, context, 0, type); // generated into $f0+f1
+          // Stores variable in memory (check if s.s can be used instead)
+          dst << "mfc1 $" << destReg << ", $f0" << std::endl;
+          dst << "sw $" << destReg << ",0($29)" << std::endl;
+          dst << "mfc1 $" << destReg << ", $f1" << std::endl;
+          dst << "sw $" << destReg << ",4($29)" << std::endl;
+          context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, type}; // Not stored in registers
+        default:
+          branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
+          if( branches[1]->getNode(0)->isPtr() ){
+            context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, Specifier::_ptr}; // stores the space allocated
+          }else{ // Doubles are 2 words so handled differently
+            context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, type}; // stores the space allocated
+          }
+          context.regFile.useReg(destReg); // Indicates register is being used
+          dst << "sw $" << destReg << ",0($29)" << std::endl; // Stores variable in memory allocated
       }
-      context.regFile.useReg(destReg); // Indicates register is being used
-      dst << "sw $" << destReg << ",0($29)" << std::endl; // Stores variable in memory allocated
     }
 
     // Variable is not initialised, space is allocated and everything is stored in context for intialisation
