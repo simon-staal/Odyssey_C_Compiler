@@ -2,7 +2,7 @@ OVERVIEW
 ========
 This file will be used to track the objectives and progress made in this coursework, tracking all the dates in which goals were set and achieved.
 
-Objectives (last updated 27/03/2021)
+Objectives (last updated 28/03/2021)
 ------------------------------------
 - <del> Set up working environment</del>  (Marked complete 02/03/2021)
 - <del> Build base structure for repo</del>   (Marked complete 02/03/2021)
@@ -27,10 +27,11 @@ Objectives (last updated 27/03/2021)
 - <del>Implement `sizeof()` and add types `char`, `unsigned` and `void` (?) to pass [**types**](../compiler_tests/types)</del> (Marked complete 27/03/2021)
 - <del> Implement globals, just add to how we codegen in root node (check if function of variable) + print directives and update places where we use variable identifiers to check global map.</del> (Marked complete 26/03/2021)
 - Implement floats (Please Kai <3)
-- Implement typedef (should be pretty easy probs)
+- Implement typedef (should be pretty easy probs) <- I was wrong XD
 - Actually implement types `char` and `unsigned`, check if `void` functions work
 - <del>Implement pointer arithmetic for sub, post/pre inc/dec</del> (Reworked 28/03/2021)
 - Implement pointer arithmetic for pre inc/dec
+- Add documentation for stuff + generally clean things up
 
 Passing Testbench (last updated 28/03/2021)
 -------------------------------------------
@@ -41,7 +42,7 @@ We are currently passing:
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
 - [**Extra**](../compiler_tests/Extra) Passes 15 out of 15 cases, checking break / continue behaviour + reading / writing to global variables / arrays / floats + other random testcases we've added
-- [**float**](../compiler_tests/floats) - 5/7 add_mul + pow not passing need regFile potentially.
+- [**float**](../compiler_tests/floats) - 6/7 add_mul not passing, include new regfile functionality.
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
@@ -52,7 +53,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **86/105** total testcases.
+Overall we are passing **92/105** total testcases.
 
 Changelog
 ---------
@@ -199,6 +200,9 @@ Further extended functionality to work with identifier and init declarator, shou
 
 *Update_3*
 Double + float arithmetic basics are working 5/7 in floats now. Used enum case stuff makes thinks look nice.
+
+*Update_4*
+Implemented double + float for binary assign, now passing for 6/7 float cases. Updated context to have seperate reg file for floats, after Kai implements the use of it in the arithmetic operators last testcase should also pass.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
