@@ -16,13 +16,12 @@ public:
   virtual ~ArrayIndex();
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
-
-  void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
+  void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
   // Codegen + helpers
-  virtual std::string getId() const override;
-  virtual bool isFunction() const override;
+  void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
+  std::string getId() const override;
+  bool isFunction() const override;
 };
 
 #endif

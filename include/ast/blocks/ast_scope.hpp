@@ -13,10 +13,10 @@ public:
   using Sequence::Sequence;
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+  void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
   // Codegen
-  virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
 };
 
 #endif

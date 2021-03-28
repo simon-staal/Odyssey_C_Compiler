@@ -21,13 +21,7 @@ void PointerDeclarator::PrettyPrint(std::ostream &dst, std::string indent) const
   dst << indent << "]" << std::endl;
 }
 
-// Codegen + helpers
-void PointerDeclarator::generateMIPS(std::ostream &dst, Context &context, int destReg) const
-{
-
-}
-
-
+// Codegen helpers
 std::string PointerDeclarator::getId() const
 {
   return branches[0]->getId();

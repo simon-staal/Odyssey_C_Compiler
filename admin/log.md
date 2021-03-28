@@ -55,7 +55,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **92/105** total testcases.
+Overall we are passing **93/106** total testcases.
 
 Changelog
 ---------
