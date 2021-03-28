@@ -125,19 +125,19 @@ declaration
 
 /* Type of something (+ typedef) */
 declaration_specifiers
-  : TYPEDEF { $$ = new TypeDef(new PrimitiveType(PrimitiveType::Specifier::_void)); /*idk when we'd use this*/ }
+  : TYPEDEF { $$ = new TypeDef(new PrimitiveType(Specifier::_void)); /*idk when we'd use this*/ }
 	| TYPEDEF declaration_specifiers { $$ = new TypeDef($2); }
 	| type_specifier { $$ = $1; }
 	| type_specifier declaration_specifiers { std::cerr << "I don't think we need this either (function ptrs?)" << std::endl; }
 	;
 
 type_specifier
-	: VOID { $$ = new PrimitiveType(PrimitiveType::Specifier::_void); }
-	| CHAR { $$ = new PrimitiveType(PrimitiveType::Specifier::_char); }
-	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
-	| FLOAT { $$ = new PrimitiveType(PrimitiveType::Specifier::_float); }
-	| DOUBLE { $$ = new PrimitiveType(PrimitiveType::Specifier::_double); }
-	| UNSIGNED { $$ = new PrimitiveType(PrimitiveType::Specifier::_unsigned); }
+	: VOID { $$ = new PrimitiveType(Specifier::_void); }
+	| CHAR { $$ = new PrimitiveType(Specifier::_char); }
+	| INT { $$ = new PrimitiveType(Specifier::_int); }
+	| FLOAT { $$ = new PrimitiveType(Specifier::_float); }
+	| DOUBLE { $$ = new PrimitiveType(Specifier::_double); }
+	| UNSIGNED { $$ = new PrimitiveType(Specifier::_unsigned); }
 	| struct_specifier { std::cerr << "Unsupported" << std::endl; }
 	| enum_specifier { $$ = $1; }
 	;

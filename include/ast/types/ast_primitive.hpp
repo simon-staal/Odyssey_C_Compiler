@@ -7,18 +7,8 @@ class PrimitiveType
   : public Node
 {
 public:
-  // Supported types
-  enum Specifier {
-    _int,
-    _void,
-    _unsigned,
-    _char,
-    _float,
-    _double
-  };
-
   // Constructor
-  PrimitiveType(Specifier _type);
+  PrimitiveType(enum Specifier _type);
 
   // Destructor
   ~PrimitiveType();
@@ -30,7 +20,7 @@ public:
   int getSize() const override;
   std::string getType() const override;
 protected:
-  Specifier type;
+  enum Specifier type;
 };
 
 #endif

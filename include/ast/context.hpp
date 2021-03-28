@@ -41,6 +41,16 @@ struct registers
   int allocate(); // Returns empty register, -1 if no registers are available (Helper function for context)
 };
 
+// Supported types
+enum Specifier {
+  _int,
+  _void,
+  _unsigned,
+  _char,
+  _float,
+  _double
+};
+
 struct Context
 {
   // Stack stuff
@@ -98,6 +108,7 @@ struct stackFrame
   bool inFrame(std::string varName); // Error checking, probably not necessary
   std::string startLabel; // Used for continue statement (and case stuff for switch)
   std::string endLabel; // Used for break statement
+  std::string returnType; // Used to track type being returned from function
 };
 
 std::ostream &operator<<(std::ostream &dst, stackFrame frame);
