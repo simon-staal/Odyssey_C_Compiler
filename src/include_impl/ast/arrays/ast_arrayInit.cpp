@@ -23,7 +23,10 @@ void ArrayInit::PrettyPrint(std::ostream &dst, std::string indent) const
 
 void ArrayInit::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 {
-  // Kai figure this out if you need
+  for(unsigned i = 0; i < branches.size(); i++){
+    branches[i]->generateMIPS(dst, context, destReg);
+    dst << "sw $" << destReg << ", " << i*4 << "($29)" << std::endl;
+  }
 }
 
 int ArrayInit::getValue(int i) const

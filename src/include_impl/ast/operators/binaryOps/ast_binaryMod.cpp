@@ -16,8 +16,8 @@ void BinaryMod::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   int regLeft = DoLeft(dst, context, destReg);
   int regRight = DoRight(dst, context, destReg, regLeft);
 
-  EZPrint(dst, "add", destReg, regLeft, regRight);
-
+  dst << "div $" << regLeft << ", $" << regRight << std::endl;
+  dst << "mfhi $" << destReg << std::endl;
   context.regFile.freeReg(regLeft);
   context.regFile.freeReg(regRight);
 }

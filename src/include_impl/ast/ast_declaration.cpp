@@ -56,7 +56,10 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
     std::string id = branches[1]->getId();
 
     if(branches[1]->isInit()){
-      // Initialized array, Kai do this at some point
+      context.stack.back().offset += arraysize*varsize; // creates space for all the arrays children
+      dst << "addiu $29,$29,-" << arraysize*varsize << std::endl; // Decrements stack pointer
+      context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1, "_int"}; // stores the space allocated (currently not available in a register)
+      branches[1]->generateMIPS(dst, context, destReg);
     }
     else{
       if(arraysize != -1){ // if arraysize = 0 then either something is wrong or its gonna be initialised, either way dont know size

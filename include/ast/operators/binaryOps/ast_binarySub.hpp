@@ -12,6 +12,8 @@ public:
 
     virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
     virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+    void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const override;
+
 
 
 };
