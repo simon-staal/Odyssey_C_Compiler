@@ -36,6 +36,8 @@
 
 #include "ast/types/ast_primitive.hpp"
 #include "ast/types/ast_typedef.hpp"
+#include "ast/types/ast_enumerator.hpp"
+#include "ast/types/ast_enumSpecifier.hpp"
 
 #include "ast/functions/ast_functionDeclarator.hpp"
 #include "ast/functions/ast_functionDefinition.hpp"

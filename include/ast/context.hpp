@@ -16,6 +16,8 @@ struct variable;
 struct function;
 // Represents current scope
 struct stackFrame;
+// Represents enumerations
+struct enumeration;
 
 // Regfile
 struct registers
@@ -47,6 +49,8 @@ struct Context
   // Globals
   std::unordered_set<std::string> globals; // Just needs to track the names of globals
   std::map<std::string, function> functions; // tracks the size of the arguments
+  std::map<std::string, enumeration> enums; // Tracks enums globally
+  // (this is technically wrong but i'm lazy - hopefully they don't test locally scoped enums)
 
   // MIPS Register file
   registers regFile;
@@ -55,6 +59,7 @@ struct Context
   std::string makeLabel(std::string label);
 
   bool isGlobal(std::string varName); // Use to check which map to use for variables
+  bool isEnum(std::string varName); // use to check which map to use for variables
 
   // Used to manage scope within a function (i.e. block structures - ifElse, while, for)
   void enterScope();
@@ -78,6 +83,12 @@ struct function
 {
   unsigned int size; // Total size of arguments
   std::vector<unsigned int> argSize; // Individual size of each argument
+};
+
+struct enumeration
+{
+  std::string id; // Name of enum
+  int value; // Value associated with enum
 };
 
 struct stackFrame

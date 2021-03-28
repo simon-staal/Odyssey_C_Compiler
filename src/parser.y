@@ -117,7 +117,7 @@ parameter_declaration
 	;
 
 declaration
-	: declaration_specifiers ';' { $$ = new Declaration($1); std::cerr << "Idk what to do with this (int;)" << std::endl; }
+	: declaration_specifiers ';' { $$ = $1; }
 	| declaration_specifiers init_declarator ';' { $$ = new Declaration($1, $2); }
 	;
 
@@ -137,7 +137,7 @@ type_specifier
 	| DOUBLE { std::cerr << "Unsupported" << std::endl; }
 	| UNSIGNED { $$ = new PrimitiveType(PrimitiveType::Specifier::_unsigned); }
 	| struct_specifier { std::cerr << "Unsupported" << std::endl; }
-	| enum_specifier { std::cerr << "Unsupported" << std::endl; }
+	| enum_specifier { $$ = $1; }
 	;
 
 init_declarator
@@ -382,9 +382,9 @@ struct_declarator
 	;
 
 enum_specifier
-	: ENUM '{' enumerator_list '}' { std::cerr << "Unsupported" << std::endl; }
-	| ENUM IDENTIFIER '{' enumerator_list '}' { std::cerr << "Unsupported" << std::endl; }
-	| ENUM IDENTIFIER { std::cerr << "Unsupported" << std::endl; }
+	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier("<NULL>", *$3); delete $3; }
+	| ENUM IDENTIFIER '{' enumerator_list '}' { $$ = new EnumSpecifier(*$2, *$4); delete $2; delete $4; }
+	| ENUM IDENTIFIER { $$ = new EnumSpecifier(*$2); delete $2; }
 	;
 
 enumerator_list
@@ -393,8 +393,8 @@ enumerator_list
 	;
 
 enumerator
-	: IDENTIFIER { std::cerr << "Unsupported" << std::endl; }
-	| IDENTIFIER '=' constant_expression { std::cerr << "Unsupported" << std::endl; }
+	: IDENTIFIER { $$ = new Enumerator(*$1, NULL); delete $1; }
+	| IDENTIFIER '=' constant_expression { $$ = new Enumerator(*$1, $3); delete $1; }
 	;
 
 pointer

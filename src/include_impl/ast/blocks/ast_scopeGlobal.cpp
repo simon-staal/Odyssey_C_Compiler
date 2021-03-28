@@ -17,6 +17,9 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
     if(branches[i]->isFunction()){
       branches[i]->generateMIPS(dst, context, destReg);
     }
+    else if(branches[i]->isEnum()){
+      branches[i]->generateMIPS(dst, context, destReg);
+    }
     else{
       // Global variables
       std::string id = branches[i]->getId();
