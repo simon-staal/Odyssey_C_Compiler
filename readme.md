@@ -13,7 +13,7 @@ Overview
 --------
 Our compiler can be built by calling `make bin/c_compiler` (or just `make`), and must be invoked as follows:
 
-    `bin/c_compiler -S <source-file.c> -o <dest-file.s> -V (optional)`
+    bin/c_compiler -S <source-file.c> -o <dest-file.s> -V (optional)
 
 The command-line parameters must be provided in the order outlined above (with the -V flag being optional, and used to visualise the AST / assembly produced), although this functionality might be later improved (most of it was dictated by the spec). For more information on how to run tests on our compiler, please refer to the [*utility*](#utility) section of this readme.
 
