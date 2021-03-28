@@ -29,7 +29,8 @@ Objectives (last updated 27/03/2021)
 - Implement floats (Please Kai <3)
 - Implement typedef (should be pretty easy probs)
 - Actually implement types `char` and `unsigned`, check if `void` functions work
-- Implement pointer arithmetic for sub, post/pre inc/dec
+- <del>Implement pointer arithmetic for sub, post/pre inc/dec</del> (Reworked 28/03/2021)
+- Implement pointer arithmetic for pre inc/dec
 
 Passing Testbench (last updated 28/03/2021)
 -------------------------------------------
@@ -39,7 +40,7 @@ We are currently passing:
 - [**array**](../compiler_tests/array) - Passes 5 out of 5 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**Extra**](../compiler_tests/Extra) Passes 10 out of 10 cases, checking break / continue behaviour + reading / writing to global variables / arrays + other random testcases we've added
+- [**Extra**](../compiler_tests/Extra) Passes 13 out of 13 cases, checking break / continue behaviour + reading / writing to global variables / arrays + other random testcases we've added
 - [**float**](../compiler_tests/floats) - Not yet implemented
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
@@ -51,7 +52,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **79/98** total testcases.
+Overall we are passing **82/101** total testcases.
 
 Changelog
 ---------
@@ -184,7 +185,10 @@ Added implementation for rest of sizeof, currently untested, all tests still pas
 Debugged pointer arithmetic, solved issue and now passing for 5/5 testcases. Will need to update pointer arithmetic to also work with sub (Need to add functionality for subtracting int from pointer (return pointer) and subtracting pointer from pointer (return int)), post/pre inc and dec.
 
 **28/03/2021**
-Finished implementing and testing enums, I've done it quite lazily because we don't have much time left, essentially all enums are stored globally, so if someone makes a locally scoped enum that stuff might break. Passes all enum tests, <del>will need to add one more testcase to see how it's handled,</del> (did this) nothing else breaks, bringing us to 78/97 tests passing.
+Finished implementing and testing enums, I've done it quite lazily because we don't have much time left, essentially all enums are stored globally, so if someone makes a locally scoped enum that stuff might break. Passes all enum tests, <del>will need to add one more testcase to see how it's handled,</del> (did this) nothing else breaks, bringing us to 79/98 tests passing.
+
+*Update_1*
+*Kai:* Implemented pointer arithmetic for sub, post inc/dec and tested, now passing 82/101
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
