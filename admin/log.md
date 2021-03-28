@@ -40,7 +40,7 @@ We are currently passing:
 - [**array**](../compiler_tests/array) - Passes 5 out of 5 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**Extra**](../compiler_tests/Extra) Passes 13 out of 13 cases, checking break / continue behaviour + reading / writing to global variables / arrays + other random testcases we've added
+- [**Extra**](../compiler_tests/Extra) Passes 15 out of 15 cases, checking break / continue behaviour + reading / writing to global variables / arrays / floats + other random testcases we've added
 - [**float**](../compiler_tests/floats) - Not yet implemented
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
@@ -52,7 +52,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **82/101** total testcases.
+Overall we are passing **84/103** total testcases.
 
 Changelog
 ---------
@@ -189,6 +189,11 @@ Finished implementing and testing enums, I've done it quite lazily because we do
 
 *Update_1*
 *Kai:* Implemented pointer arithmetic for sub, post inc/dec and tested, now passing 82/101
+
+*Update_2*
+Starting working on types properly, had to refactor a decent amount of stuff, with the biggest thing being `enum Specifier` being moved to context, and `getType(), generateTypeMIPS()` now using the enum which should provide a **significant** speedup to comparisons as well as save us a lot more memory.
+
+BIG PROGRESS! Starting working on extending functionality for new types, able to successfully return constant floats + doubles! Added cases in extra, everything passing so now at 84/103!
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

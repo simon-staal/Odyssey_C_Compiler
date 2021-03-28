@@ -18,6 +18,12 @@ void Float::generateMIPS(std::ostream &dst, Context &context, int destReg) const
   dst << "li.s $f" << destReg << ", " << value << std::endl;
 }
 
+void Float::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+  dst << "li.s $f" << destReg << ", " << value << std::endl;
+  dst << "cvt.d.s $f" << destReg << ", $f" << destReg << std::endl; // Converts to double
+}
+
 double Float::getFloat() const
 {
   return value;

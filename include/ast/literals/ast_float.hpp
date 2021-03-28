@@ -18,6 +18,7 @@ public:
 
   // Codegen + helpers
   void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
+  void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const;
   double getFloat() const override; //needed for arrays
   int getSize() const override; // getsize stuff
 };

@@ -28,6 +28,9 @@ void FunctionDefinition::generateMIPS(std::ostream &dst, Context &context, int d
 {
   NodePtr funcDec = branches[0]->getNode(1);
   funcDec->generateMIPS(dst, context, destReg);
+  // Stores return type in stack frame created by function declaration
+  enum Specifier returnType = branches[0]->getType();
+  context.stack.back().returnType = returnType;
   // At this point, $sp and $fp should be pointing at the right place
   // All params are assigned in current.varBindings, and will copied by the function call
   branches[1]->generateMIPS(dst, context, destReg);
