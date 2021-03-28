@@ -47,6 +47,10 @@ IS			(u|U|l|L)*
 0[xX]{H}+{IS}? { yylval.number=(int)strtol(yytext, NULL, 0); return INT_LITERAL; }
 0{D}+{IS}? { yylval.number=(int)strtol(yytext, NULL, 0); return INT_LITERAL; }
 
+{D}+{E}{FS}? { yylval.numberFloat=strtod(yytext, NULL); return FLOAT_LITERAL; }
+{D}*"."{D}+({E})?{FS}? { yylval.numberFloat=strtod(yytext, NULL); return FLOAT_LITERAL; }
+{D}+"."{D}*({E})?{FS}? { yylval.numberFloat=strtod(yytext, NULL); return FLOAT_LITERAL; }
+
 ">>="			{ return(RIGHT_ASSIGN); }
 "<<="			{ return(LEFT_ASSIGN); }
 "+="			{ return(ADD_ASSIGN); }

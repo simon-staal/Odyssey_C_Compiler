@@ -109,3 +109,9 @@ Therefore in general in our root node we need to:
 - Check isInit()
 - If not init, use `.space <size>`
 - If init, use `.word <value>`, repeat for arrays
+
+Floats
+------
+For floating point operations, we won't track the floating point registers, and exclusively use $f0+f1 and $f2+f3 as the 2 registers for floating point operations, with results always stored in $f0+f1. It is the job of the assignment instructions to move floating point results from the floating point registers back to the usual mips registers, as well as convert single register floats into double precision floats if needed => need to check if float/double for binary assign, init declarator and return (we'll need to add return type information to functions). All other operations managing floating points will use the floating point registers as destreg.
+
+*IMPORANT:* operation `li.s` creates a single precision float => will need to upscale do double if needed

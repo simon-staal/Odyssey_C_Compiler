@@ -57,9 +57,10 @@ public:
   // used to get literal values before codegen
   virtual int getValue() const;
   virtual int getValue(int i) const; // For arrays
+  virtual double getFloat() const; // getValue but for floating point stuff
   virtual bool isPtr() const;
   virtual NodePtr getOp() const; // for unaryops
-
+  virtual std::string getType() const; // Used for different typed instructions
 };
 
 #endif

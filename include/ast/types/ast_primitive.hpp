@@ -12,7 +12,9 @@ public:
     _int,
     _void,
     _unsigned,
-    _char
+    _char,
+    _float,
+    _double
   };
 
   // Constructor
@@ -26,6 +28,7 @@ public:
 
   // Helper for codegen
   int getSize() const override;
+  std::string getType() const override;
 protected:
   Specifier type;
 };
