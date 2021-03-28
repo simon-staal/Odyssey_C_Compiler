@@ -41,7 +41,7 @@ We are currently passing:
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
 - [**Extra**](../compiler_tests/Extra) Passes 15 out of 15 cases, checking break / continue behaviour + reading / writing to global variables / arrays / floats + other random testcases we've added
-- [**float**](../compiler_tests/floats) - Not yet implemented
+- [**float**](../compiler_tests/floats) - 5/7 add_mul + pow not passing need regFile potentially.
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
@@ -196,6 +196,9 @@ Starting working on types properly, had to refactor a decent amount of stuff, wi
 BIG PROGRESS! Starting working on extending functionality for new types, able to successfully return constant floats + doubles! Added cases in extra, everything passing so now at 84/103!
 
 Further extended functionality to work with identifier and init declarator, should be able to port functionality over to binary assign pretty easily. Created 2 new tests to ensure this was working, both passed successfully, so now at 86/105.
+
+*Update_3*
+Double + float arithmetic basics are working 5/7 in floats now. Used enum case stuff makes thinks look nice.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
