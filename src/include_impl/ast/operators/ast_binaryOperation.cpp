@@ -111,10 +111,8 @@ void BinaryOperation::generateTypeMIPS(std::ostream &dst, Context &context, int 
 bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
 {
       std::string id = op->getId();
-      std::cerr << "in isptr" << std::endl;
       variable var;
       if( !(op->isFunction()) ){
-              std::cerr << "not fntn" << std::endl;
 
         if( id != "<NULL>" ){
           auto it = context.stack.back().varBindings.find(id);
@@ -123,7 +121,6 @@ bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
           }else{
             var = it->second;
           }
-      std::cerr << "check var type: " << var.type << std::endl;
 
           if(var.type == "_ptr"){
             return true;
