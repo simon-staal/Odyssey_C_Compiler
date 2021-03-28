@@ -28,4 +28,4 @@ echo "${SEP}Compiling compiler${SEP}${EXTRA}"
 make
 
 # Run single test
-utility/run_test.sh ${TEST}
+utility/run_test.sh ${TEST} -V

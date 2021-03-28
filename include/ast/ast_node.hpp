@@ -48,6 +48,8 @@ public:
   virtual std::string getId() const;
   // Used in codegen to check if a declaration is for a function
   virtual bool isFunction() const;
+  // Used in codegen to check if enumeration
+  virtual bool isEnum() const;
   // Used in codegen to check if declarator is initialised
   virtual bool isInit() const;
   // Used to get ArraySize
@@ -57,7 +59,7 @@ public:
   virtual int getValue(int i) const; // For arrays
   virtual bool isPtr() const;
   virtual NodePtr getOp() const; // for unaryops
-  
+
 };
 
 #endif

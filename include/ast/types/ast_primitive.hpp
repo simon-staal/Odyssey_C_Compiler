@@ -22,7 +22,7 @@ public:
   ~PrimitiveType();
 
   // Visualising
-  virtual void PrettyPrint(std::ostream &dst, std::string indent) const override;
+  void PrettyPrint(std::ostream &dst, std::string indent) const override;
 
   // Helper for codegen
   int getSize() const override;

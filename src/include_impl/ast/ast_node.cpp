@@ -76,6 +76,11 @@ bool Node::isFunction() const
   return false;
 }
 
+bool Node::isEnum() const
+{
+  return false;
+}
+
 bool Node::isInit() const
 {
   std::cerr << "Tried to check isInit of something not implemented" << std::endl;

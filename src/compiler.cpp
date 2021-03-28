@@ -6,25 +6,27 @@ void printHeader(std::string title); // Nice pretty output format
 
 int main(int argc, char *argv[])
 {
-		if(argc != 5){
-			std::cerr<<"Usage: bin/c_compiler -S [source-file.c] -o [dest-file.s]"<<std::endl;
+		if(argc < 5){
+			std::cerr<<"Usage: bin/c_compiler -S [source-file.c] -o [dest-file.s] -V (optional)"<<std::endl;
 			return 1;
 		}
 
-		// Formatting stuff
-		struct winsize size;
-	  ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
-	  int width = size.ws_col;
-
 		Node *program = parseAST(argv[2]);
 
-		// Visualising outputs
-		printHeader("AST Representation");
-		std::cout << program << std::endl;
+		// -V enables visualisation
+		if(argc == 6){
+			// Formatting stuff
+			struct winsize size;
+			ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+			int width = size.ws_col;
+			// Visualising outputs
+			printHeader("AST Representation");
+			std::cout << program << std::endl;
 
-		printHeader("Assembly Code");
-		Context context_vis;
-		program->generateMIPS(std::cout, context_vis, 2);
+			printHeader("Assembly Code");
+			Context context_vis;
+			program->generateMIPS(std::cout, context_vis, 2);
+		}
 
 		// Actual compilation
 		Context context;

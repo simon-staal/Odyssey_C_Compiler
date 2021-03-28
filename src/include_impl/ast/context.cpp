@@ -51,6 +51,12 @@ bool Context::isGlobal(std::string varName)
   return (it != globals.end());
 }
 
+bool Context::isEnum(std::string varName)
+{
+  auto it = enums.find(varName);
+  return (it != enums.end());
+}
+
 void Context::enterScope()
 {
   //std::cerr << "Entering scope" << std::endl; // Debugging

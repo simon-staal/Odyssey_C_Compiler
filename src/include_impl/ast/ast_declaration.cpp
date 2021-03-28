@@ -22,7 +22,8 @@ Declaration::~Declaration()
 void Declaration::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << indent << "Declaration [" << std::endl;
-  dst << indent+"  " << "Type: ";
+  dst << indent << "Type: ";
+  if(branches[0]->isEnum()) { dst << std::endl; }
   branches[0]->PrettyPrint(dst, indent+"  ");
   branches[1]->PrettyPrint(dst, indent+"  ");
   dst << indent << "]" << std::endl;
@@ -73,7 +74,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
 
   }
   else{
-    // Deals with variable declaration (will probs have to extend for globals)
+    // Deals with variable declaration (globals handled in globalScope)
     unsigned size = branches[0]->getSize(); // Size of variable
     std::string id = branches[1]->getId(); // Variable id
     context.stack.back().offset += size; // Increments size of frame to have space for variable, will actually store it when its value is assigned

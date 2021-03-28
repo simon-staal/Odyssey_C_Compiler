@@ -31,7 +31,7 @@ Objectives (last updated 27/03/2021)
 - Actually implement types `char` and `unsigned`, check if `void` functions work
 - Implement pointer arithmetic for sub, post/pre inc/dec
 
-Passing Testbench (last updated 27/03/2021)
+Passing Testbench (last updated 28/03/2021)
 -------------------------------------------
 This list will keep track of the [pre-included test cases](../compiler_tests) that pass the entire testing process. This is done using the test process outlined in the [**specification**](../c_compiler.md), implemented in [**run_test.sh**](../utility/run_test.sh). Running single testcases are done using [**test_single.sh**](../utility/test_single.sh) and testing subdirectories (or all tests) is done using [**test_dir.sh**](../utility/test_dir.sh).
 
@@ -39,19 +39,19 @@ We are currently passing:
 - [**array**](../compiler_tests/array) - Passes 5 out of 5 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**Extra**](../compiler_tests/Extra) Passes 9 out of 9 cases, checking break / continue behaviour + reading / writing to global variables / arrays + other random testcases we've added
+- [**Extra**](../compiler_tests/Extra) Passes 10 out of 10 cases, checking break / continue behaviour + reading / writing to global variables / arrays + other random testcases we've added
 - [**float**](../compiler_tests/floats) - Not yet implemented
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
-- [**misc**](../compiler_tests/misc) - Passes 2 out of 6 testcases (typedef and enum not yet implemented)
+- [**misc**](../compiler_tests/misc) - Passes 4 out of 6 testcases (typedef not yet implemented)
 - [**pointer**](../compiler_tests/pointer) - Passes 5 out of 5 - NEED TO EXTEND POINTER ARITHMETIC
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
 - [**strings**](../compiler_tests/strings) - Not yet implemented
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **76/97** total testcases.
+Overall we are passing **79/98** total testcases.
 
 Changelog
 ---------
@@ -182,6 +182,9 @@ Added implementation for rest of sizeof, currently untested, all tests still pas
 
 *Update_2*
 Debugged pointer arithmetic, solved issue and now passing for 5/5 testcases. Will need to update pointer arithmetic to also work with sub (Need to add functionality for subtracting int from pointer (return pointer) and subtracting pointer from pointer (return int)), post/pre inc and dec.
+
+**28/03/2021**
+Finished implementing and testing enums, I've done it quite lazily because we don't have much time left, essentially all enums are stored globally, so if someone makes a locally scoped enum that stuff might break. Passes all enum tests, <del>will need to add one more testcase to see how it's handled,</del> (did this) nothing else breaks, bringing us to 78/97 tests passing.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

@@ -8,8 +8,9 @@ if [[ ! -d "out" ]] ; then
 fi
 
 if [[ $# -eq 0 ]] ; then
-  >&2 echo "Usage: utility/run_test.sh <test_path>"
+  >&2 echo "Usage: utility/run_test.sh <test_path> -V (optional)"
   >&2 echo "<test_path> is the full path to a test"
+  >&2 echo "-V enables visualalisation"
   exit 1
 fi
 
@@ -36,7 +37,11 @@ SEP=$(echo $(printf '=%.0s' $(eval "echo {1.."$(($BUFFER))"}")))
 
 echo "${SEP}${TITLE}${SEP}${EXTRA}"
 echo "Compiling ${TEST_NAME}"
-bin/c_compiler -S "${TEST}" -o "${OUT}.s"
+if [[ $# -eq 2 ]] ; then
+  bin/c_compiler -S "${TEST}" -o "${OUT}.s" -V
+else
+  bin/c_compiler -S "${TEST}" -o "${OUT}.s"
+fi
 
 echo $(printf '=%.0s' $(eval "echo {1.."$(($TERMINAL_WIDTH))"}"))
 echo "Assembling output"

@@ -28,6 +28,9 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
     dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
     dst << "nop" << std::endl; // Idk if this is needed but godbolt has it and i'm not taking chances
   }
+  else if(context.isEnum(id)){
+    dst << "li $" << destReg << "," << context.enums[id].value << std::endl;
+  }
   else{
     auto it = context.stack.back().varBindings.find(id);
     if( it == context.stack.back().varBindings.end() ){
