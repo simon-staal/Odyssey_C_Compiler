@@ -26,8 +26,8 @@ void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
 {
   switch(type)
   {
-    case type == _ptr:
-
+    case Specifier::_ptr:
+    {
       if( isPtrVar(context, LeftOp()) ){
         LeftOp()->generateMIPS(dst, context, destReg);
       }else{
@@ -45,12 +45,16 @@ void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
         EZPrint(dst, "add", destReg, destReg, temp);
         context.regFile.freeReg(temp);
       break;
+    }
+    case Specifier::_float:
+    {
+      int regLeft = DoTypeLeft(dst, context, 2, type);
+      int regRight = DoTypeRight(dst, context, 4, type);
 
-    case type == float:
+      dst << "add.s $f0, $f2, $f4" << std::endl;
 
-      
-
-
+      break;
+    }
 
   }
 }

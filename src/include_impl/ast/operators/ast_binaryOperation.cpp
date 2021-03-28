@@ -129,3 +129,42 @@ bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
       }
       return false;
 }
+
+int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+
+  // Process left operand
+  if(LeftOp()->isFunction()){
+
+    LeftOp()->generateTypeMIPS(dst, context, destReg, type);
+    dst << "mtc1 $2, $f" << destReg  << std::endl;
+    dst << "mtc1 $3, $f" << destReg + 1 << std::endl;
+
+  }else{
+
+    generateTypeMIPS(dst, context, destReg, type);
+
+  }
+
+  return 2;
+}
+
+int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+
+    // Process left operand
+  if(RightOp()->isFunction()){
+
+    RightOp()->generateTypeMIPS(dst, context, destReg, type);
+    dst << "mtc1 $2, $f" << destReg << std::endl;
+    dst << "mtc1 $3, $f" << destReg + 1 << std::endl;
+
+  }else{
+
+    generateTypeMIPS(dst, context, destReg, type);
+
+  }
+
+  return 4;
+
+}

@@ -37,6 +37,10 @@ public:
 
     bool isPtrVar(Context &context, NodePtr op) const;
 
+    int DoTypeLeft(std::ostream &dst, Context &context, int destReg, enum Specifier type) const;
+
+    int DoTypeRight(std::ostream &dst, Context &context, int destReg, enum Specifier type) const;
+
 };
 
 
