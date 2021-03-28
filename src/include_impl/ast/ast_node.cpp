@@ -46,7 +46,7 @@ void Node::generateMIPS(std::ostream &dst, Context &context, int destReg) const
 }
 
 // Codegen
-void Node::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+void Node::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
   std::cerr << "YOU IN THE WRONG HOUSE FOOL" << std::endl;
   exit(1);
@@ -131,7 +131,7 @@ NodePtr Node::getOp() const
   exit(1);
 }
 
-std::string Node::getType() const
+enum Specifier Node::getType() const
 {
   std::cerr << "Tried to getType of something not implemented" << std::endl;
   exit(1);

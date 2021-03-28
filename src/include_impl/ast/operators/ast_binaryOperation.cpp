@@ -103,7 +103,7 @@ void BinaryOperation::ifFunction(std::ostream &dst, Context &context, int destRe
     }
 }
 
-void BinaryOperation::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+void BinaryOperation::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
   std::cerr << "shouldnt be used??" << std::endl;
 }
@@ -122,7 +122,7 @@ bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
             var = it->second;
           }
 
-          if(var.type == "_ptr"){
+          if(var.type == Specifier::_ptr){
             return true;
           }
         }

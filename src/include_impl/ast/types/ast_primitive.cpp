@@ -44,23 +44,23 @@ int PrimitiveType::getSize() const
   }
 }
 
-std::string PrimitiveType::getType() const
+enum Specifier PrimitiveType::getType() const
 {
   switch(type){
     case _int:
-      return "_int";
+      return type;
     case _void:
-      return "_void";
+      return type;
     case _unsigned:
-      return "_unsigned";
+      return type;
     case _char:
-      return "_char";
+      return type;
     case _float:
-      return "_float";
+      return type;
     case _double:
-      return "_double";
+      return type;
     default:
       std::cerr << "Tried to getType of something with no primitve type" << std::endl;
-      return "";
+      exit(1);
   }
 }

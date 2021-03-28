@@ -22,7 +22,7 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
     NodePtr assigned = RightOp()->getNode(1);
     if( assigned != NULL ){
 
-      RightOp()->generateTypeMIPS(dst, context, destReg, "_ptr");
+      RightOp()->generateTypeMIPS(dst, context, destReg, Specifier::_ptr);
 
     }else{
       RightOp()->generateMIPS(dst, context, destReg);
@@ -35,12 +35,12 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
 
     context.regFile.freeReg(address);
 
-  }else if( Var.type == "_ptr" ){ // if it has p with type pointer on the left hand side
+  }else if( Var.type == Specifier::_ptr ){ // if it has p with type pointer on the left hand side
 
     NodePtr assigned = RightOp()->getNode(1); // checks if its just gonna be equal to &x e.g or any ptr arithmetic stuff
     if( assigned != NULL ){
       //std::cerr << "This is where the fun begins" << std::endl;
-      RightOp()->generateTypeMIPS(dst, context, destReg, "_ptr");
+      RightOp()->generateTypeMIPS(dst, context, destReg, Specifier::_ptr);
       //std::cerr << "This is where the fun ends" << std::endl;
     }else{
       RightOp()->generateMIPS(dst, context, destReg);
@@ -113,7 +113,7 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
   }
 }
 
-void BinaryAssign::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+void BinaryAssign::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
 
 }

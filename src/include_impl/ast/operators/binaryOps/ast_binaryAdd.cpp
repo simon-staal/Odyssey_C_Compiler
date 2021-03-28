@@ -22,9 +22,9 @@ void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) c
   context.regFile.freeReg(regRight);
 }
 
-void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
-  if(type == "_ptr"){
+  if(type == _ptr){
     if( isPtrVar(context, LeftOp()) ){
       LeftOp()->generateMIPS(dst, context, destReg);
     }else{

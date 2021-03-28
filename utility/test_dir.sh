@@ -29,6 +29,7 @@ make
 
 PASSED=0
 TOTAL=0
+TEST_FAIL=""
 
 for TEST in ${TESTS}; do
   set +e
@@ -37,9 +38,12 @@ for TEST in ${TESTS}; do
   set -e
   if [[ ${RESULT} -eq 0 ]] ; then
     PASSED=$((${PASSED}+1))
+  else
+    TEST_FAIL="${TEST_FAIL} ${TEST}"
   fi
   TOTAL=$((${TOTAL}+1))
 done
 
 echo $(printf '=%.0s' $(eval "echo {1.."$(($TERMINAL_WIDTH))"}"))
 echo "Passed ${PASSED} out of ${TOTAL} tests"
+echo "Failed: ${TEST_FAIL}"

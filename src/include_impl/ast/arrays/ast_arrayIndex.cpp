@@ -41,7 +41,7 @@ void ArrayIndex::generateMIPS(std::ostream &dst, Context &context, int destReg) 
       array = it->second;
     }
 
-    if( array.type == "_ptr" ){
+    if( array.type == _ptr ){
 
     dst << "sll $" << offset << ",$" << offset << ", 2" << std::endl; // Will need to extend if we do doubles/longs
     dst << "lw $" << destReg << ", " << array.offset << "($30)" << std::endl;
@@ -49,7 +49,7 @@ void ArrayIndex::generateMIPS(std::ostream &dst, Context &context, int destReg) 
     dst << "lw $" << destReg << ", 0($" << destReg << ")" << std::endl;
 
     context.regFile.freeReg(offset);
-   
+
 
     }else{
 

@@ -55,10 +55,11 @@ void FunctionDeclarator::generateMIPS(std::ostream &dst, Context &context, int d
   while(param != NULL){
     std::string var = param->getId();
     int size = param->getSize();
+    enum Specifier type = param->getType();
     if( param->getNode(1)->isPtr() ){
-      newFrame.varBindings[var] = {size, paramSize+8, -1, "_ptr"};
+      newFrame.varBindings[var] = {size, paramSize+8, -1, Specifier::_ptr};
     }else{
-      newFrame.varBindings[var] = {size, paramSize+8, -1, "_int"};
+      newFrame.varBindings[var] = {size, paramSize+8, -1, type};
     }
     if(i < 4){
       newFrame.varBindings[var].reg = i+4; // First 4 arguments stored in registers $4-$7

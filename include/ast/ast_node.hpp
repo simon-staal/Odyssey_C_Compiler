@@ -37,7 +37,7 @@ public:
 
   // Codegen + helpers
   virtual void generateMIPS(std::ostream &dst, Context &context, int destReg) const;
-  virtual void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const;
+  virtual void generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const;
 
   // Used in codegen for more complex, context-dependant constructs (i.e. to process declarator's in a higher node)
   virtual NodePtr getNode(unsigned index) const;
@@ -60,7 +60,7 @@ public:
   virtual double getFloat() const; // getValue but for floating point stuff
   virtual bool isPtr() const;
   virtual NodePtr getOp() const; // for unaryops
-  virtual std::string getType() const; // Used for different typed instructions
+  virtual enum Specifier getType() const; // Used for different typed instructions
 };
 
 

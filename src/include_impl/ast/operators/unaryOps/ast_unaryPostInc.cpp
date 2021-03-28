@@ -20,7 +20,7 @@ void UnaryPostInc::generateMIPS(std::ostream &dst, Context &context, int destReg
     op = it->second;
   }
 
-  if( op.type == "_ptr" ){
+  if( op.type == _ptr ){
 
     if(op.reg == -1){
 

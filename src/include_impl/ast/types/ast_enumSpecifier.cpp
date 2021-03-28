@@ -60,7 +60,7 @@ bool EnumSpecifier::isEnum() const
   return true;
 }
 
-std::string EnumSpecifier::getType() const
+enum Specifier EnumSpecifier::getType() const
 {
-  return "_int"; // Enums are int type
+  return Specifier::_int; // Enums are int type
 }

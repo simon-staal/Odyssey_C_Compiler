@@ -27,9 +27,9 @@ void BinarySub::generateMIPS(std::ostream &dst, Context &context, int destReg) c
 }
 
 
-void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, std::string type) const
+void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
-  if(type == "_ptr"){
+  if(type == _ptr){
     int ptrcount = 0;
     if( isPtrVar(context, LeftOp()) ){
       ptrcount++;

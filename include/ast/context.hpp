@@ -48,7 +48,8 @@ enum Specifier {
   _unsigned,
   _char,
   _float,
-  _double
+  _double,
+  _ptr
 };
 
 struct Context
@@ -86,7 +87,7 @@ struct variable
   unsigned int size; // How many bytes does the variable take up
   int offset; // Offset from frame pointer (+ for arguments, - for variables)
   int reg; // Keeps track of which register the variable is in (-1 := not stored in reg)
-  std::string type = "_int"; // keeps track of type, int by default (refactor this to enum if possible at some point)
+  enum Specifier type = Specifier::_int; // keeps track of type, int by default (refactor this to enum if possible at some point)
 };
 
 struct function
@@ -108,7 +109,7 @@ struct stackFrame
   bool inFrame(std::string varName); // Error checking, probably not necessary
   std::string startLabel; // Used for continue statement (and case stuff for switch)
   std::string endLabel; // Used for break statement
-  std::string returnType; // Used to track type being returned from function
+  enum Specifier returnType; // Used to track type being returned from function
 };
 
 std::ostream &operator<<(std::ostream &dst, stackFrame frame);

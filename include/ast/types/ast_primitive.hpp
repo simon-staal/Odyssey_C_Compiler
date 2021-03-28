@@ -18,7 +18,7 @@ public:
 
   // Helper for codegen
   int getSize() const override;
-  std::string getType() const override;
+  enum Specifier getType() const override;
 protected:
   enum Specifier type;
 };

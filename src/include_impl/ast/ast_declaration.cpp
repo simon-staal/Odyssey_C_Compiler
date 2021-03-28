@@ -53,7 +53,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   }
 
   else if(branches[1]->getArraySize() != 0 ){ // checks if we are declaring an array
-    std::string type = branches[0]->getType();
+    enum Specifier type = branches[0]->getType();
     //std::cerr << "DEBUGGING: type is " << type << std::endl;
     unsigned arraysize = branches[1]->getArraySize();
     unsigned varsize = branches[0]->getSize();
@@ -77,7 +77,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
 
   }
   else{
-    std::string type = branches[0]->getType();
+    enum Specifier type = branches[0]->getType();
     //std::cerr << "DEBUGGING: type is " << type << std::endl;
     // Deals with variable declaration (globals handled in globalScope)
     unsigned size = branches[0]->getSize(); // Size of variable
@@ -93,7 +93,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       }
       branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
       if( branches[1]->getNode(0)->isPtr() ){
-        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, "_ptr"}; // stores the space allocated
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, Specifier::_ptr}; // stores the space allocated
       }else{
         context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, type}; // stores the space allocated
       }
@@ -104,9 +104,9 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
     // Variable is not initialised, space is allocated and everything is stored in context for intialisation
     else{
       if( branches[1]->isPtr() ){
-        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, "_ptr"}; // labels it a ptr
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, Specifier::_ptr}; // labels it a ptr
       }else{
-        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, "_int"}; // stores the space allocated (currently not available in a register)
+        context.stack.back().varBindings[id] = {size, -context.stack.back().offset, -1, type}; // stores the space allocated (currently not available in a register)
       }
     }
   }
@@ -154,4 +154,9 @@ int Declaration::getValue() const
 int Declaration::getValue(int i) const
 {
   return branches[1]->getValue(i);
+}
+
+enum Specifier Declaration::getType() const
+{
+  return branches[0]->getType();
 }
