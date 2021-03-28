@@ -114,6 +114,12 @@ int Node::getValue(int i) const
   exit(1);
 }
 
+double Node::getFloat() const
+{
+  std::cerr << "Tried to getFloat of something not implemented" << std::endl;
+  exit(1);
+}
+
 bool Node::isPtr() const
 {
   return false;
@@ -122,5 +128,11 @@ bool Node::isPtr() const
 NodePtr Node::getOp() const
 {
   std::cerr << "Tried to getOp of something not implemented" << std::endl;
+  exit(1);
+}
+
+std::string Node::getType() const
+{
+  std::cerr << "Tried to getType of something not implemented" << std::endl;
   exit(1);
 }

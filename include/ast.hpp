@@ -33,6 +33,7 @@
 #include "ast/blocks/switch/ast_default.hpp"
 
 #include "ast/literals/ast_integer.hpp"
+#include "ast/literals/ast_float.hpp"
 
 #include "ast/types/ast_primitive.hpp"
 #include "ast/types/ast_typedef.hpp"

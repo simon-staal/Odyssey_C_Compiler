@@ -19,12 +19,13 @@
 %union{
   NodePtr expr;
   ListPtr exprList;
-  long number;
+  int number;
+  double numberFloat;
   std::string *string;
   yytokentype token;
 }
 
-%token IDENTIFIER INT_LITERAL SIZEOF
+%token IDENTIFIER INT_LITERAL FLOAT_LITERAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
@@ -60,6 +61,7 @@
 %type <exprList> identifier_list initializer_list declaration_list statement_list
 
 %type <number> INT_LITERAL
+%type <numberFloat> FLOAT_LITERAL
 %type <string> IDENTIFIER
 
 
@@ -84,7 +86,7 @@ external_declaration
 /* Function definition (duh) */
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new FunctionDefinition(new Declaration($1, $2), $3); }
-	| declarator compound_statement { std::cerr << "Function with no type?, not sure what this is" << std::endl; }
+	| declarator compound_statement { std::cerr << "Function with no type?, maybe calling void function globally?" << std::endl; }
 	;
 
 /* Name of something (variable, function, array) */
@@ -97,8 +99,8 @@ declarator
 direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; };
 	| '(' declarator ')' { $$ = $2; }
-	| direct_declarator '[' constant_expression ']' { $$ = new ArrayDeclarator($1, $3); /* std::cerr << "Array declarator" << std::endl;*/ }
-	| direct_declarator '[' ']' { $$ = new ArrayDeclarator($1); /*std::cerr << "Array declarator, size is no. of things in {} after =" << std::endl;*/ }
+	| direct_declarator '[' constant_expression ']' { $$ = new ArrayDeclarator($1, $3); }
+  | direct_declarator '[' ']' { $$ = new ArrayDeclarator($1); }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
 	| direct_declarator '(' identifier_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
@@ -113,7 +115,7 @@ parameter_list
 parameter_declaration
 	: declaration_specifiers declarator { $$ = new Declaration($1, $2); }
 	| declaration_specifiers abstract_declarator { $$ = new Declaration($1, $2); }
-	| declaration_specifiers { std::cerr << "?" << std::endl; }
+	| declaration_specifiers { std::cerr << "No clue what this is meant to be" << std::endl; }
 	;
 
 declaration
@@ -133,8 +135,8 @@ type_specifier
 	: VOID { $$ = new PrimitiveType(PrimitiveType::Specifier::_void); }
 	| CHAR { $$ = new PrimitiveType(PrimitiveType::Specifier::_char); }
 	| INT { $$ = new PrimitiveType(PrimitiveType::Specifier::_int); }
-	| FLOAT { std::cerr << "Unsupported" << std::endl; }
-	| DOUBLE { std::cerr << "Unsupported" << std::endl; }
+	| FLOAT { $$ = new PrimitiveType(PrimitiveType::Specifier::_float); }
+	| DOUBLE { $$ = new PrimitiveType(PrimitiveType::Specifier::_double); }
 	| UNSIGNED { $$ = new PrimitiveType(PrimitiveType::Specifier::_unsigned); }
 	| struct_specifier { std::cerr << "Unsupported" << std::endl; }
 	| enum_specifier { $$ = $1; }
@@ -143,6 +145,17 @@ type_specifier
 init_declarator
 	: declarator { $$ = $1; }
 	| declarator '=' initializer { $$ = new InitDeclarator($1, $3); }
+	;
+
+initializer
+	: assignment_expression { $$ = $1; }
+	| '{' initializer_list '}' { $$ = new ArrayInit(*$2); }
+	| '{' initializer_list ',' '}' { $$ = new ArrayInit(*$2); }
+	;
+
+initializer_list
+	: initializer { $$ = initList($1); }
+	| initializer_list ',' initializer { $$ = concatList($1, $3); }
 	;
 
 abstract_declarator
@@ -192,14 +205,14 @@ statement
 
 /* Case statements */
 labeled_statement
-	: IDENTIFIER ':' statement { std::cerr << "Enum stuff" << std::endl; }
+	: IDENTIFIER ':' statement { $$ = new Case(new Identifier(*$1), $3); delete $1; }
 	| CASE constant_expression ':' statement { $$ = new Case($2, $4); }
 	| DEFAULT ':' statement { $$ = new Default($3); }
 	;
 
 /* Standard stuff */
 expression_statement
-	: ';' { ; }
+	: ';' { std::cerr << "Do nothing ig?" << std::endl; }
 	| expression ';' { $$ = $1; }
 	;
 
@@ -229,8 +242,9 @@ jump_statement
 	;
 
 primary_expression
-  : IDENTIFIER { $$ = new Identifier(*$1); }
+  : IDENTIFIER { $$ = new Identifier(*$1); delete $1; }
 	| INT_LITERAL { $$ = new Integer($1); }
+  | FLOAT_LITERAL { $$ = new Float($1); }
 	| '(' expression ')' { $$ = $2; }
 	;
 
@@ -326,6 +340,10 @@ conditional_expression
 	| logical_or_expression '?' expression ':' conditional_expression { std::cerr << "Unsupported" << std::endl; }
 	;
 
+constant_expression
+	: conditional_expression { $$ = $1; }
+	;
+
 assignment_expression
 	: conditional_expression { $$ = $1; }
 	| unary_expression '=' assignment_expression { $$ = new BinaryAssign($1, $3); }
@@ -346,8 +364,36 @@ expression
 	| expression ',' assignment_expression { std::cerr << "Not assessed by spec (?)" << std::endl; }
 	;
 
-constant_expression
-	: conditional_expression { $$ = $1; }
+enum_specifier
+	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier("<NULL>", *$3); delete $3; }
+	| ENUM IDENTIFIER '{' enumerator_list '}' { $$ = new EnumSpecifier(*$2, *$4); delete $2; delete $4; }
+	| ENUM IDENTIFIER { $$ = new EnumSpecifier(*$2); delete $2; }
+	;
+
+enumerator_list
+	: enumerator { $$ = initList($1); }
+	| enumerator_list ',' enumerator { $$ = concatList($1, $3); }
+	;
+
+enumerator
+	: IDENTIFIER { $$ = new Enumerator(*$1, NULL); delete $1; }
+	| IDENTIFIER '=' constant_expression { $$ = new Enumerator(*$1, $3); delete $1; }
+	;
+
+/* Since we don't need to check types, we don't need to know how deep the pointer goes (hopefully) */
+pointer
+	: '*'
+	| '*' pointer {}
+	;
+
+identifier_list
+	: IDENTIFIER { $$ = initList(new Identifier(*$1)); delete $1; }
+	| identifier_list ',' IDENTIFIER { $$ = concatList($1, new Identifier(*$3)); delete $3; }
+	;
+
+type_name
+	: specifier_qualifier_list { std::cerr << "Unsupported" << std::endl; }
+	| specifier_qualifier_list abstract_declarator { std::cerr << "Unsupported" << std::endl; }
 	;
 
 struct_specifier
@@ -379,48 +425,6 @@ struct_declarator
 	: declarator { $$ = $1; }
 	| ':' constant_expression { std::cerr << "Unsupported" << std::endl; }
 	| declarator ':' constant_expression { std::cerr << "Unsupported" << std::endl; }
-	;
-
-enum_specifier
-	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier("<NULL>", *$3); delete $3; }
-	| ENUM IDENTIFIER '{' enumerator_list '}' { $$ = new EnumSpecifier(*$2, *$4); delete $2; delete $4; }
-	| ENUM IDENTIFIER { $$ = new EnumSpecifier(*$2); delete $2; }
-	;
-
-enumerator_list
-	: enumerator { $$ = initList($1); }
-	| enumerator_list ',' enumerator { $$ = concatList($1, $3); }
-	;
-
-enumerator
-	: IDENTIFIER { $$ = new Enumerator(*$1, NULL); delete $1; }
-	| IDENTIFIER '=' constant_expression { $$ = new Enumerator(*$1, $3); delete $1; }
-	;
-
-pointer
-	: '*'
-	| '*' pointer { std::cerr << "Multiple pointers check this if its not working" << std::endl; }
-	;
-
-identifier_list
-	: IDENTIFIER { $$ = initList(new Identifier(*$1)); delete $1; }
-	| identifier_list ',' IDENTIFIER { $$ = concatList($1, new Identifier(*$3)); delete $3; }
-	;
-
-type_name
-	: specifier_qualifier_list { std::cerr << "Unsupported" << std::endl; }
-	| specifier_qualifier_list abstract_declarator { std::cerr << "Unsupported" << std::endl; }
-	;
-
-initializer
-	: assignment_expression { $$ = $1; }
-	| '{' initializer_list '}' { $$ = new ArrayInit(*$2); }
-	| '{' initializer_list ',' '}' { $$ = new ArrayInit(*$2); }
-	;
-
-initializer_list
-	: initializer { $$ = initList($1); }
-	| initializer_list ',' initializer { $$ = concatList($1, $3); }
 	;
 
 %%
