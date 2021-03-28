@@ -86,7 +86,7 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
         destReg = context.allocate();
       }
       branches[1]->generateMIPS(dst, context, destReg); // Evaluates initializer into allocated register
-      if( branches[1]->isPtr() ){
+      if( branches[1]->getNode(0)->isPtr() ){
         context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, "_ptr"}; // stores the space allocated
       }else{
         context.stack.back().varBindings[id] = {size, -context.stack.back().offset, destReg, "_int"}; // stores the space allocated
