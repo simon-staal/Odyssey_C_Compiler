@@ -47,7 +47,7 @@ We are currently passing:
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
 - [**local_var**](../compiler_tests/local_var) - Passes 7 out of 7 cases.
 - [**misc**](../compiler_tests/misc) - Passes 4 out of 6 testcases (typedef not yet implemented)
-- [**pointer**](../compiler_tests/pointer) - Passes 5 out of 5 - NEED TO EXTEND POINTER ARITHMETIC
+- [**pointer**](../compiler_tests/pointer) - Passes 5 out of 5
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
 - [**strings**](../compiler_tests/strings) - Not yet implemented
 - [**struct**](../compiler_tests/struct) - Not yet implemented
