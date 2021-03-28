@@ -24,27 +24,33 @@ void BinaryAdd::generateMIPS(std::ostream &dst, Context &context, int destReg) c
 
 void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
-  if(type == _ptr){
-    if( isPtrVar(context, LeftOp()) ){
-      LeftOp()->generateMIPS(dst, context, destReg);
-    }else{
-      LeftOp()->generateMIPS(dst, context, destReg);
-      dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
-    }
+  switch(type)
+  {
+    case type == _ptr:
 
-    int temp = context.allocate();
-    if( isPtrVar(context, RightOp()) ){
-      RightOp()->generateMIPS(dst, context, temp);
-    }else{
-      RightOp()->generateMIPS(dst, context, temp);
-      dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
-    }
-      EZPrint(dst, "add", destReg, destReg, temp);
-      context.regFile.freeReg(temp);
+      if( isPtrVar(context, LeftOp()) ){
+        LeftOp()->generateMIPS(dst, context, destReg);
+      }else{
+        LeftOp()->generateMIPS(dst, context, destReg);
+        dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
+      }
 
-  }else{
+      int temp = context.allocate();
+      if( isPtrVar(context, RightOp()) ){
+        RightOp()->generateMIPS(dst, context, temp);
+      }else{
+        RightOp()->generateMIPS(dst, context, temp);
+        dst << "sll $" << temp << ", $" << temp << ", 2" << std::endl;
+      }
+        EZPrint(dst, "add", destReg, destReg, temp);
+        context.regFile.freeReg(temp);
+      break;
 
-    //whateber
+    case type == float:
+
+      
+
+
+
   }
-
 }
