@@ -1,5 +1,7 @@
 #include "ast/types/ast_typedef.hpp"
 
+// This was never really implemented properly, we'd need to add an extern mapping in the lexer / parser to update types as we go
+
 // Constructor
 TypeDef::TypeDef(NodePtr type)
 {
@@ -16,5 +18,5 @@ TypeDef::~TypeDef()
 void TypeDef::PrettyPrint(std::ostream &dst, std::string indent) const
 {
   dst << "Typedef: ";
-  branches[0]->PrettyPrint(dst, indent); 
+  branches[0]->PrettyPrint(dst, indent);
 }

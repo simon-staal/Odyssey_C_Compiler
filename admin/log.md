@@ -219,6 +219,9 @@ Added super janky char literal handling to the lexer, passing a testcase in stri
 *Update_2*
 Merged Kai's stuff for floats, added more implementations, now passing 97/108 testcases! Missing implementation for float comparison operations, that will probably be the last thing I implement before submission because I'm kinda exhausted ngl.
 
+*Update_3*
+Final update before submission. Kai added more stuff for float / doubles, they're not fully fully implemented (i didn't do comparisons :/), but overall very happy with what we've accomplished.
+
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
 *This probably won't be updated anymore, refer back to the Passing Testbench section for what our compiler passes*
