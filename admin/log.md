@@ -34,6 +34,7 @@ Objectives (last updated 28/03/2021)
 - Implement pointer arithmetic for pre inc/dec
 - Implement float / double globals
 - Add documentation for stuff + generally clean things up
+- Figure out how to deallocate memory allocated by program (ran vagrant, memory still reachable so this should be done automatically on program termination but still)
 
 Passing Testbench (last updated 28/03/2021)
 -------------------------------------------
