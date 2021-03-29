@@ -51,6 +51,41 @@ IS			(u|U|l|L)*
 {D}*"."{D}+({E})?{FS}? { yylval.numberFloat=strtod(yytext, NULL); return FLOAT_LITERAL; }
 {D}+"."{D}*({E})?{FS}? { yylval.numberFloat=strtod(yytext, NULL); return FLOAT_LITERAL; }
 
+'(\\.|[^'\\])' { // Handles char literals (treated as ints) -- This is bad if i had more time i'd make a new class
+                  std::string tmp(yytext);
+                  if(tmp.size() == 3) { yylval.number=(int)tmp[1]; }
+                  else{
+                    switch(tmp[2])
+                    {
+                      case '0': yylval.number=0x00;
+                      break;
+                      case '\'': yylval.number=0x27;
+                      break;
+                      case '"': yylval.number=0x22;
+                      break;
+                      case '?': yylval.number=0x3f;
+                      break;
+                      case '\\': yylval.number=0x5c;
+                      break;
+                      case 'a': yylval.number=0x07;
+                      break;
+                      case 'b': yylval.number=0x08;
+                      break;
+                      case 'f': yylval.number=0x0c;
+                      break;
+                      case 'n': yylval.number=0x0a;
+                      break;
+                      case 'r': yylval.number=0x0d;
+                      break;
+                      case 't': yylval.number=0x09;
+                      break;
+                      case 'v': yylval.number=0x0b;
+                      break;
+                      default: std::cerr << "ERROR: I'm not sure how to manage escaped char" << std::endl;
+                    }
+                  }
+                  return CHAR_LITERAL; }
+
 ">>="			{ return(RIGHT_ASSIGN); }
 "<<="			{ return(LEFT_ASSIGN); }
 "+="			{ return(ADD_ASSIGN); }
