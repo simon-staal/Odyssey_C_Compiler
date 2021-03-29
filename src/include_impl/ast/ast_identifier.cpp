@@ -20,27 +20,12 @@ void Identifier::generateMIPS(std::ostream &dst, Context &context, int destReg) 
 
   // Finds variable
   if(context.isGlobal(id)){
-    int reg = context.allocate(); // destReg is a floating point register
-    switch(context.globals[id]) // This is probably redundat since generateMIPS should only be called on integer types
-    {
-      case _float:
-        dst << "lui $" << reg << ",%hi(" << id << ")" << std::endl;
-        dst << "addiu $" << reg << ",$" << reg << ",%lo(" << id << ")" << std::endl;
-        dst << "l.s $f" << destReg << ",0($" << reg << ")" << std::endl;
-        break;
-      case _double:
-        dst << "lui $" << reg << ",%hi(" << id << ")" << std::endl;
-        dst << "addiu $" << reg << ",$" << reg << ",%lo(" << id << ")" << std::endl;
-        dst << "l.d $f" << destReg << ",0($" << reg << ")" << std::endl;
-        break;
-      default:
-        // Load global address
-        dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
-        dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
-        // Load value into destReg
-        dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
-        dst << "nop" << std::endl; // Idk if this is needed but godbolt has it and i'm not taking chances
-    }
+    // Load global address
+    dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
+    dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+    // Load value into destReg
+    dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
+    dst << "nop" << std::endl; // Idk if this is needed but godbolt has it and i'm not taking chances
 
   }
   else if(context.isEnum(id)){
@@ -92,7 +77,6 @@ void Identifier::generateTypeMIPS(std::ostream &dst, Context &context, int destR
         dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
         // Load value into destReg
         dst << "lw $" << destReg << ",0($" << destReg << ")" << std::endl;
-        dst << "nop" << std::endl; // Idk if this is needed but godbolt has it and i'm not taking chances
     }
 
   }

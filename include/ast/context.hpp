@@ -8,7 +8,6 @@
 #include <fstream>
 #include <cassert>
 #include <utility>
-#include <unordered_set>
 
 // Contains information related to where a variable exists in memory
 struct variable;
@@ -62,6 +61,8 @@ struct Context
   std::map<std::string, function> functions; // tracks the size of the arguments
   std::map<std::string, enumeration> enums; // Tracks enums globally
   // (this is technically wrong but i'm lazy - hopefully they don't test locally scoped enums)
+  // Alternative would be to add it to the stack from and copy it whenever entering a funciton call
+  // If i had more time this is probably what i'd do
 
   // MIPS Register file
   registers regFile;
