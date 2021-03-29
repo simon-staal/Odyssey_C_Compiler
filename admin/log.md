@@ -56,7 +56,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented (0 out of 5)
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **96/108** total testcases.
+Overall we are passing **97/108** total testcases.
 
 Changelog
 ---------
@@ -215,6 +215,9 @@ Going to try and either add char / unsigned functionality
 
 *Update_1*
 Added super janky char literal handling to the lexer, passing a testcase in strings (lmao), nothing else broke so we now pass an extra testcase. Made this a bit better, added Char ast class, but still using integer in parser as it'd require a lot more updated for generateTypeMIPS in the rest of the AST.
+
+*Update_2*
+Merged Kai's stuff for floats, added more implementations, now passing 97/108 testcases! Missing implementation for float comparison operations, that will probably be the last thing I implement before submission because I'm kinda exhausted ngl.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
