@@ -14,6 +14,7 @@ void Float::PrettyPrint(std::ostream &dst, std::string indent) const
 // Codegen + helpers
 void Float::generateMIPS(std::ostream &dst, Context &context, int destReg) const // I don't think we'll ever call this?
 {
+  std::cerr << "Warning: Calling generateMIPS on float literal instead of generateTypeMIPS" << std::endl;
   // Loads immediate into floating point register (move back to other regs seperately)
   dst << "li.s $f" << destReg << ", " << value << std::endl;
 }

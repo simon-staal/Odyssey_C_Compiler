@@ -120,6 +120,11 @@ double Node::getFloat() const
   exit(1);
 }
 
+double Node::getFloat(int i) const
+{
+  std::cerr << "Tried to getFloat (array) of something not implemented" << std::endl;
+}
+
 bool Node::isPtr() const
 {
   return false;

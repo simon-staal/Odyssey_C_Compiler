@@ -34,6 +34,14 @@ int ArrayInit::getValue(int i) const
   if(i < branches.size()){
     return branches[i]->getValue();
   }
-  std::cerr << "Trying to getValue outside initializer range" << std::endl;
+  std::cerr << "WARNING: Trying to getValue outside initializer range" << std::endl;
   return 0; // Default initialisation = 0
+}
+
+double ArrayInit::getFloat(int i) const
+{
+  if(i < branches.size()){
+    return branches[i]->getFloat();
+  }
+  std::cerr << "WARNING: Trying to getFloat outside intializer range" << std::endl;
 }

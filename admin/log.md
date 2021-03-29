@@ -32,8 +32,9 @@ Objectives (last updated 28/03/2021)
 - <del>check if `void` functions work</del> (Marked complete 28/03/2021)
 - <del>Implement pointer arithmetic for sub, post/pre inc/dec</del> (Reworked 28/03/2021)
 - Implement pointer arithmetic for pre inc/dec
-- Implement float / double globals
+- <del>Implement float / double globals</del> (Marked complete 29/03/2021)
 - Add documentation for stuff + generally clean things up
+- Figure out how to deallocate memory allocated by program (ran vagrant, memory still reachable so this should be done automatically on program termination but still)
 
 Passing Testbench (last updated 28/03/2021)
 -------------------------------------------
@@ -43,7 +44,7 @@ We are currently passing:
 - [**array**](../compiler_tests/array) - Passes 5 out of 5 cases
 - [**control_flow**](../compiler_tests/control_flow) - Passing 13 out of 13 cases
 - [**default**](../compiler_tests/default) - Passes 5 out of 5 cases
-- [**Extra**](../compiler_tests/Extra) Passes 18 out of 18 cases, checking break / continue behaviour + reading / writing to global variables / arrays / floats + other random testcases we've added
+- [**Extra**](../compiler_tests/Extra) Passes 20 out of 20 cases, checking break / continue behaviour + reading / writing to global variables / arrays / floats + other random testcases we've added
 - [**float**](../compiler_tests/floats) - 6/7 add_mul not passing, include new regfile functionality.
 - [**functions**](../compiler_tests/functions) - Passes 10 out of 10 cases
 - [**integer**](../compiler_tests/integer) - Passes 12 out of 12 cases
@@ -55,7 +56,7 @@ We are currently passing:
 - [**struct**](../compiler_tests/struct) - Not yet implemented
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
-Overall we are passing **93/106** total testcases.
+Overall we are passing **95/108** total testcases.
 
 Changelog
 ---------
@@ -205,6 +206,12 @@ Double + float arithmetic basics are working 5/7 in floats now. Used enum case s
 
 *Update_4*
 Implemented double + float for binary assign, now passing for 6/7 float cases. Updated context to have seperate reg file for floats, after Kai implements the use of it in the arithmetic operators last testcase should also pass. Also tested void function and it works :D
+
+**29/03/2021**
+Reworked globals to include type, and implemented them for floats and doubles, with both tested and working - now passing 95-108 cases. Also noticed the following:
+- binary sub not implemented / working for double (float untested)
+- binary div not implemented / working for double (float untested)
+Going to try and either add char / unsigned functionality
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------

@@ -52,6 +52,8 @@ int main(int argc, char *argv[])
 			std::cerr << "Couldn't open output file: " << argv[4] << std::endl;
 			exit(1);
 		}
+
+		// delete program; <- Get this working one day :)
 }
 
 void printHeader(std::string title){

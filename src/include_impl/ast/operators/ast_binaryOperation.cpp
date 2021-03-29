@@ -168,6 +168,8 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
     }
 
   }
+  std::cerr << "No matching type for DoTypeLeft" << std::endl;
+  exit(1);
 }
 
 int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
@@ -224,5 +226,6 @@ int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destRe
     }
 
   }
-
+  std::cerr << "No matching type for DoTypeRight" << std::endl;
+  exit(1);
 }

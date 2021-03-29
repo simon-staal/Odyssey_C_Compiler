@@ -8,7 +8,6 @@
 #include <fstream>
 #include <cassert>
 #include <utility>
-#include <unordered_set>
 
 // Contains information related to where a variable exists in memory
 struct variable;
@@ -57,11 +56,13 @@ struct Context
   // Stack stuff
   std::vector<stackFrame> stack;
 
-  // Globals
-  std::unordered_set<std::string> globals; // Just needs to track the names of globals
+  // Globals (pretty sure i should be using std::unordered_map for faster lookups but getting weird issues with the header)
+  std::map<std::string, enum Specifier> globals; // Just needs to track the names + types of globals
   std::map<std::string, function> functions; // tracks the size of the arguments
   std::map<std::string, enumeration> enums; // Tracks enums globally
   // (this is technically wrong but i'm lazy - hopefully they don't test locally scoped enums)
+  // Alternative would be to add it to the stack from and copy it whenever entering a funciton call
+  // If i had more time this is probably what i'd do
 
   // MIPS Register file
   registers regFile;
