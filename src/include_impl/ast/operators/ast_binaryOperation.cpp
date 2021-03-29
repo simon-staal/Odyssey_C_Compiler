@@ -132,6 +132,7 @@ bool BinaryOperation::isPtrVar(Context &context, NodePtr op) const
 
 int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
+  int regLeft = -1;
   switch(type)
   {
     case _float:
@@ -139,15 +140,17 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
       if(LeftOp()->isFunction()){
 
         LeftOp()->generateMIPS(dst, context, destReg);
-        dst << "mov.s $f0, $f6" << std::endl;
+        regLeft = context.allocateFloat();
+        dst << "mov.s $f" << regLeft << ", $f0" << std::endl;
 
       }else{
 
         LeftOp()->generateTypeMIPS(dst, context, destReg, type);
-        dst << "mov.s $f6, $f" << destReg << std::endl;
+        regLeft = context.allocateFloat();
+        dst << "mov.s $f" << regLeft << ", $f" << destReg << std::endl;
       }
 
-      return 2;
+      return regLeft;
     }
 
     case _double:
@@ -156,15 +159,17 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
       if(LeftOp()->isFunction()){
 
         LeftOp()->generateMIPS(dst, context, destReg);
-        dst << "mov.d $f0, $f6" << std::endl;
+        regLeft = context.allocateFloat();
+        dst << "mov.d $f" << regLeft << ", $f" << destReg << std::endl;
 
       }else{
 
         LeftOp()->generateTypeMIPS(dst, context, destReg, type);
-        dst << "mov.d $f6, $f" << destReg << std::endl;
+        regLeft = context.allocateFloat();
+        dst << "mov.d $f" << regLeft << ", $f" << destReg << std::endl;
       }
 
-      return 2;
+      return regLeft;
     }
 
   }
@@ -172,8 +177,9 @@ int BinaryOperation::DoTypeLeft(std::ostream &dst, Context &context, int destReg
   exit(1);
 }
 
-int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destReg, int regLeft, enum Specifier type) const
 {
+  int regRight = -1;
   switch(type)
   {
 
@@ -186,19 +192,23 @@ int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destRe
         context.stack.back().varBindings["$f20"] = {4, -context.stack.back().offset, -1};
         dst << "swc1 $f20,0($29)" << std::endl;
 
-        dst << "mov.s $f20, $f6" << std::endl; // save left result into preserved register
+        dst << "mov.s $f20, $f" << regLeft << std::endl; // save left result into preserved register
 
         RightOp()->generateMIPS(dst, context, destReg);
-        dst << "mov.s $f6, $f20" << std::endl; // restore register
+        regRight = context.allocateFloat();
+        dst << "mov.s $f" << regRight << ", $f0" << std::endl;
+        dst << "mov.s $f" << regLeft << ", $f20" << std::endl; // restore register
         dst << "lwc1 $f20," << context.stack.back().varBindings["$f20"].offset << "($30)" << std::endl; //restore saved register
 
       }else{
 
         RightOp()->generateTypeMIPS(dst, context, destReg, type);
-        dst << "mov.s $f8, $f" << destReg << std::endl;
+        regRight = context.allocateFloat();
+
+        dst << "mov.s $f" << regRight << ", $f" << destReg << std::endl;
       }
 
-      return 4;
+      return regRight;
     }
 
     case _double:
@@ -213,16 +223,19 @@ int BinaryOperation::DoTypeRight(std::ostream &dst, Context &context, int destRe
         dst << "mov.d $f20, $f6" << std::endl; // save left result into preserved register
 
         RightOp()->generateMIPS(dst, context, destReg);
+        regRight = context.allocateFloat();
+        dst << "mov.d $f" << regRight << ", $f0" << std::endl;
         dst << "mov.d $f6, $f20" << std::endl; // restore register
         dst << "ldc1 $f20," << context.stack.back().varBindings["$f20"].offset << "($30)" << std::endl; //restore saved register
 
       }else{
 
         RightOp()->generateTypeMIPS(dst, context, destReg, type);
-        dst << "mov.d $f8, $f" << destReg << std::endl;
+        regRight = context.allocateFloat();
+        dst << "mov.d $f" << regRight << ", $f" << destReg << std::endl;
       }
 
-      return 4;
+      return regRight;
     }
 
   }

@@ -35,9 +35,12 @@ void BinaryMul::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
     case _float:
     {
       int regLeft = DoTypeLeft(dst, context, destReg, type);
-      int regRight = DoTypeRight(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
 
-      dst << "mul.s $f0, $f6, $f8" << std::endl;
+      dst << "mul.s $f" << destReg << ", $f" << regLeft << ", $f" << regRight << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
 
       break;
     }
@@ -45,9 +48,12 @@ void BinaryMul::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
     case _double:
     {
       int regLeft = DoTypeLeft(dst, context, destReg, type);
-      int regRight = DoTypeRight(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
 
-      dst << "mul.d $f0, $f6, $f8" << std::endl;
+      dst << "mul.d $f" << destReg << ", $f" << regLeft << ", $f" << regRight << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
 
       break;
 

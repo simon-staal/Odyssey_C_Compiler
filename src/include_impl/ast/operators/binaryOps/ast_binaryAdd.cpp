@@ -49,9 +49,12 @@ void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
     case _float:
     {
       int regLeft = DoTypeLeft(dst, context, destReg, type);
-      int regRight = DoTypeRight(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
 
-      dst << "add.s $f0, $f6, $f8" << std::endl;
+      dst << "add.s $f" << destReg << ", $f" << regLeft << ", $f" << regRight << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
 
       break;
     }
@@ -59,9 +62,12 @@ void BinaryAdd::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
     case _double:
     {
       int regLeft = DoTypeLeft(dst, context, destReg, type);
-      int regRight = DoTypeRight(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
 
-      dst << "add.d $f0, $f6, $f8" << std::endl;
+      dst << "add.d $f" << destReg << ", $f" << regLeft << ", $f" << regRight << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
 
       break;
     }
