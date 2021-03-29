@@ -84,7 +84,7 @@ IS			(u|U|l|L)*
                       default: std::cerr << "ERROR: I'm not sure how to manage escaped char" << std::endl;
                     }
                   }
-                  return INT_LITERAL; }
+                  return CHAR_LITERAL; }
 
 ">>="			{ return(RIGHT_ASSIGN); }
 "<<="			{ return(LEFT_ASSIGN); }

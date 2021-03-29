@@ -14,7 +14,7 @@ void Char::PrettyPrint(std::ostream &dst, std::string indent) const
 // Codegen
 void Char::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
 {
-  std::cerr << "ERROR: Chars not yet implemented" << std::endl;
+  dst << "li $" << destReg << "," << value << std::endl;
 }
 
 int Char::getValue() const
