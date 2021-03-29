@@ -60,6 +60,16 @@ int InitDeclarator::getValue(int i) const
   return branches[1]->getValue(i);
 }
 
+double InitDeclarator::getFloat() const
+{
+  return branches[1]->getFloat();
+}
+
+double InitDeclarator::getFloat(int i) const
+{
+  return branches[1]->getFloat(i);
+}
+
 int InitDeclarator::getArraySize() const
 {
   return branches[0]->getArraySize();

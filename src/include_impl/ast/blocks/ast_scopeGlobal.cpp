@@ -23,12 +23,12 @@ void GlobalScope::generateMIPS(std::ostream &dst, Context &context, int destReg)
     else{
       // Global variables
       std::string id = branches[i]->getId();
-      context.globals.insert(id); // Add to global set
+      enum Specifier type = branches[i]->getType();
+      context.globals.insert(std::pair<std::string, enum Specifier>(id, type)); // Add to global set
       dst << ".globl " << id << std::endl;
       dst << ".data" << std::endl;
       dst << ".align 2" << std::endl;
       int array = branches[i]->getArraySize();
-      enum Specifier type = branches[i]->getType();
       if(array == 0){ // Not an array
         int size = branches[i]->getSize();
         dst << ".size " << id << ", " << size << std::endl;

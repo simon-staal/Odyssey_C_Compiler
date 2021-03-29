@@ -28,6 +28,8 @@ public:
   bool isInit() const override;
   int getValue() const override;
   int getValue(int i) const override;
+  double getFloat() const override;
+  double getFloat(int i) const override;
   int getArraySize() const override;
 };
 

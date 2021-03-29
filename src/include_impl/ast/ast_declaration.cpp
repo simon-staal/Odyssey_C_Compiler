@@ -176,6 +176,16 @@ int Declaration::getValue(int i) const
   return branches[1]->getValue(i);
 }
 
+double Declaration::getFloat() const
+{
+  return branches[1]->getFloat();
+}
+
+double Declaration::getFloat(int i) const
+{
+  return branches[1]->getFloat(i);
+}
+
 enum Specifier Declaration::getType() const
 {
   return branches[0]->getType();
