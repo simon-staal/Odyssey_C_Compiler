@@ -52,8 +52,8 @@ We are currently passing:
 - [**misc**](../compiler_tests/misc) - Passes 4 out of 6 testcases (typedef not yet implemented)
 - [**pointer**](../compiler_tests/pointer) - Passes 5 out of 5 - NEED TO EXTEND POINTER ARITHMETIC
 - [**programs**](../compiler_tests/programs) - Passes 3 out of 3 cases
-- [**strings**](../compiler_tests/strings) - Not yet implemented
-- [**struct**](../compiler_tests/struct) - Not yet implemented
+- [**strings**](../compiler_tests/strings) - Passes 1 out of 5 (char literal barely implemented)
+- [**struct**](../compiler_tests/struct) - Not yet implemented (0 out of 5)
 - [**types**](../compiler_tests/types) - Passes 5 out of 5 cases
 
 Overall we are passing **95/108** total testcases.
@@ -212,6 +212,9 @@ Reworked globals to include type, and implemented them for floats and doubles, w
 - binary sub not implemented / working for double (float untested)
 - binary div not implemented / working for double (float untested)
 Going to try and either add char / unsigned functionality
+
+*Update_1*
+Added super janky char literal handling to the lexer, passing a testcase in strings (lmao), nothing else broke so we now pass an extra testcase.
 
 Building AST Correctly (last updated 14/03/2021)
 ------------------------------------------------
