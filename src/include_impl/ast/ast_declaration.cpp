@@ -52,7 +52,10 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
     context.functions[id].size = argSize; // All information associated with declaration now stored for function calls
   }
 
-  else if(branches[1]->getArraySize() != 0 ){ // checks if we are declaring an array
+  else if(branches[1]->getArraySize() != 0 )
+  { // checks if we are declaring an array
+
+  
     enum Specifier type = branches[0]->getType();
     //std::cerr << "DEBUGGING: type is " << type << std::endl;
     unsigned arraysize = branches[1]->getArraySize();
@@ -65,8 +68,15 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
       context.stack.back().varBindings[id] = {varsize, -context.stack.back().offset, -1, type}; // stores the space allocated (currently not available in a register)
       switch(type)
       {
-        default:
+        case _int:
           branches[1]->generateMIPS(dst, context, destReg); // generateMIPS works for default int behaviour
+          break;
+        case _float:
+          branches[1]->generateTypeMIPS(dst, context, destReg, type);
+          break;
+        case _double:
+          branches[1]->generateTypeMIPS(dst, context, destReg, type);
+          break;
       }
     }
     else{

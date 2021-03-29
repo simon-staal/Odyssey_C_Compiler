@@ -45,3 +45,29 @@ double ArrayInit::getFloat(int i) const
   }
   std::cerr << "WARNING: Trying to getFloat outside intializer range" << std::endl;
 }
+
+void ArrayInit::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+
+  switch(type)
+  {
+    case _float:
+    {
+      for( unsigned i = 0; i < branches.size(); i++ ){
+        branches[i]->generateTypeMIPS(dst, context, destReg, type);
+        dst << "sw $f" << destReg << ", " << i*4 << "($29)" << std::endl;
+      }
+    }
+
+    case _double:
+    {
+      for( unsigned i = 0; i < branches.size(); i++ ){
+        branches[i]->generateTypeMIPS(dst, context, destReg, type);
+        dst << "sw $f" << destReg << ", " << i*8 << "($29)" << std::endl;
+      }
+    }
+
+  }
+
+}
+
