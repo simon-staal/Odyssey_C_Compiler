@@ -19,6 +19,7 @@ public:
   // Codegen + helpers
   void generateMIPS(std::ostream &dst, Context &context, int destReg) const override;
   int getValue(int i) const override;
+  double getFloat(int i) const override;
 };
 
 

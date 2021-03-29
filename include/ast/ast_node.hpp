@@ -58,6 +58,7 @@ public:
   virtual int getValue() const;
   virtual int getValue(int i) const; // For arrays
   virtual double getFloat() const; // getValue but for floating point stuff
+  virtual double getFloat(int i) const;
   virtual bool isPtr() const;
   virtual NodePtr getOp() const; // for unaryops
   virtual enum Specifier getType() const; // Used for different typed instructions
