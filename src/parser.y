@@ -25,7 +25,7 @@
   yytokentype token;
 }
 
-%token IDENTIFIER INT_LITERAL FLOAT_LITERAL SIZEOF
+%token IDENTIFIER INT_LITERAL FLOAT_LITERAL CHAR_LITERAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
@@ -60,7 +60,7 @@
 %type <exprList> enumerator_list parameter_list
 %type <exprList> identifier_list initializer_list declaration_list statement_list
 
-%type <number> INT_LITERAL
+%type <number> INT_LITERAL CHAR_LITERAL
 %type <numberFloat> FLOAT_LITERAL
 %type <string> IDENTIFIER
 
@@ -245,6 +245,7 @@ primary_expression
   : IDENTIFIER { $$ = new Identifier(*$1); delete $1; }
 	| INT_LITERAL { $$ = new Integer($1); }
   | FLOAT_LITERAL { $$ = new Float($1); }
+| CHAR_LITERAL { $$ = new Integer($1); /*Should use char once it's implemented*/ }
 	| '(' expression ')' { $$ = $2; }
 	;
 
