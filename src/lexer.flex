@@ -57,13 +57,15 @@ IS			(u|U|l|L)*
                   else{
                     switch(tmp[2])
                     {
+                      case '0': yylval.number=0x00;
+                      break;
                       case '\'': yylval.number=0x27;
                       break;
                       case '"': yylval.number=0x22;
                       break;
                       case '?': yylval.number=0x3f;
                       break;
-                      case '\': yylval.number=0x5c;
+                      case '\\': yylval.number=0x5c;
                       break;
                       case 'a': yylval.number=0x07;
                       break;
@@ -79,7 +81,7 @@ IS			(u|U|l|L)*
                       break;
                       case 'v': yylval.number=0x0b;
                       break;
-                      default: std::cerr << "I'm not sure how escaped char" << std::endl;
+                      default: std::cerr << "ERROR: I'm not sure how to manage escaped char" << std::endl;
                     }
                   }
                   return INT_LITERAL; }
