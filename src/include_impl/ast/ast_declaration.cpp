@@ -55,7 +55,6 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
   else if(branches[1]->getArraySize() != 0 )
   { // checks if we are declaring an array
 
-  
     enum Specifier type = branches[0]->getType();
     //std::cerr << "DEBUGGING: type is " << type << std::endl;
     unsigned arraysize = branches[1]->getArraySize();
@@ -95,14 +94,20 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
     // Deals with variable declaration (globals handled in globalScope)
     unsigned size = branches[0]->getSize(); // Size of variable
     std::string id = branches[1]->getId(); // Variable id
+    if(branches[1]->getNode(0)->isPtr()){
+      type = _ptr;
+      size = 4;
+    }   
     context.stack.back().offset += size; // Increments size of frame to have space for variable, will actually store it when its value is assigned
     dst << "addiu $29,$29,-" << size << std::endl; // Decrements stack pointer
-
     // If the variable is being initialised (will be similar to assignment operator)
     if(branches[1]->isInit()){
       // Ensures a free register is being used
       if(context.regFile.usedRegs[destReg]){
         destReg = context.allocate();
+      }
+      if(branches[1]->getNode(0)->isPtr()){
+        type = _ptr;
       }
       switch(type)
       {
@@ -114,6 +119,10 @@ void Declaration::generateMIPS(std::ostream &dst, Context &context, int destReg)
           context.regFile.useReg(destReg);
           break;
         case _double:
+          if(branches[1]->getNode(0)->isPtr()){
+            std::cerr << "we broke" << std::endl;
+            break;
+          }
           branches[1]->generateTypeMIPS(dst, context, 0, type); // generated into $f0+f1
           // Stores variable in memory (check this works)
           dst << "s.d $f0, 0($29)" << std::endl;

@@ -31,3 +31,56 @@ bool UnaryPtr::isPtr() const
   return true;
 }
 
+
+void UnaryPtr::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const // only for dereferencing.
+{
+
+    switch(type)
+  {
+
+      case _float:
+      {
+        //find variable you are *ing
+        std::string id = getOp()->getId();
+        variable var;
+
+        auto it = context.stack.back().varBindings.find(id);
+        if( it == context.stack.back().varBindings.end() ){
+          std::cerr << "Uninitialised Variable?" << std::endl;
+        }else{
+         var = it->second;
+        }
+
+        int reg = context.allocate();
+        getOp()->generateMIPS(dst, context, reg); // puts ptr value (its pointed address) into destReg like any other variable
+        dst << "lwc1 $f" << destReg << ", 0($" << reg << ")" << std::endl; // loads whatever its pointing at.
+        context.regFile.freeReg(reg);
+
+        break;
+      }
+
+      case _double:
+      {
+        //find variable you are *ing
+        std::string id = getOp()->getId();
+        variable var;
+
+        auto it = context.stack.back().varBindings.find(id);
+        if( it == context.stack.back().varBindings.end() ){
+          std::cerr << "Uninitialised Variable?" << std::endl;
+        }else{
+         var = it->second;
+        }
+
+        int reg = context.allocate();
+        getOp()->generateMIPS(dst, context, reg); // puts ptr value (its pointed address) into destReg like any other variable
+        dst << "ldc1 $f" << destReg << ", 0($" << reg << ")" << std::endl; // loads whatever its pointing at.
+        context.regFile.freeReg(reg);
+
+        break;
+      }
+
+
+  }
+
+}

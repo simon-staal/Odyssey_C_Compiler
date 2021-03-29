@@ -1,4 +1,5 @@
 #include "ast/operators/unaryOps/ast_unaryAdr.hpp"
+#include <cmath>
 
 void UnaryAdr::PrettyPrint(std::ostream &dst, std::string indent) const
 {
@@ -22,9 +23,9 @@ void UnaryAdr::generateMIPS(std::ostream &dst, Context &context, int destReg) co
     var = it->second;
   }
 
-  if(getOp()->getNode(1) != NULL){
+  if(getOp()->getNode(1) != NULL){ // array
     getOp()->getNode(1)->generateMIPS(dst, context, destReg);
-    dst << "sll $" << destReg << ", $" << destReg << ", 2" << std::endl;
+    dst << "sll $" << destReg << ", $" << destReg << ", " << (int)log2(var.size) << std::endl;
     dst << "addi $" << destReg << ", $" << destReg << ", " << var.offset << std::endl;
     dst << "add $" << destReg << ", $" << destReg << ", $30" << std::endl;
   }else{

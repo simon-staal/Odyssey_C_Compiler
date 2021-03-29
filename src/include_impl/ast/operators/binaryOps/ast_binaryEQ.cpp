@@ -24,3 +24,44 @@ void BinaryEQ::generateMIPS(std::ostream &dst, Context &context, int destReg) co
   context.regFile.freeReg(regRight);
 }
  
+void BinaryEQ::generateTypeMIPS(std::ostream &dst, Context &context, int destReg, enum Specifier type) const
+{
+
+  switch(type)
+  {
+    case _ptr:
+    {
+      std::cerr << "idk how itll get here" << std::endl;
+    }
+    case _float:
+    {
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
+
+      dst << "c.eq.s $f" << regLeft << ", $f" << regRight << std::endl;
+      dst << "mfc1 $" << destReg << ", $fcc0" << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
+
+      break;
+    }
+    
+    case _double:
+    {
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
+
+      dst << "c.eq.d $f" << regLeft << ", $f" << regRight << std::endl;
+      dst << "mfc1 $" << destReg << ", $fcc0" << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
+
+      break;
+
+    }
+
+  }
+
+}
