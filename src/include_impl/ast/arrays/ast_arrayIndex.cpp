@@ -113,6 +113,8 @@ void ArrayIndex::generateTypeMIPS(std::ostream &dst, Context &context, int destR
       array = it->second;
     }
 
+    int reg = context.allocate();
+
   switch(type)
   {
 
@@ -120,10 +122,10 @@ void ArrayIndex::generateTypeMIPS(std::ostream &dst, Context &context, int destR
     {
 
       dst << "sll $" << offset << ",$" << offset << ", 2" << std::endl; // Will need to extend if we do doubles/longs
-      dst << "lw $" << destReg << ", " << array.offset << "($30)" << std::endl;
-      dst << "add $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
-      dst << "lwc1 $f" << destReg << ", 0($" << destReg << ")" << std::endl;
-
+      dst << "lw $" << reg << ", " << array.offset << "($30)" << std::endl;
+      dst << "add $" << reg << ", $" << reg << ", $" << offset << std::endl;
+      dst << "lwc1 $f" << destReg << ", 0($" << reg << ")" << std::endl;
+      break;
       
     }
 
@@ -135,27 +137,29 @@ void ArrayIndex::generateTypeMIPS(std::ostream &dst, Context &context, int destR
         dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
 
         // Load global address
-        dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
-        dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+        dst << "lui $" << reg << ",%hi(" << id << ")" << std::endl;
+        dst << "addiu $" << reg << ",$" << reg << ",%lo(" << id << ")" << std::endl;
 
         // Loads array element
-        dst << "addu $" << destReg << ",$" << offset << ",$" << destReg << std::endl;
+        dst << "addu $" << reg << ",$" << offset << ",$" << reg << std::endl;
 
         // Load value into destReg
-        dst << "lwc1 $f" << destReg << ",0($" << destReg << ")" << std::endl;
+        dst << "lwc1 $f" << destReg << ",0($" << reg << ")" << std::endl;
         dst << "nop" << std::endl; // Idk if this is needed but godbolt has it
       }
       else{
 
         // Scales offset
-        dst << "addiu $" << destReg << ", $0, " << (int)log2(array.size) << std::endl;
-        dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
+
+        dst << "addiu $" << reg << ", $0, " << (int)log2(array.size) << std::endl;
+        dst << "sll $" << offset << ", $" << offset << ",$" << reg << std::endl;
 
         // Load start of array
-        dst << "addiu $" << destReg << ",$30," << array.offset << std::endl;
-        dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
-        dst << "lwc1 $f" << destReg << ", 0($" << destReg << ")" << std::endl;
+        dst << "addiu $" << reg << ",$30," << array.offset << std::endl;
+        dst << "addu $" << reg << ", $" << reg << ", $" << offset << std::endl;
+        dst << "lwc1 $f" << destReg << ", 0($" << reg << ")" << std::endl;
       }
+      break;
     }
 
     case _double:
@@ -166,31 +170,32 @@ void ArrayIndex::generateTypeMIPS(std::ostream &dst, Context &context, int destR
         dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
 
         // Load global address
-        dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
-        dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+        dst << "lui $" << reg << ",%hi(" << id << ")" << std::endl;
+        dst << "addiu $" << reg << ",$" << reg << ",%lo(" << id << ")" << std::endl;
 
         // Loads array element
-        dst << "addu $" << destReg << ",$" << offset << ",$" << destReg << std::endl;
+        dst << "addu $" << reg << ",$" << offset << ",$" << reg << std::endl;
 
         // Load value into destReg
-        dst << "ldc1 $f" << destReg << ",0($" << destReg << ")" << std::endl;
+        dst << "ldc1 $f" << destReg << ",0($" << reg << ")" << std::endl;
         dst << "nop" << std::endl; // Idk if this is needed but godbolt has it
       }
       else{
 
         // Scales offset
-        dst << "addiu $" << destReg << ", $0, " << (int)log2(array.size) << std::endl;
-        dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
+        dst << "addiu $" << reg << ", $0, " << (int)log2(array.size) << std::endl;
+        dst << "sll $" << offset << ", $" << offset << ",$" << reg << std::endl;
 
         // Load start of array
-        dst << "addiu $" << destReg << ",$30," << array.offset << std::endl;
-        dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
-        dst << "ldc1 $f" << destReg << ", 0($" << destReg << ")" << std::endl;
+        dst << "addiu $" << reg << ",$30," << array.offset << std::endl;
+        dst << "addu $" << reg << ", $" << reg << ", $" << offset << std::endl;
+        dst << "ldc1 $f" << destReg << ", 0($" << reg << ")" << std::endl;
       }
+      break;
 
     }
 
   }
-
+  context.regFile.freeReg(reg);
   context.regFile.freeReg(offset);
 }

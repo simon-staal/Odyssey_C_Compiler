@@ -55,16 +55,18 @@ void ArrayInit::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
     {
       for( unsigned i = 0; i < branches.size(); i++ ){
         branches[i]->generateTypeMIPS(dst, context, destReg, type);
-        dst << "sw $f" << destReg << ", " << i*4 << "($29)" << std::endl;
+        dst << "swc1 $f" << destReg << ", " << i*4 << "($29)" << std::endl;
       }
+      break;
     }
 
     case _double:
     {
       for( unsigned i = 0; i < branches.size(); i++ ){
         branches[i]->generateTypeMIPS(dst, context, destReg, type);
-        dst << "sw $f" << destReg << ", " << i*8 << "($29)" << std::endl;
+        dst << "sdc1 $f" << destReg << ", " << i*8 << "($29)" << std::endl;
       }
+      break;
     }
 
   }

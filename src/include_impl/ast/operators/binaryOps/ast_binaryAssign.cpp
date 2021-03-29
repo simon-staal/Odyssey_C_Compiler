@@ -62,32 +62,110 @@ void BinaryAssign::generateMIPS(std::ostream &dst, Context &context, int destReg
       int offset = reg;
       Index->generateMIPS(dst, context, offset);
 
-      if(context.isGlobal(id)){
-        // Scales offset
-        dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
+      switch(Var.type)
+      {
+        case _int:
+        {
+          if(context.isGlobal(id)){
+            // Scales offset
+            dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
 
-        // Load global address
-        dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
-        dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
+            // Load global address
+            dst << "lui $" << destReg << ",%hi(" << id << ")" << std::endl;
+            dst << "addiu $" << destReg << ",$" << destReg << ",%lo(" << id << ")" << std::endl;
 
-        // Loads array element
-        dst << "addu $" << destReg << ",$" << offset << ",$" << destReg << std::endl;
+            // Loads array element
+            dst << "addu $" << destReg << ",$" << offset << ",$" << destReg << std::endl;
+          }
+
+          else{
+            variable Var = LeftVar(context);
+            // Scales offset
+            dst << "addiu $" << destReg << ", $0, " << (int)log2(Var.size) << std::endl;
+            dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
+
+            // Load start of array
+            dst << "addiu $" << destReg << ",$30," << Var.offset << std::endl;
+            dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
+          }
+
+          RightOp()->generateMIPS(dst, context, reg);
+          dst << "sw $" << reg << ", 0($" << destReg << ")" << std::endl;
+          dst << "move $" << destReg << ", $" << reg << std::endl; // Could switch registers to be more efficient but CBA
+          break;
+        }
+
+        case _float:
+        {
+          int tmp = context.allocate();
+
+          if(context.isGlobal(id)){
+            // Scales offset
+            dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
+
+            // Load global address
+            dst << "lui $" << tmp << ",%hi(" << id << ")" << std::endl;
+            dst << "addiu $" << tmp << ",$" << tmp << ",%lo(" << id << ")" << std::endl;
+
+            // Loads array element
+            dst << "addu $" << tmp << ",$" << offset << ",$" << destReg << std::endl;
+          }
+
+          else{
+            variable Var = LeftVar(context);
+            // Scales offset
+            dst << "addiu $" << tmp << ", $0, " << (int)log2(Var.size) << std::endl;
+            dst << "sll $" << offset << ", $" << offset << ",$" << tmp << std::endl;
+
+            // Load start of array
+            dst << "addiu $" << tmp << ",$30," << Var.offset << std::endl;
+            dst << "addu $" << tmp << ", $" << tmp << ", $" << offset << std::endl;
+          }
+
+          RightOp()->generateTypeMIPS(dst, context, destReg, Var.type);
+          dst << "swc1 $f" << destReg << ", 0($" << tmp << ")" << std::endl;
+
+          context.regFile.freeReg(tmp);
+          break;
+        }
+
+        case _double:
+        {
+          int tmp = context.allocate();
+
+          if(context.isGlobal(id)){
+            // Scales offset
+            dst << "sll $" << offset << ",$" << offset << ",2" << std::endl; // Will need to extend if we do doubles/longs
+
+            // Load global address
+            dst << "lui $" << tmp << ",%hi(" << id << ")" << std::endl;
+            dst << "addiu $" << tmp << ",$" << tmp << ",%lo(" << id << ")" << std::endl;
+
+            // Loads array element
+            dst << "addu $" << tmp << ",$" << offset << ",$" << destReg << std::endl;
+          }
+
+          else{
+            variable Var = LeftVar(context);
+            // Scales offset
+            dst << "addiu $" << tmp << ", $0, " << (int)log2(Var.size) << std::endl;
+            dst << "sll $" << offset << ", $" << offset << ",$" << tmp << std::endl;
+
+            // Load start of array
+            dst << "addiu $" << tmp << ",$30," << Var.offset << std::endl;
+            dst << "addu $" << tmp << ", $" << tmp << ", $" << offset << std::endl;
+          }
+
+          RightOp()->generateTypeMIPS(dst, context, destReg, Var.type);
+          dst << "sdc1 $f" << destReg << ", 0($" << tmp << ")" << std::endl;
+
+          context.regFile.freeReg(tmp);
+          break;
+
+
+        }
+
       }
-
-      else{
-        variable Var = LeftVar(context);
-        // Scales offset
-        dst << "addiu $" << destReg << ", $0, " << (int)log2(Var.size) << std::endl;
-        dst << "sll $" << offset << ", $" << offset << ",$" << destReg << std::endl;
-
-        // Load start of array
-        dst << "addiu $" << destReg << ",$30," << Var.offset << std::endl;
-        dst << "addu $" << destReg << ", $" << destReg << ", $" << offset << std::endl;
-      }
-
-      RightOp()->generateMIPS(dst, context, reg);
-      dst << "sw $" << reg << ", 0($" << destReg << ")" << std::endl;
-      dst << "move $" << destReg << ", $" << reg << std::endl; // Could switch registers to be more efficient but CBA
 
     }else{
       switch(Var.type)

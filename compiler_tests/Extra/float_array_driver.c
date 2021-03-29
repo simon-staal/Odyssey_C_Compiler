@@ -1,7 +1,7 @@
 
-float f();
+double f();
 
 int main()
 {
-  return !(f()==3.0);
+  return !(f()==9.0);
 }
