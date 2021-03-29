@@ -72,6 +72,21 @@ void BinarySub::generateTypeMIPS(std::ostream &dst, Context &context, int destRe
       break;
 
     }
+
+    case _double:
+    {
+
+      int regLeft = DoTypeLeft(dst, context, destReg, type);
+      int regRight = DoTypeRight(dst, context, destReg, regLeft, type);
+
+      dst << "sub.d $f" << destReg << ", $f" << regLeft << ", $f" << regRight << std::endl;
+
+      context.floatRegs.freeReg(regLeft);
+      context.floatRegs.freeReg(regRight);
+
+      break;
+
+    }
   }
 }
 
