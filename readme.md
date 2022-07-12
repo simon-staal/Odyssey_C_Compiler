@@ -1,6 +1,6 @@
 Odyss-C Compiler
 ==================
-
+![logo](admin/logo.png)
 This repository contains the preprocessed C90 to MIPS assembly compiler produced as part of the EIE 2nd Year Instruction Set Architecture and Compilers coursework completed in Spring 2021 by me (Simon) and Kai. Development was primarily driven by the [**specification**](admin/c_compiler), but extra features such as AST visualisation were also included for debugging purposes. Please find below a brief guide to the repository, enjoy! The intent is for this to be used as a learning tool, **do not copy this code - you will be caught**. This project scored 80% overall, passing 78% of all seen and unseen test cases. If you have any questions, feel free to drop me a message on Teams or email me (sts219@ic.ac.uk)
 
 Contributors
