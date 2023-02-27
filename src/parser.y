@@ -100,7 +100,7 @@ direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; };
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '[' constant_expression ']' { $$ = new ArrayDeclarator($1, $3); }
-  | direct_declarator '[' ']' { $$ = new ArrayDeclarator($1); }
+  	| direct_declarator '[' ']' { $$ = new ArrayDeclarator($1); }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
 	| direct_declarator '(' identifier_list ')' { $$ = new FunctionDeclarator($1, *$3); delete $3; }
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1); }
@@ -242,10 +242,10 @@ jump_statement
 	;
 
 primary_expression
-  : IDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  	: IDENTIFIER { $$ = new Identifier(*$1); delete $1; }
 	| INT_LITERAL { $$ = new Integer($1); }
-  | FLOAT_LITERAL { $$ = new Float($1); }
-| CHAR_LITERAL { $$ = new Integer($1); /*Should use char once it's implemented*/ }
+  	| FLOAT_LITERAL { $$ = new Float($1); }
+	| CHAR_LITERAL { $$ = new Integer($1); /*Should use char once it's implemented*/ }
 	| '(' expression ')' { $$ = $2; }
 	;
 
@@ -270,7 +270,7 @@ unary_expression
 	| DEC_OP unary_expression { $$ = new UnaryDec($2); }
 	| '&' unary_expression { $$ = new UnaryAdr($2); }
 	| '*' unary_expression { $$ = new UnaryPtr($2); }
-  | '+' unary_expression { $$ = $2; /*I'm sorry kai it had to be done */ }
+  	| '+' unary_expression { $$ = $2; /*I'm sorry kai it had to be done */ }
 	| '-' unary_expression { $$ = new UnarySub($2); }
 	| '~' unary_expression { $$ = new UnaryBWNOT($2); }
 	| '!' unary_expression { $$ = new UnaryNOT($2); }
